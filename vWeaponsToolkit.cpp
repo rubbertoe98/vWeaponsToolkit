@@ -1,6 +1,6 @@
 #include "vWeaponsToolkit.h"
 
-cMain::cMain() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint(30, 30), wxSize(800, 600))
+cMain::cMain() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint((wxSystemSettings::GetMetric(wxSYS_SCREEN_X) / 2) - (800/2), (wxSystemSettings::GetMetric(wxSYS_SCREEN_Y) / 2) - (500 /2)), wxSize(windowWidth, windowHeight))
 {
 	// Initialize wxWidgets Menu.
 
@@ -38,6 +38,6 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint(30, 30), 
 	wxBoxSizer* topSizer = new wxBoxSizer(wxHORIZONTAL);
 	topSizer->Add(panel, 1, wxEXPAND);
 	SetSizerAndFit(topSizer);
-	SetMinSize(wxSize(800, 500));
-	SetMaxSize(wxSize(800, 500));
+	SetMinSize(wxSize(windowWidth, windowHeight));
+	SetMaxSize(wxSize(windowWidth, windowHeight));
 }

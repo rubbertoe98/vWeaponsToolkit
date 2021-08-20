@@ -13,5 +13,8 @@ private:
 	wxPanel* panelTab;
 	wxPanel* settingsTab;
 	wxPanel* debugLogTab;
+
+	int windowWidth = 800;
+	int windowHeight = 500;
 };
 
