@@ -21,7 +21,10 @@
     <ClInclude Include="cApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vWeaponsToolkit.h">
+    <ClInclude Include="cWeaponsToolkit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cWeapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +32,10 @@
     <ClCompile Include="cApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vWeaponsToolkit.cpp">
+    <ClCompile Include="cWeaponsToolkit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cWeapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

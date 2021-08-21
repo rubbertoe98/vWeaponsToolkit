@@ -9,11 +9,13 @@
 #include <locale>
 #include <codecvt>
 #include <wx/richtext/richtextprint.h>
+#include "cWeapon.h"
+#include <wx/msgdlg.h>
 
-class vWeaponsToolkit : public wxFrame
+class cWeaponsToolkit : public wxFrame
 {
 public:
-	vWeaponsToolkit();
+	cWeaponsToolkit();
 
 private:
 	wxAuiNotebook* menuTabs;
@@ -35,7 +37,14 @@ private:
 
 	int getWeaponCount();
 	void onImportDirectoryChanged(wxCommandEvent& evt);
+	void onWeaponTemplateChanged(wxCommandEvent& evt);
+	void onWeaponNameChanged(wxCommandEvent& evt);
+	void onWeaponIdChanged(wxCommandEvent& evt);
+	void onWeaponModelChanged(wxCommandEvent& evt);
+	void onCreateWeaponNextButtonChanged(wxCommandEvent& evt);
 	void searchForWeaponAssets(const std::wstring& directory);
 	void validateWeaponAssets();
+
+	cWeapon* generatedWeapon = new cWeapon();
 };
 

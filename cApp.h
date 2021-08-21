@@ -1,7 +1,7 @@
 #pragma once
 
 #include "wx/wx.h"
-#include "vWeaponsToolkit.h"
+#include "cWeaponsToolkit.h"
 
 class cApp : public wxApp
 {
@@ -9,6 +9,6 @@ public:
 	virtual bool OnInit();
 
 private:
-	vWeaponsToolkit* m_frame1 = nullptr;
+	cWeaponsToolkit* m_frame1 = nullptr;
 };
 

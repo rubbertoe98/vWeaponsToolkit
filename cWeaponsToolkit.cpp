@@ -1,6 +1,6 @@
-#include "vWeaponsToolkit.h"
+#include "cWeaponsToolkit.h"
 
-int vWeaponsToolkit::getWeaponCount() {
+int cWeaponsToolkit::getWeaponCount() {
 	int count = 0;
 
 	for (const char* i : nativeWeapons) {
@@ -10,7 +10,7 @@ int vWeaponsToolkit::getWeaponCount() {
 	return count;
 }
 
-void vWeaponsToolkit::onImportDirectoryChanged(wxCommandEvent& evt) {
+void cWeaponsToolkit::onImportDirectoryChanged(wxCommandEvent& evt) {
 	const std::string tmpDir = importerDirectoryPicker->GetPath().ToStdString();
 
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -20,14 +20,37 @@ void vWeaponsToolkit::onImportDirectoryChanged(wxCommandEvent& evt) {
 	validateWeaponAssets();
 }
 
-void vWeaponsToolkit::validateWeaponAssets()
+void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 {
-	//todo go through all list items and validate and change text colour.
-	int found = filesFoundListbox->FindString(wxString("model_test"));
-	filesFoundListbox->AppendString("found model: " + found);
+	generatedWeapon->setWeaponTemplate(evt.GetString());
 }
 
-void vWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
+void cWeaponsToolkit::onWeaponNameChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponName(evt.GetString());
+}
+
+void cWeaponsToolkit::onWeaponIdChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponId(evt.GetString());
+}
+
+void cWeaponsToolkit::onWeaponModelChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponModel(evt.GetString());
+}
+
+void cWeaponsToolkit::onCreateWeaponNextButtonChanged(wxCommandEvent& evt)
+{	
+
+}
+
+void cWeaponsToolkit::validateWeaponAssets()
+{
+	//todo go through all list items and validate and change text colour.
+}
+
+void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 {
 	std::wstring fullDir = directory + L"\\*";
 	WIN32_FIND_DATAW file;
@@ -57,7 +80,7 @@ void vWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 	}
 }
 
-vWeaponsToolkit::vWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint((wxSystemSettings::GetMetric(wxSYS_SCREEN_X) / 2) - (800/2), (wxSystemSettings::GetMetric(wxSYS_SCREEN_Y) / 2) - (500 /2)), wxSize(windowWidth, windowHeight))
+cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint((wxSystemSettings::GetMetric(wxSYS_SCREEN_X) / 2) - (800/2), (wxSystemSettings::GetMetric(wxSYS_SCREEN_Y) / 2) - (500 /2)), wxSize(windowWidth, windowHeight))
 {
 	// Initialize wxWidgets Menu.
 
@@ -116,7 +139,7 @@ vWeaponsToolkit::vWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 
 	wxStaticText* weaponTemplateStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Select Weapon Template", wxPoint(250, 40));
 	wxComboBox* weaponTemplate = new wxComboBox(createWeaponPanel, wxID_ANY, "WEAPON_ASSAULTRIFLE", wxPoint(250, 60), wxSize(175, 25));
-	weaponTemplate->Append(wxArrayString(vWeaponsToolkit::getWeaponCount(),nativeWeapons));
+	weaponTemplate->Append(wxArrayString(cWeaponsToolkit::getWeaponCount(),nativeWeapons));
 
 	wxStaticText* weaponNameStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Weapon Name:", wxPoint(250, 100));
 	wxTextCtrl* weaponName = new wxTextCtrl(createWeaponPanel, wxID_ANY, "AK-47", wxPoint(250,120), wxSize(175, 25));
@@ -128,5 +151,11 @@ vWeaponsToolkit::vWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	wxTextCtrl* weaponModel = new wxTextCtrl(createWeaponPanel, wxID_ANY, "w_ar_assaultrifle", wxPoint(250,240), wxSize(175, 25));
 
 	//Event Handlers
-	importerDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &vWeaponsToolkit::onImportDirectoryChanged, this);
+	importerDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &cWeaponsToolkit::onImportDirectoryChanged, this);
+	weaponTemplate->Bind(wxEVT_COMBOBOX, &cWeaponsToolkit::onWeaponTemplateChanged, this);
+	nextButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onCreateWeaponNextButtonChanged, this);
+	weaponName->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponNameChanged, this);
+	weaponId->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponIdChanged, this);
+	weaponModel->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponModelChanged, this);
+
 }

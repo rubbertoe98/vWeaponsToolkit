@@ -142,12 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cApp.h" />
-    <ClInclude Include="vWeaponsToolkit.h" />
+    <ClInclude Include="cWeapon.h" />
+    <ClInclude Include="cWeaponsToolkit.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cApp.cpp" />
-    <ClCompile Include="vWeaponsToolkit.cpp" />
+    <ClCompile Include="cWeapon.cpp" />
+    <ClCompile Include="cWeaponsToolkit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
