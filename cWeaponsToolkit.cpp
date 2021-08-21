@@ -38,6 +38,7 @@ void cWeaponsToolkit::onWeaponIdChanged(wxCommandEvent& evt)
 void cWeaponsToolkit::onWeaponModelChanged(wxCommandEvent& evt)
 {
 	generatedWeapon->setWeaponModel(evt.GetString());
+	validateWeaponAssets();
 }
 
 void cWeaponsToolkit::onCreateWeaponNextButtonChanged(wxCommandEvent& evt)
@@ -47,7 +48,51 @@ void cWeaponsToolkit::onCreateWeaponNextButtonChanged(wxCommandEvent& evt)
 
 void cWeaponsToolkit::validateWeaponAssets()
 {
-	//todo go through all list items and validate and change text colour.
+	for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
+		wxString s = filesFoundListCtrl->GetItemText(i);
+		if (s == generatedWeapon->getWeaponModel() + ".ydr") {
+			//Found ydr model, now look for _hi ydr & textures.
+			filesFoundListCtrl->SetItemTextColour(i, wxColour(70,200,0));
+
+			for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
+				wxString s = filesFoundListCtrl->GetItemText(i);
+				if (s == generatedWeapon->getWeaponModel() + "_hi.ydr") {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(70, 200, 0));
+					generatedWeapon->addWeaponAsset(std::string(generatedWeapon->getWeaponModel() + "_hi.ydr"));
+				}
+				else if (s == generatedWeapon->getWeaponModel() + ".ytd") {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(70, 200, 0));
+					generatedWeapon->addWeaponAsset(std::string(generatedWeapon->getWeaponModel() + ".ytd"));
+				}
+				else if (s == generatedWeapon->getWeaponModel() + "+hi.ytd") {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(70, 200, 0));
+					generatedWeapon->addWeaponAsset(std::string(generatedWeapon->getWeaponModel() + "+hi.ytd"));
+				}
+			}
+		}
+	}
+}
+
+wxString cWeaponsToolkit::removeWeaponFileExtension(wxString s)
+{
+	std::string ext_ydr = ".ydr";
+
+	size_t pos_ydr = s.find(ext_ydr);
+	if (pos_ydr != std::string::npos)
+	{
+		// If found then erase it from string
+		s.erase(pos_ydr, ext_ydr.length());
+	}
+
+	std::string ext_ytd = ".ytd";
+
+	size_t pos_ytd = s.find(ext_ytd);
+	if (pos_ytd != std::string::npos)
+	{
+		// If found then erase it from string
+		s.erase(pos_ytd, ext_ytd.length());
+	}
+	return s;
 }
 
 void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
@@ -58,7 +103,8 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 	if (search_handle != INVALID_HANDLE_VALUE)
 	{
 		std::vector<std::wstring> directories;
-
+		int filesFound = 0;
+		filesFoundListCtrl->DeleteAllItems();
 		do
 		{
 			if (file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -70,13 +116,19 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 			fullDir = directory + L"\\" + std::wstring(file.cFileName);
 
 			if (std::wstring(file.cFileName).find(L'.ytd') != std::string::npos || std::wstring(file.cFileName).find(L'.ydr') != std::string::npos) {
-				filesFoundListbox->AppendString(file.cFileName);
+				filesFoundListCtrl->InsertItem(0, file.cFileName);
+				filesFound += 1;
 			}
 
 			if (file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				directories.push_back(fullDir);
 		} while (FindNextFileW(search_handle, &file));
 		FindClose(search_handle);
+
+		if (filesFound == 0) {			
+			int index = filesFoundListCtrl->InsertItem(0, "No files found.");
+			filesFoundListCtrl->SetItemTextColour(index, wxColour(200, 40, 0));
+		}
 	}
 }
 
@@ -131,8 +183,12 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 
 
 	//TAB 1 - Create Add-on Weapon
-	wxStaticText* filesFoundStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Files Found:", wxPoint(20, 20));
-	filesFoundListbox = new wxListBox(createWeaponPanel, wxID_ANY, wxPoint(20, 40), wxSize(200, 320));
+	filesFoundListCtrl = new wxListCtrl(createWeaponPanel, wxID_ANY, wxPoint(20, 40), wxSize(200, 320), wxLC_REPORT, wxDefaultValidator);
+	wxListItem col0;
+	col0.SetId(0);
+	col0.SetText(_("Files Found"));
+	col0.SetWidth(200);
+	filesFoundListCtrl->InsertColumn(0, col0);
 
 	importerDirectoryPicker = new wxDirPickerCtrl(createWeaponPanel, wxID_ANY, "Import Folder", "", wxPoint(20, 370), wxSize(625, 25));
 	wxButton* nextButton = new wxButton(createWeaponPanel, wxID_ANY, "Next", wxPoint(675, 370));

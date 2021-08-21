@@ -25,6 +25,11 @@ void cWeapon::setWeaponModel(wxString wM)
 	weaponModel = wM;
 }
 
+void cWeapon::addWeaponAsset(std::string weaponAsset)
+{
+	weaponAssets->push_back(weaponAsset);
+}
+
 wxString cWeapon::getWeaponTemplate()
 {
 	return weaponTemplate;

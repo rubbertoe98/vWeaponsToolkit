@@ -11,6 +11,7 @@
 #include <wx/richtext/richtextprint.h>
 #include "cWeapon.h"
 #include <wx/msgdlg.h>
+#include <wx/listctrl.h>
 
 class cWeaponsToolkit : public wxFrame
 {
@@ -24,7 +25,7 @@ private:
 	wxPanel* componentsTab;
 	wxPanel* exportTab;
 	wxPanel* debugLogTab;
-	wxListBox* filesFoundListbox;
+	wxListCtrl* filesFoundListCtrl;
 	wxDirPickerCtrl* importerDirectoryPicker;
 
 	int windowWidth = 800;
@@ -44,6 +45,7 @@ private:
 	void onCreateWeaponNextButtonChanged(wxCommandEvent& evt);
 	void searchForWeaponAssets(const std::wstring& directory);
 	void validateWeaponAssets();
+	wxString removeWeaponFileExtension(wxString s);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };

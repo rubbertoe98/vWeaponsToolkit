@@ -1,5 +1,6 @@
 #pragma once
 #include <wx/string.h>
+#include <vector>
 
 class cWeapon
 {
@@ -10,6 +11,7 @@ public:
 	void setWeaponName(wxString weaponName);
 	void setWeaponId(wxString weaponId);
 	void setWeaponModel(wxString weaponModel);
+	void addWeaponAsset(std::string weaponAsset);
 
 	wxString getWeaponTemplate();
 	wxString getWeaponName();
@@ -24,6 +26,6 @@ private:
 	wxString weaponId;
 	wxString weaponModel;
 
-	char* weaponAssets[50] = {};
+	std::vector<std::string> weaponAssets[50] = {};
 };
 
