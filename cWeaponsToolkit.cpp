@@ -3,7 +3,40 @@
 int cWeaponsToolkit::getWeaponCount() {
 	int count = 0;
 
-	for (const char* i : nativeWeapons) {
+	for (const char* i : generatedWeapon->nativeWeapons) {
+		if (i)
+			count += 1;
+	}
+	return count;
+}
+
+int cWeaponsToolkit::getAudioItemsCount()
+{
+	int count = 0;
+
+	for (const char* i : generatedWeapon->audioItems) {
+		if (i)
+			count += 1;
+	}
+	return count;
+}
+
+int cWeaponsToolkit::getAmmoTypesCount()
+{
+	int count = 0;
+
+	for (const char* i : generatedWeapon->ammoTypes) {
+		if (i)
+			count += 1;
+	}
+	return count;
+}
+
+int cWeaponsToolkit::getDamageTypesCount()
+{
+	int count = 0;
+
+	for (const char* i : generatedWeapon->damageTypes) {
 		if (i)
 			count += 1;
 	}
@@ -230,7 +263,7 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 
 	wxStaticText* weaponTemplateStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Select Weapon Template", wxPoint(250, 40));
 	wxComboBox* weaponTemplate = new wxComboBox(createWeaponPanel, wxID_ANY, "WEAPON_ASSAULTRIFLE", wxPoint(250, 60), wxSize(175, 25));
-	weaponTemplate->Append(wxArrayString(cWeaponsToolkit::getWeaponCount(),nativeWeapons));
+	weaponTemplate->Append(wxArrayString(cWeaponsToolkit::getWeaponCount(), generatedWeapon->nativeWeapons));
 
 	wxStaticText* weaponNameStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Weapon Name:", wxPoint(250, 100));
 	wxTextCtrl* weaponName = new wxTextCtrl(createWeaponPanel, wxID_ANY, "AK-47", wxPoint(250,120), wxSize(175, 25));
@@ -249,4 +282,32 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	weaponId->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponIdChanged, this);
 	weaponModel->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponModelChanged, this);
 
+
+	//TAB 2 - Configuration
+	wxStaticText* audioItemStaticText = new wxStaticText(configTab, wxID_ANY, "Select Audio Item", wxPoint(20, 30));
+	wxComboBox* audioItem = new wxComboBox(configTab, wxID_ANY, "AUDIO_ITEM_PISTOL", wxPoint(20, 50), wxSize(175, 25));
+	audioItem->Append(wxArrayString(cWeaponsToolkit::getAudioItemsCount(), generatedWeapon->audioItems));
+
+	wxStaticText* weaponDamageStaticText = new wxStaticText(configTab, wxID_ANY, "Weapon Damage:", wxPoint(20, 90));
+	wxTextCtrl* weaponDamage = new wxTextCtrl(configTab, wxID_ANY, "0.0", wxPoint(20, 110), wxSize(175, 25));
+
+	wxStaticText* weaponRangeStaticText = new wxStaticText(configTab, wxID_ANY, "Weapon Range:", wxPoint(20, 150));
+	wxTextCtrl* weaponRange = new wxTextCtrl(configTab, wxID_ANY, "120.0", wxPoint(20, 170), wxSize(175, 25));
+
+	wxStaticText* ammoTypesStaticText = new wxStaticText(configTab, wxID_ANY, "Ammo Type", wxPoint(20, 210));
+	wxComboBox* ammoTypes = new wxComboBox(configTab, wxID_ANY, "AMMO_PISTOL", wxPoint(20, 230), wxSize(175, 25));
+	ammoTypes->Append(wxArrayString(cWeaponsToolkit::getAmmoTypesCount(), generatedWeapon->ammoTypes));
+
+	wxStaticText* weaponLODStaticText = new wxStaticText(configTab, wxID_ANY, "LOD:", wxPoint(20, 270));
+	wxTextCtrl* weaponLOD = new wxTextCtrl(configTab, wxID_ANY, "400.0", wxPoint(20, 290), wxSize(175, 25));
+
+	wxStaticText* weaponReloadModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Reload Speed Modifier:", wxPoint(20, 340));
+	wxTextCtrl* weaponReloadModifier = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(20, 360), wxSize(175, 25));
+
+	wxStaticText* weaponFireRateModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Fire Rate Modifier:", wxPoint(220, 30));
+	wxTextCtrl* weaponFireRateModifier = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(220, 50), wxSize(175, 25));
+
+	wxStaticText* damageTypesStaticText = new wxStaticText(configTab, wxID_ANY, "Damage Type", wxPoint(220, 90));
+	wxComboBox* damageTypes = new wxComboBox(configTab, wxID_ANY, "BULLET", wxPoint(220, 110), wxSize(175, 25));
+	damageTypes->Append(wxArrayString(cWeaponsToolkit::getDamageTypesCount(), generatedWeapon->damageTypes));
 }

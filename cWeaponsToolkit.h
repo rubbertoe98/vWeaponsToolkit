@@ -31,12 +31,10 @@ private:
 	int windowWidth = 800;
 	int windowHeight = 500;
 
-	const char* nativeWeapons[100] = {
-		"WEAPON_ASSAULTRIFLE",
-		"WEAPON_CARBINE"
-	};
-
 	int getWeaponCount();
+	int getAudioItemsCount();
+	int getAmmoTypesCount();
+	int getDamageTypesCount();
 	void onImportDirectoryChanged(wxCommandEvent& evt);
 	void onWeaponTemplateChanged(wxCommandEvent& evt);
 	void onWeaponNameChanged(wxCommandEvent& evt);
