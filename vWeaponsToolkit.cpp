@@ -10,6 +10,53 @@ int vWeaponsToolkit::getWeaponCount() {
 	return count;
 }
 
+void vWeaponsToolkit::onImportDirectoryChanged(wxCommandEvent& evt) {
+	const std::string tmpDir = importerDirectoryPicker->GetPath().ToStdString();
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	std::wstring wide = converter.from_bytes(tmpDir);
+
+	searchForWeaponAssets(wide);
+	validateWeaponAssets();
+}
+
+void vWeaponsToolkit::validateWeaponAssets()
+{
+	//todo go through all list items and validate and change text colour.
+	int found = filesFoundListbox->FindString(wxString("model_test"));
+	filesFoundListbox->AppendString("found model: " + found);
+}
+
+void vWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
+{
+	std::wstring fullDir = directory + L"\\*";
+	WIN32_FIND_DATAW file;
+	HANDLE search_handle = FindFirstFileW(fullDir.c_str(), &file);
+	if (search_handle != INVALID_HANDLE_VALUE)
+	{
+		std::vector<std::wstring> directories;
+
+		do
+		{
+			if (file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			{
+				if ((!lstrcmpW(file.cFileName, L".")) || (!lstrcmpW(file.cFileName, L"..")))
+					continue;
+			}
+
+			fullDir = directory + L"\\" + std::wstring(file.cFileName);
+
+			if (std::wstring(file.cFileName).find(L'.ytd') != std::string::npos || std::wstring(file.cFileName).find(L'.ydr') != std::string::npos) {
+				filesFoundListbox->AppendString(file.cFileName);
+			}
+
+			if (file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				directories.push_back(fullDir);
+		} while (FindNextFileW(search_handle, &file));
+		FindClose(search_handle);
+	}
+}
+
 vWeaponsToolkit::vWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint((wxSystemSettings::GetMetric(wxSYS_SCREEN_X) / 2) - (800/2), (wxSystemSettings::GetMetric(wxSYS_SCREEN_Y) / 2) - (500 /2)), wxSize(windowWidth, windowHeight))
 {
 	// Initialize wxWidgets Menu.
@@ -20,6 +67,8 @@ vWeaponsToolkit::vWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	wxMenu* fileMenu = new wxMenu;
 	fileMenu->Append(wxID_ANY, wxT("&New Add-on Weapon"));
 	fileMenu->Append(wxID_EXIT);
+	fileMenu->AppendSeparator();
+	fileMenu->Append(wxID_ANY, wxT("&Made by Robbster"));
 
 	wxMenu* emptyMenu = new wxMenu;
 
@@ -60,9 +109,9 @@ vWeaponsToolkit::vWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 
 	//TAB 1 - Create Add-on Weapon
 	wxStaticText* filesFoundStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Files Found:", wxPoint(20, 20));
-	wxListBox* filesFoundListbox = new wxListBox(createWeaponPanel, wxID_ANY, wxPoint(20, 40), wxSize(200, 320));
+	filesFoundListbox = new wxListBox(createWeaponPanel, wxID_ANY, wxPoint(20, 40), wxSize(200, 320));
 
-	wxDirPickerCtrl* importerDirectoryPicker = new wxDirPickerCtrl(createWeaponPanel, wxID_ANY, "Import Folder", "", wxPoint(20, 370), wxSize(625, 25));
+	importerDirectoryPicker = new wxDirPickerCtrl(createWeaponPanel, wxID_ANY, "Import Folder", "", wxPoint(20, 370), wxSize(625, 25));
 	wxButton* nextButton = new wxButton(createWeaponPanel, wxID_ANY, "Next", wxPoint(675, 370));
 
 	wxStaticText* weaponTemplateStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Select Weapon Template", wxPoint(250, 40));
@@ -77,4 +126,7 @@ vWeaponsToolkit::vWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 
 	wxStaticText* weaponModelStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Weapon Model:", wxPoint(250, 220));
 	wxTextCtrl* weaponModel = new wxTextCtrl(createWeaponPanel, wxID_ANY, "w_ar_assaultrifle", wxPoint(250,240), wxSize(175, 25));
+
+	//Event Handlers
+	importerDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &vWeaponsToolkit::onImportDirectoryChanged, this);
 }
