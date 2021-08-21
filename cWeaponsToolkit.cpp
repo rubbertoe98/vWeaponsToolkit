@@ -42,17 +42,27 @@ void cWeaponsToolkit::onWeaponModelChanged(wxCommandEvent& evt)
 }
 
 void cWeaponsToolkit::onCreateWeaponNextButtonChanged(wxCommandEvent& evt)
-{	
-
+{
+	if (!generatedWeapon->getValidWeaponModelFound()) {
+		wxMessageBox(wxT("No valid weapon model found."), wxT("vWeaponToolkit"), wxICON_ERROR);
+	}
+	else {
+		menuTabs->SetSelection(1);
+	}
 }
 
 void cWeaponsToolkit::validateWeaponAssets()
 {
 	for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
+		filesFoundListCtrl->SetItemTextColour(i, wxColour(*wxBLACK));
+	}
+
+	for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
 		wxString s = filesFoundListCtrl->GetItemText(i);
 		if (s == generatedWeapon->getWeaponModel() + ".ydr") {
 			//Found ydr model, now look for _hi ydr & textures.
 			filesFoundListCtrl->SetItemTextColour(i, wxColour(70,200,0));
+			generatedWeapon->setValidWeaponModelFound(true);
 
 			for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
 				wxString s = filesFoundListCtrl->GetItemText(i);
@@ -67,6 +77,31 @@ void cWeaponsToolkit::validateWeaponAssets()
 				else if (s == generatedWeapon->getWeaponModel() + "+hi.ytd") {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(70, 200, 0));
 					generatedWeapon->addWeaponAsset(std::string(generatedWeapon->getWeaponModel() + "+hi.ytd"));
+				}
+				//Addon Mods/Components
+				else if (s.find("_mag1") != std::string::npos) {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
+					generatedWeapon->addWeaponAsset(std::string(s));
+				}
+				else if (s.find("_mag2") != std::string::npos) {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
+					generatedWeapon->addWeaponAsset(std::string(s));
+				}
+				else if (s.find("_afgrip") != std::string::npos) {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
+					generatedWeapon->addWeaponAsset(std::string(s));
+				}
+				else if (s.find("_supp") != std::string::npos) {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
+					generatedWeapon->addWeaponAsset(std::string(s));
+				}
+				else if (s.find("_medium") != std::string::npos) {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
+					generatedWeapon->addWeaponAsset(std::string(s));
+				}
+				else if(s != generatedWeapon->getWeaponModel() + ".ydr")
+				{
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(200, 40, 0));
 				}
 			}
 		}

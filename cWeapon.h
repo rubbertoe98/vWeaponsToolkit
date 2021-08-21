@@ -12,7 +12,9 @@ public:
 	void setWeaponId(wxString weaponId);
 	void setWeaponModel(wxString weaponModel);
 	void addWeaponAsset(std::string weaponAsset);
+	void setValidWeaponModelFound(bool found);
 
+	bool getValidWeaponModelFound();
 	wxString getWeaponTemplate();
 	wxString getWeaponName();
 	wxString getWeaponId();
@@ -25,6 +27,7 @@ private:
 	wxString weaponName;
 	wxString weaponId;
 	wxString weaponModel;
+	bool validWeaponModelFound;
 
 	std::vector<std::string> weaponAssets[50] = {};
 };

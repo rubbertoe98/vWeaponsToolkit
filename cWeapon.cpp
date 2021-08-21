@@ -3,6 +3,10 @@
 cWeapon::cWeapon()
 {
 	weaponTemplate = wxString("WEAPON_ASSAULTRIFLE");
+	weaponName = "";
+	weaponId = "";
+	weaponModel = "";
+	validWeaponModelFound = false;
 }
 
 void cWeapon::setWeaponTemplate(wxString wT)
@@ -28,6 +32,16 @@ void cWeapon::setWeaponModel(wxString wM)
 void cWeapon::addWeaponAsset(std::string weaponAsset)
 {
 	weaponAssets->push_back(weaponAsset);
+}
+
+void cWeapon::setValidWeaponModelFound(bool found)
+{
+	validWeaponModelFound = found;
+}
+
+bool cWeapon::getValidWeaponModelFound()
+{
+	return validWeaponModelFound;
 }
 
 wxString cWeapon::getWeaponTemplate()
