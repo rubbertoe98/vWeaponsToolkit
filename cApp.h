@@ -9,6 +9,6 @@ public:
 	virtual bool OnInit();
 
 private:
-	cMain* m_frame1 = nullptr;
+	vWeaponsToolkit* m_frame1 = nullptr;
 };
 

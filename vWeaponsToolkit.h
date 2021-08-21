@@ -2,19 +2,29 @@
 
 #include "wx/wx.h"
 #include <wx/aui/aui.h>
+#include <wx/filepicker.h>
 
-class cMain : public wxFrame
+class vWeaponsToolkit : public wxFrame
 {
 public:
-	cMain();
+	vWeaponsToolkit();
 
 private:
 	wxAuiNotebook* menuTabs;
-	wxPanel* panelTab;
-	wxPanel* settingsTab;
+	wxPanel* createWeaponPanel;
+	wxPanel* configTab;
+	wxPanel* componentsTab;
+	wxPanel* exportTab;
 	wxPanel* debugLogTab;
 
 	int windowWidth = 800;
 	int windowHeight = 500;
+
+	const char* nativeWeapons[100] = {
+		"WEAPON_ASSAULTRIFLE",
+		"WEAPON_CARBINE"
+	};
+
+	int getWeaponCount();
 };
 
