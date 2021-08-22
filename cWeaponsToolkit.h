@@ -22,6 +22,16 @@ private:
 	wxListCtrl* filesFoundListCtrl;
 	wxDirPickerCtrl* importerDirectoryPicker;
 	wxComboBox* audioItemComboBox;
+	wxTextCtrl* weaponNameTextCtrl;
+	wxTextCtrl* weaponIdTextCtrl;
+	wxTextCtrl* weaponModelTextCtrl;
+	wxComboBox* damageTypesComboxBox;
+	wxTextCtrl* weaponDamageTextCtrl;
+	wxTextCtrl* weaponRangeTextCtrl;
+	wxTextCtrl* weaponLODTextCtrl;
+	wxTextCtrl* weaponReloadModifierTextCtrl;
+	wxTextCtrl* weaponFireRateModifierTextCtrl;
+	wxComboBox* ammoTypesComboBox;
 
 	int windowWidth = 800;
 	int windowHeight = 500;

@@ -49,7 +49,7 @@
 					<RecoilAccuracyToAllowHeadShotPlayer value="0.175000" />
 					<MinHeadShotDistancePlayer value="5.000000" />
 					<MaxHeadShotDistancePlayer value="40.000000" />
-					<HeadShotDamageModifierPlayer value="3.000000" />
+					<HeadShotDamageModifierPlayer value="18.000000" />
 					<Damage value="30.000000" />
 					<DamageTime value="0.000000" />
 					<DamageTimeInVehicle value="0.000000" />
@@ -108,7 +108,7 @@
 					<ReloadTimeMP value="-1.000000" />
 					<ReloadTimeSP value="-1.000000" />
 					<VehicleReloadTime value="1.000000" />
-					<AnimReloadRate value="0.500000" />
+					<AnimReloadRate value="1.000000" />
 					<BulletsPerAnimLoop value="1" />
 					<TimeBetweenShots value="0.158000" />
 					<TimeLeftBetweenShotsWhereShouldFireIsCached value="-1.000000" />
@@ -174,7 +174,7 @@
 					<NetworkPedDamageModifier value="1.000000" />
 					<NetworkHeadShotPlayerDamageModifier value="1.700000" />
 					<LockOnRange value="65.000000" />
-					<WeaponRange value="250.000000" />
+					<WeaponRange value="120.000000" />
 					<BulletDirectionOffsetInDegrees value="0.000000" />
 					<AiSoundRange value="-1.000000" />
 					<AiPotentialBlastEventRange value="-1.000000" />

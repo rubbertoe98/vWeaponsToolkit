@@ -83,13 +83,47 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 				{
 					for (rapidxml::xml_node<>* weapon_node = item_2->first_node("Name"); weapon_node; weapon_node = weapon_node->next_sibling())
 					{
-						if (std::string(weapon_node->name()) == "Audio") {
-							wxString s1;
-							s1.Printf(wxT("Audio Item: %s"), weapon_node->value());
-							wxMessageBox(s1, wxT("vWeaponToolkit"), wxICON_INFORMATION);
-							generatedWeapon->setAudioItem(wxString(weapon_node->name()));
+						if (std::string(weapon_node->name()) == "Model") {
+							generatedWeapon->setWeaponModel(wxString(weapon_node->value()));
+							weaponModelTextCtrl->SetValue(wxString(weapon_node->value()));
+						}
+						else if (std::string(weapon_node->name()) == "Audio") {
+							//wxString s1;
+							//s1.Printf(wxT("Audio Item: %s"), weapon_node->value());
+							//wxMessageBox(s1, wxT("vWeaponToolkit"), wxICON_INFORMATION);
+							generatedWeapon->setAudioItem(wxString(weapon_node->value()));
 							audioItemComboBox->SetValue(wxString(weapon_node->value()));
 						}
+						else if (std::string(weapon_node->name()) == "DamageType") {
+							generatedWeapon->setWeaponDamageType(wxString(weapon_node->value()));
+							damageTypesComboxBox->SetValue(wxString(weapon_node->value()));
+						}
+						else if (std::string(weapon_node->name()) == "Damage") {
+							if (std::string(weapon_node->first_attribute()->name()) == "value") {
+								generatedWeapon->setWeaponDamageType(wxString(weapon_node->first_attribute()->value()));
+								weaponDamageTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
+							}
+						}
+						else if (std::string(weapon_node->name()) == "WeaponRange") {
+							if (std::string(weapon_node->first_attribute()->name()) == "value") {
+								generatedWeapon->setWeaponRange(std::stof(weapon_node->first_attribute()->value()));
+								weaponRangeTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
+							}
+						}
+						else if (std::string(weapon_node->name()) == "AmmoInfo") {
+							if (std::string(weapon_node->first_attribute()->name()) == "ref") {
+								generatedWeapon->setAmmoType(wxString(weapon_node->first_attribute()->value()));
+								ammoTypesComboBox->SetValue(wxString(weapon_node->first_attribute()->value()));
+							}
+						}
+						else if (std::string(weapon_node->name()) == "AnimReloadRate") {
+							if (std::string(weapon_node->first_attribute()->name()) == "value") {
+								generatedWeapon->setWeaponReloadSpeedMultiplier(std::stof(weapon_node->first_attribute()->value()));
+								weaponReloadModifierTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
+							}
+						}
+						//todo weaponLOD in weaponarchtypes.meta
+						//todo weapon fire rate in weaponanimations.meta
 					}
 				}
 			}
@@ -305,21 +339,21 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	weaponTemplate->Append(wxArrayString(cWeaponsToolkit::getWeaponCount(), generatedWeapon->nativeWeapons));
 
 	wxStaticText* weaponNameStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Weapon Name:", wxPoint(250, 100));
-	wxTextCtrl* weaponName = new wxTextCtrl(createWeaponPanel, wxID_ANY, "AK-47", wxPoint(250,120), wxSize(175, 25));
+	weaponNameTextCtrl = new wxTextCtrl(createWeaponPanel, wxID_ANY, "AK-47", wxPoint(250,120), wxSize(175, 25));
 
 	wxStaticText* weaponIdStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Weapon ID:", wxPoint(250, 160));
-	wxTextCtrl* weaponId = new wxTextCtrl(createWeaponPanel, wxID_ANY, "WEAPON_AK47", wxPoint(250,180), wxSize(175, 25));
+	weaponIdTextCtrl = new wxTextCtrl(createWeaponPanel, wxID_ANY, "WEAPON_AK47", wxPoint(250,180), wxSize(175, 25));
 
 	wxStaticText* weaponModelStaticText = new wxStaticText(createWeaponPanel, wxID_ANY, "Weapon Model:", wxPoint(250, 220));
-	wxTextCtrl* weaponModel = new wxTextCtrl(createWeaponPanel, wxID_ANY, "w_ar_assaultrifle", wxPoint(250,240), wxSize(175, 25));
+	weaponModelTextCtrl = new wxTextCtrl(createWeaponPanel, wxID_ANY, "w_ar_assaultrifle", wxPoint(250,240), wxSize(175, 25));
 
 	//Event Handlers
 	importerDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &cWeaponsToolkit::onImportDirectoryChanged, this);
 	weaponTemplate->Bind(wxEVT_COMBOBOX, &cWeaponsToolkit::onWeaponTemplateChanged, this);
 	nextButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onCreateWeaponNextButtonChanged, this);
-	weaponName->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponNameChanged, this);
-	weaponId->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponIdChanged, this);
-	weaponModel->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponModelChanged, this);
+	weaponNameTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponNameChanged, this);
+	weaponIdTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponIdChanged, this);
+	weaponModelTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponModelChanged, this);
 
 
 	//TAB 2 - Configuration
@@ -328,25 +362,27 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	audioItemComboBox->Append(wxArrayString(cWeaponsToolkit::getAudioItemsCount(), generatedWeapon->audioItems));
 
 	wxStaticText* weaponDamageStaticText = new wxStaticText(configTab, wxID_ANY, "Weapon Damage:", wxPoint(20, 90));
-	wxTextCtrl* weaponDamage = new wxTextCtrl(configTab, wxID_ANY, "0.0", wxPoint(20, 110), wxSize(175, 25));
+	weaponDamageTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "0.0", wxPoint(20, 110), wxSize(175, 25));
 
 	wxStaticText* weaponRangeStaticText = new wxStaticText(configTab, wxID_ANY, "Weapon Range:", wxPoint(20, 150));
-	wxTextCtrl* weaponRange = new wxTextCtrl(configTab, wxID_ANY, "120.0", wxPoint(20, 170), wxSize(175, 25));
+	weaponRangeTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "120.0", wxPoint(20, 170), wxSize(175, 25));
 
 	wxStaticText* ammoTypesStaticText = new wxStaticText(configTab, wxID_ANY, "Ammo Type", wxPoint(20, 210));
-	wxComboBox* ammoTypes = new wxComboBox(configTab, wxID_ANY, "AMMO_PISTOL", wxPoint(20, 230), wxSize(175, 25));
-	ammoTypes->Append(wxArrayString(cWeaponsToolkit::getAmmoTypesCount(), generatedWeapon->ammoTypes));
+	ammoTypesComboBox = new wxComboBox(configTab, wxID_ANY, "AMMO_PISTOL", wxPoint(20, 230), wxSize(175, 25));
+	ammoTypesComboBox->Append(wxArrayString(cWeaponsToolkit::getAmmoTypesCount(), generatedWeapon->ammoTypes));
 
 	wxStaticText* weaponLODStaticText = new wxStaticText(configTab, wxID_ANY, "LOD:", wxPoint(20, 270));
-	wxTextCtrl* weaponLOD = new wxTextCtrl(configTab, wxID_ANY, "400.0", wxPoint(20, 290), wxSize(175, 25));
+	weaponLODTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "400.0", wxPoint(20, 290), wxSize(175, 25));
 
 	wxStaticText* weaponReloadModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Reload Speed Modifier:", wxPoint(20, 340));
-	wxTextCtrl* weaponReloadModifier = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(20, 360), wxSize(175, 25));
+	weaponReloadModifierTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(20, 360), wxSize(175, 25));
 
 	wxStaticText* weaponFireRateModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Fire Rate Modifier:", wxPoint(220, 30));
-	wxTextCtrl* weaponFireRateModifier = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(220, 50), wxSize(175, 25));
+	weaponFireRateModifierTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(220, 50), wxSize(175, 25));
 
 	wxStaticText* damageTypesStaticText = new wxStaticText(configTab, wxID_ANY, "Damage Type", wxPoint(220, 90));
-	wxComboBox* damageTypes = new wxComboBox(configTab, wxID_ANY, "BULLET", wxPoint(220, 110), wxSize(175, 25));
-	damageTypes->Append(wxArrayString(cWeaponsToolkit::getDamageTypesCount(), generatedWeapon->damageTypes));
+	damageTypesComboxBox = new wxComboBox(configTab, wxID_ANY, "BULLET", wxPoint(220, 110), wxSize(175, 25));
+	damageTypesComboxBox->Append(wxArrayString(cWeaponsToolkit::getDamageTypesCount(), generatedWeapon->damageTypes));
+
+	//todo add HeadShotDamageModifierPlayer
 }
