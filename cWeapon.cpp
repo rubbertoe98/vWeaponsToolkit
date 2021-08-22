@@ -79,6 +79,11 @@ void cWeapon::setWeaponDamageType(wxString type)
 	damageType = type;
 }
 
+void cWeapon::setWeaponAudioItem(wxString audio)
+{
+	audioItem = audio;
+}
+
 bool cWeapon::getValidWeaponModelFound()
 {
 	return validWeaponModelFound;
@@ -142,6 +147,11 @@ float cWeapon::getWeaponFireRateMultiplier()
 wxString cWeapon::getWeaponDamageType()
 {
 	return damageType;
+}
+
+wxString cWeapon::getWeaponAudioItem()
+{
+	return audioItem;
 }
 
 void cWeapon::exportWeapon()

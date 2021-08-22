@@ -1,4 +1,12 @@
 #include "cWeaponsToolkit.h"
+#include <Windows.h>
+#include <string>
+#include <vector> 
+#include <locale>
+#include <codecvt>
+#include <wx/msgdlg.h>
+#include "vendor/rapidxml/rapidxml.hpp"
+#include <fstream>
 
 int cWeaponsToolkit::getWeaponCount() {
 	int count = 0;
@@ -56,6 +64,37 @@ void cWeaponsToolkit::onImportDirectoryChanged(wxCommandEvent& evt) {
 void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 {
 	generatedWeapon->setWeaponTemplate(evt.GetString());
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root_node;
+	std::ifstream theFile(std::string( "templates/" + generatedWeapon->getWeaponTemplate() + "/weapons.meta"));
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	doc.parse<0>(&buffer[0]);
+	
+	root_node = doc.first_node("CWeaponInfoBlob");
+
+	for (rapidxml::xml_node<>* infos_1 = root_node->first_node("Infos"); infos_1; infos_1 = infos_1->next_sibling())
+	{
+		for (rapidxml::xml_node<>* item_1 = infos_1->first_node("Item"); item_1; item_1 = item_1->next_sibling())
+		{
+			for (rapidxml::xml_node<>* infos_2 = item_1->first_node("Infos"); infos_2; infos_2 = infos_2->next_sibling())
+			{
+				for (rapidxml::xml_node<>* item_2 = infos_2->first_node("Item"); item_2; item_2 = item_2->next_sibling())
+				{
+					for (rapidxml::xml_node<>* weapon_node = item_2->first_node("Name"); weapon_node; weapon_node = weapon_node->next_sibling())
+					{
+						if (std::string(weapon_node->name()) == "Audio") {
+							wxString s1;
+							s1.Printf(wxT("Audio Item: %s"), weapon_node->value());
+							wxMessageBox(s1, wxT("vWeaponToolkit"), wxICON_INFORMATION);
+							generatedWeapon->setAudioItem(wxString(weapon_node->name()));
+							audioItemComboBox->SetValue(wxString(weapon_node->value()));
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void cWeaponsToolkit::onWeaponNameChanged(wxCommandEvent& evt)
@@ -211,7 +250,7 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	fileMenu->Append(wxID_ANY, wxT("&New Add-on Weapon"));
 	fileMenu->Append(wxID_EXIT);
 	fileMenu->AppendSeparator();
-	fileMenu->Append(wxID_ANY, wxT("&Made by Robbster"));
+	fileMenu->Append(wxID_ANY, wxT("&Created by Robbster"));
 
 	wxMenu* emptyMenu = new wxMenu;
 
@@ -285,8 +324,8 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 
 	//TAB 2 - Configuration
 	wxStaticText* audioItemStaticText = new wxStaticText(configTab, wxID_ANY, "Select Audio Item", wxPoint(20, 30));
-	wxComboBox* audioItem = new wxComboBox(configTab, wxID_ANY, "AUDIO_ITEM_PISTOL", wxPoint(20, 50), wxSize(175, 25));
-	audioItem->Append(wxArrayString(cWeaponsToolkit::getAudioItemsCount(), generatedWeapon->audioItems));
+	audioItemComboBox = new wxComboBox(configTab, wxID_ANY, "AUDIO_ITEM_PISTOL", wxPoint(20, 50), wxSize(175, 25));
+	audioItemComboBox->Append(wxArrayString(cWeaponsToolkit::getAudioItemsCount(), generatedWeapon->audioItems));
 
 	wxStaticText* weaponDamageStaticText = new wxStaticText(configTab, wxID_ANY, "Weapon Damage:", wxPoint(20, 90));
 	wxTextCtrl* weaponDamage = new wxTextCtrl(configTab, wxID_ANY, "0.0", wxPoint(20, 110), wxSize(175, 25));

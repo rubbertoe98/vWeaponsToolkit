@@ -21,6 +21,7 @@ public:
 	void setWeaponReloadSpeedMultiplier(float weaponReloadSpeedMultiplier);
 	void setWeaponFireRateMultiplier(float weaponFireRateMultiplier);
 	void setWeaponDamageType(wxString damageType);
+	void setWeaponAudioItem(wxString audioItem);
 
 	bool getValidWeaponModelFound();
 	wxString getWeaponTemplate();
@@ -35,6 +36,7 @@ public:
 	float getWeaponReloadSpeedMultiplier();
 	float getWeaponFireRateMultiplier();
 	wxString getWeaponDamageType();
+	wxString getWeaponAudioItem();
 
 	void exportWeapon();
 

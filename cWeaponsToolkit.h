@@ -3,15 +3,9 @@
 #include "wx/wx.h"
 #include <wx/aui/aui.h>
 #include <wx/filepicker.h>
-#include <Windows.h>
-#include <string>
-#include <vector> 
-#include <locale>
-#include <codecvt>
 #include <wx/richtext/richtextprint.h>
-#include "cWeapon.h"
-#include <wx/msgdlg.h>
 #include <wx/listctrl.h>
+#include "cWeapon.h"
 
 class cWeaponsToolkit : public wxFrame
 {
@@ -27,6 +21,7 @@ private:
 	wxPanel* debugLogTab;
 	wxListCtrl* filesFoundListCtrl;
 	wxDirPickerCtrl* importerDirectoryPicker;
+	wxComboBox* audioItemComboBox;
 
 	int windowWidth = 800;
 	int windowHeight = 500;
