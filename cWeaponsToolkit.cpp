@@ -7,6 +7,7 @@
 #include <wx/msgdlg.h>
 #include "vendor/rapidxml/rapidxml.hpp"
 #include <fstream>
+#include <wx/checkbox.h>
 
 int cWeaponsToolkit::getWeaponCount() {
 	int count = 0;
@@ -336,6 +337,7 @@ void cWeaponsToolkit::onSelectComponent(wxCommandEvent& evt)
 		}
 
 		weaponAmmoInfoComboBox->SetValue(currentComponent->getAmmoInfo());
+		checkboxDevMode->SetValue(currentComponent->isComponentEnabled());
 	}
 }
 
@@ -493,6 +495,27 @@ void cWeaponsToolkit::onComponentClipSizeChanged(wxCommandEvent& evt)
 		}
 		catch (const std::out_of_range& e) {
 			currentComponent->setClipSize(0);
+		}
+	}
+}
+
+void cWeaponsToolkit::onComponentEnabledCheckboxChanged(wxCommandEvent& evt)
+{
+	cWeaponComponent* currentComponent = nullptr;
+
+	try {
+		currentComponent = generatedWeapon->components->at(selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+
+	}
+
+	if (currentComponent) {
+		if (evt.GetSelection()) {
+			currentComponent->setComponentEnabled(true);
+		}
+		else {
+			currentComponent->setComponentEnabled(false);
 		}
 	}
 }
@@ -668,13 +691,14 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	wxStaticText* componentLODStaticText = new wxStaticText(componentsTab, wxID_ANY, "Model LOD:", wxPoint(300, 200));
 	componentLODTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "300.0", wxPoint(300, 220), wxSize(225, 25));
 
-	//todo gray out box if attachment template is not a mag.
 	wxStaticText* componentClipSizeStaticText = new wxStaticText(componentsTab, wxID_ANY, "Clip Size:", wxPoint(300, 260));
 	componentClipSizeTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "", wxPoint(300, 280), wxSize(225, 25));
 
 	wxStaticText* weaponAmmoInfoStaticText = new wxStaticText(componentsTab, wxID_ANY, "Ammo Info", wxPoint(300, 320));
 	weaponAmmoInfoComboBox = new wxComboBox(componentsTab, wxID_ANY, "", wxPoint(300, 340), wxSize(225, 25));
 	weaponAmmoInfoComboBox->Append(wxArrayString(cWeaponsToolkit::getAmmoInfoCount(), generatedWeapon->nativeAmmoInfos));
+
+	checkboxDevMode = new wxCheckBox(componentsTab, wxID_ANY, "Component Enabled", wxPoint(575, 103));
 
 	//Event Handlers
 	addComponentButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onAddComponent, this);
@@ -685,6 +709,7 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	componentModelNameTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onComponentModelNameChanged, this);
 	componentLODTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onComponentLODChanged, this);
 	componentClipSizeTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onComponentClipSizeChanged, this);
+	checkboxDevMode->Bind(wxEVT_CHECKBOX, &cWeaponsToolkit::onComponentEnabledCheckboxChanged, this);
 
 	//TAB 4 - Export
 	//todo

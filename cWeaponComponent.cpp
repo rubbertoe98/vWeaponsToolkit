@@ -8,6 +8,7 @@ cWeaponComponent::cWeaponComponent()
 	clipSize = 0;
 	ammoInfo = "";
 	modelLOD = 300.0;
+	enabled = true;
 }
 
 void cWeaponComponent::setComponentName(std::string _componentName)
@@ -40,6 +41,11 @@ void cWeaponComponent::setAmmoInfo(std::string _ammoInfo)
 	ammoInfo = _ammoInfo;
 }
 
+void cWeaponComponent::setComponentEnabled(bool _enabled)
+{
+	enabled = _enabled;
+}
+
 std::string cWeaponComponent::getComponentTemplate()
 {
 	return componentTemplate;
@@ -68,4 +74,9 @@ int cWeaponComponent::getModelLOD()
 std::string cWeaponComponent::getAmmoInfo()
 {
 	return ammoInfo;
+}
+
+bool cWeaponComponent::isComponentEnabled()
+{
+	return enabled;
 }

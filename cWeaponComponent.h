@@ -11,6 +11,7 @@ public:
 	void setClipSize(int clipSize);
 	void setModelLOD(int modelLOD);
 	void setAmmoInfo(std::string ammoInfo);
+	void setComponentEnabled(bool enabled);
 
 	std::string getComponentTemplate();
 	std::string getComponentName();
@@ -18,6 +19,7 @@ public:
 	int getClipSize();
 	int getModelLOD();
 	std::string getAmmoInfo();
+	bool isComponentEnabled();
 
 private:
 	std::string componentTemplate;
@@ -27,5 +29,6 @@ private:
 	int clipSize;
 	int modelLOD;
 	std::string ammoInfo; //e.g "AMMO_RIFLE_FMJ" (ctrl-f <AmmoInfo> in metas)
+	bool enabled;
 };
 

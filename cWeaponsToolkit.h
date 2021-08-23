@@ -38,6 +38,7 @@ private:
 	wxTextCtrl* componentLODTextCtrl;
 	wxTextCtrl* componentClipSizeTextCtrl;
 	wxComboBox* weaponAmmoInfoComboBox;
+	wxCheckBox* checkboxDevMode;
 
 	int windowWidth = 800;
 	int windowHeight = 500;
@@ -66,6 +67,7 @@ private:
 	void onComponentModelNameChanged(wxCommandEvent& evt);
 	void onComponentLODChanged(wxCommandEvent& evt);
 	void onComponentClipSizeChanged(wxCommandEvent& evt);
+	void onComponentEnabledCheckboxChanged(wxCommandEvent& evt);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };
