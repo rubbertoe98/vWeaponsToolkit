@@ -28,6 +28,17 @@ int cWeaponsToolkit::getWeaponComponentCount() {
 	return count;
 
 }
+
+int cWeaponsToolkit::getAmmoInfoCount() {
+	int count = 0;
+
+	for (const char* i : generatedWeapon->nativeAmmoInfos) {
+		if (i)
+			count += 1;
+	}
+	return count;
+}
+
 int cWeaponsToolkit::getAudioItemsCount()
 {
 	int count = 0;
@@ -76,7 +87,7 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 	generatedWeapon->setWeaponTemplate(std::string(evt.GetString()));
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<>* root_node;
-	std::ifstream theFile(std::string( "templates/" + generatedWeapon->getWeaponTemplate() + "/weapons.meta"));
+	std::ifstream theFile(std::string( "templates/weapons/" + generatedWeapon->getWeaponTemplate() + "/weapons.meta"));
 	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
 	buffer.push_back('\0');
 	doc.parse<0>(&buffer[0]);
@@ -254,20 +265,236 @@ void cWeaponsToolkit::onAddComponent(wxCommandEvent& evt)
 	if (componentName == "")
 		componentName = "COMPONENT_AT_RAILCOVER_01";
 
+	component->setComponentTemplate(std::string(weaponComponentsComboBox->GetStringSelection()));
 	component->setComponentName(componentName);
+	component->setModelName(std::string(componentModelNameTextCtrl->GetValue()));
+	try {
+		component->setClipSize(std::stoi(std::string(componentClipSizeTextCtrl->GetValue())));
+	}
+	catch (const std::invalid_argument& e) {
+		component->setClipSize(0);
+	}
+	catch (const std::out_of_range& e) {
+		component->setClipSize(0);
+	}	
+	component->setAmmoInfo(std::string(weaponAmmoInfoComboBox->GetStringSelection()));
+
 	generatedWeapon->components->push_back(component);
 	weaponComponentsListCtrl->InsertItem(0, component->getComponentName());
 }
-
+	
 void cWeaponsToolkit::onRemoveComponent(wxCommandEvent& evt)
 {
 	weaponComponentsListCtrl->DeleteItem(selectedComponent);
-	//todo remove from array
+
+	cWeaponComponent* component = nullptr;
+
+	try {
+		component = generatedWeapon->components->at(selectedComponent);
+
+		if (component)
+			generatedWeapon->components->erase(generatedWeapon->components->begin() + selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+		wxMessageBox("No weapon component to remove.", wxT("vWeaponToolkit"), wxICON_EXCLAMATION);
+	}
 }
 
 void cWeaponsToolkit::onSelectComponent(wxCommandEvent& evt)
 {
 	selectedComponent = weaponComponentsListCtrl->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+
+	cWeaponComponent* currentComponent = nullptr;
+
+	try {
+		currentComponent = generatedWeapon->components->at(selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+
+	}
+
+	if (currentComponent) {
+		componentNameTextCtrl->SetValue(currentComponent->getComponentName());
+		componentModelNameTextCtrl->SetValue(currentComponent->getModelName());
+		componentLODTextCtrl->SetValue(std::to_string(currentComponent->getModelLOD()));
+
+		if (currentComponent->getClipSize()) {
+			componentClipSizeTextCtrl->SetValue(std::to_string(currentComponent->getClipSize()));
+			componentClipSizeTextCtrl->Enable(true);
+			componentClipSizeTextCtrl->SetEditable(true);
+
+			weaponAmmoInfoComboBox->Enable(true);
+			weaponAmmoInfoComboBox->SetEditable(true);
+		}
+		else {
+			componentClipSizeTextCtrl->SetValue("");
+			componentClipSizeTextCtrl->Enable(false);
+			componentClipSizeTextCtrl->SetEditable(false);
+
+			weaponAmmoInfoComboBox->Enable(false);
+			weaponAmmoInfoComboBox->SetEditable(false);
+		}
+
+		weaponAmmoInfoComboBox->SetValue(currentComponent->getAmmoInfo());
+	}
+}
+
+void cWeaponsToolkit::onComponentTemplateChanged(wxCommandEvent& evt)
+{	
+	cWeaponComponent* currentComponent = nullptr;
+
+	try {
+		currentComponent = generatedWeapon->components->at(selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+
+	}
+
+	if (currentComponent)
+		currentComponent->setComponentTemplate(std::string(evt.GetString()));
+
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root_node;
+	std::ifstream theFile(std::string("templates/components/" + evt.GetString() + "/weaponcomponents.meta"));
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	doc.parse<0>(&buffer[0]);
+
+	root_node = doc.first_node("CWeaponComponentInfoBlob");
+
+	componentClipSizeTextCtrl->SetValue("");
+	componentClipSizeTextCtrl->Enable(false);
+	componentClipSizeTextCtrl->SetEditable(false);
+
+	weaponAmmoInfoComboBox->SetValue("");
+	weaponAmmoInfoComboBox->Enable(false);
+	weaponAmmoInfoComboBox->SetEditable(false);
+
+	for (rapidxml::xml_node<>* infos_1 = root_node->first_node("Infos"); infos_1; infos_1 = infos_1->next_sibling())
+	{
+		for (rapidxml::xml_node<>* item_1 = infos_1->first_node("Item"); item_1; item_1 = item_1->next_sibling()) {
+			for (rapidxml::xml_node<>* component_node = item_1->first_node("Name"); component_node; component_node = component_node->next_sibling()) {
+				if (std::string(component_node->name()) == "Name") {
+					if (currentComponent)
+						currentComponent->setComponentName(component_node->value());
+
+					componentNameTextCtrl->SetValue(component_node->value());
+				}
+				else if (std::string(component_node->name()) == "Model") {
+					if (currentComponent)
+						currentComponent->setModelName(component_node->value());
+
+					componentModelNameTextCtrl->SetValue(component_node->value());
+				}
+
+				if (std::string(component_node->name()) == "ClipSize") {
+					if (std::string(component_node->first_attribute()->name()) == "value") {
+						if (currentComponent)
+							currentComponent->setClipSize((int)component_node->value());
+
+						componentClipSizeTextCtrl->SetValue(component_node->first_attribute()->value());
+						componentClipSizeTextCtrl->Enable(true);
+						componentClipSizeTextCtrl->SetEditable(true);
+
+						weaponAmmoInfoComboBox->Enable(true);
+						weaponAmmoInfoComboBox->SetEditable(true);
+					}
+				}
+
+				if (std::string(component_node->name()) == "AmmoInfo") {
+					if (currentComponent)
+						currentComponent->setAmmoInfo(component_node->value());
+
+					weaponAmmoInfoComboBox->SetValue(component_node->value());
+				}
+
+				//todo modelLOD
+			}
+		}
+	}
+}
+
+void cWeaponsToolkit::onComponentNameChanged(wxCommandEvent& evt)
+{
+	cWeaponComponent* currentComponent = nullptr;
+
+	try {
+		currentComponent = generatedWeapon->components->at(selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+
+	}
+
+	if (currentComponent) {
+		currentComponent->setComponentName(std::string(evt.GetString()));
+
+		weaponComponentsListCtrl->SetItemText(selectedComponent, evt.GetString());
+	}
+}
+
+void cWeaponsToolkit::onComponentModelNameChanged(wxCommandEvent& evt)
+{
+	cWeaponComponent* currentComponent = nullptr;
+
+	try {
+		currentComponent = generatedWeapon->components->at(selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+
+	}
+
+	if (currentComponent) {
+		currentComponent->setModelName(std::string(evt.GetString()));
+	}
+}
+
+void cWeaponsToolkit::onComponentLODChanged(wxCommandEvent& evt)
+{
+	cWeaponComponent* currentComponent = nullptr;
+
+	try {
+		currentComponent = generatedWeapon->components->at(selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+
+	}
+
+	if (currentComponent) {
+		try {
+			int intLOD = std::stoi(std::string(evt.GetString()));
+			currentComponent->setModelLOD(intLOD);
+		}
+		catch (const std::invalid_argument& e) {
+			currentComponent->setModelLOD(0.0);
+		}
+		catch (const std::out_of_range& e) {
+			currentComponent->setModelLOD(0.0);
+		}
+	}
+}
+
+void cWeaponsToolkit::onComponentClipSizeChanged(wxCommandEvent& evt)
+{
+	cWeaponComponent* currentComponent = nullptr;
+
+	try {
+		currentComponent = generatedWeapon->components->at(selectedComponent);
+	}
+	catch (const std::out_of_range& e) {
+
+	}
+
+	if (currentComponent) {
+		try {
+			currentComponent->setClipSize(std::stoi(std::string(evt.GetString())));
+		}
+		catch (const std::invalid_argument& e) {
+			currentComponent->setClipSize(0);
+		}
+		catch (const std::out_of_range& e) {
+			currentComponent->setClipSize(0);
+		}
+	}
 }
 
 void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
@@ -342,9 +569,6 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	exportTab = new wxPanel(menuTabs, wxID_ANY);
 	menuTabs->AddPage(exportTab, L"Export");
 
-	debugLogTab = new wxPanel(menuTabs, wxID_ANY);
-	menuTabs->AddPage(debugLogTab, L"Debug Log");
-
 	// Menu Sizers
 	wxBoxSizer* panelSizer = new wxBoxSizer(wxHORIZONTAL);
 	panelSizer->Add(menuTabs, 1, wxEXPAND);
@@ -408,8 +632,8 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	wxStaticText* weaponLODStaticText = new wxStaticText(configTab, wxID_ANY, "LOD:", wxPoint(20, 270));
 	weaponLODTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "400.0", wxPoint(20, 290), wxSize(175, 25));
 
-	wxStaticText* weaponReloadModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Reload Speed Modifier:", wxPoint(20, 340));
-	weaponReloadModifierTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(20, 360), wxSize(175, 25));
+	wxStaticText* weaponReloadModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Reload Speed Modifier:", wxPoint(20, 330));
+	weaponReloadModifierTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(20, 350), wxSize(175, 25));
 
 	wxStaticText* weaponFireRateModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Fire Rate Modifier:", wxPoint(220, 30));
 	weaponFireRateModifierTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(220, 50), wxSize(175, 25));
@@ -431,12 +655,37 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	wxButton* addComponentButton = new wxButton(componentsTab, wxID_ANY, "Add Component", wxPoint(20, 370), wxSize(125,25));
 	wxButton* removeComponentButton = new wxButton(componentsTab, wxID_ANY, "Remove Component", wxPoint(155, 370),wxSize(125, 25));
 
-	wxStaticText* weaponComponentsStaticText = new wxStaticText(componentsTab, wxID_ANY, "Select Weapon Template", wxPoint(300, 20));
+	wxStaticText* weaponComponentsStaticText = new wxStaticText(componentsTab, wxID_ANY, "Select Component Template", wxPoint(300, 20));
 	weaponComponentsComboBox = new wxComboBox(componentsTab, wxID_ANY, "COMPONENT_AT_RAILCOVER_01", wxPoint(300, 40), wxSize(225, 25));
 	weaponComponentsComboBox->Append(wxArrayString(cWeaponsToolkit::getWeaponComponentCount(), generatedWeapon->nativeComponents));
+
+	wxStaticText* componentNameStaticText = new wxStaticText(componentsTab, wxID_ANY, "Component Name:", wxPoint(300, 80));
+	componentNameTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "COMPONENT_AT_RAILCOVER_01", wxPoint(300, 100), wxSize(225, 25));
+
+	wxStaticText* componentModelNameStaticText = new wxStaticText(componentsTab, wxID_ANY, "Model Name:", wxPoint(300, 140));
+	componentModelNameTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "w_at_railcover_01", wxPoint(300, 160), wxSize(225, 25));
+
+	wxStaticText* componentLODStaticText = new wxStaticText(componentsTab, wxID_ANY, "Model LOD:", wxPoint(300, 200));
+	componentLODTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "300.0", wxPoint(300, 220), wxSize(225, 25));
+
+	//todo gray out box if attachment template is not a mag.
+	wxStaticText* componentClipSizeStaticText = new wxStaticText(componentsTab, wxID_ANY, "Clip Size:", wxPoint(300, 260));
+	componentClipSizeTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "", wxPoint(300, 280), wxSize(225, 25));
+
+	wxStaticText* weaponAmmoInfoStaticText = new wxStaticText(componentsTab, wxID_ANY, "Ammo Info", wxPoint(300, 320));
+	weaponAmmoInfoComboBox = new wxComboBox(componentsTab, wxID_ANY, "", wxPoint(300, 340), wxSize(225, 25));
+	weaponAmmoInfoComboBox->Append(wxArrayString(cWeaponsToolkit::getAmmoInfoCount(), generatedWeapon->nativeAmmoInfos));
 
 	//Event Handlers
 	addComponentButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onAddComponent, this);
 	removeComponentButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onRemoveComponent, this);
 	weaponComponentsListCtrl->Bind(wxEVT_LIST_ITEM_SELECTED, &cWeaponsToolkit::onSelectComponent, this);
+	weaponComponentsComboBox->Bind(wxEVT_COMBOBOX, &cWeaponsToolkit::onComponentTemplateChanged, this);
+	componentNameTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onComponentNameChanged, this);
+	componentModelNameTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onComponentModelNameChanged, this);
+	componentLODTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onComponentLODChanged, this);
+	componentClipSizeTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onComponentClipSizeChanged, this);
+
+	//TAB 4 - Export
+	//todo
 }

@@ -73,10 +73,16 @@ public:
 
 	const char* nativeComponents[100] = {
 		"COMPONENT_AT_RAILCOVER_01",
-		"COMPONENT_AT_AR_AFGRIP",
-		"COMPONENT_AT_PI_FLSH",
-		"COMPONENT_AT_AR_FLSH",
-		"COMPONENT_AT_PI_SUPP",
+		"COMPONENT_COMBATPISTOL_CLIP_01",
+		//TODO finish.
+	};
+
+	const char* nativeAmmoInfos[100] = {
+		"",
+		"AMMO_RIFLE_ARMORPIERCING",
+		"AMMO_RIFLE_FMJ",
+		"AMMO_RIFLE_INCENDIARY",
+		"AMMO_RIFLE_TRACER",
 		//TODO finish.
 	};
 

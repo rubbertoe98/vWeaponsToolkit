@@ -18,7 +18,6 @@ private:
 	wxPanel* configTab;
 	wxPanel* componentsTab;
 	wxPanel* exportTab;
-	wxPanel* debugLogTab;
 	wxListCtrl* filesFoundListCtrl;
 	wxDirPickerCtrl* importerDirectoryPicker;
 	wxComboBox* audioItemComboBox;
@@ -34,6 +33,11 @@ private:
 	wxComboBox* ammoTypesComboBox;
 	wxListCtrl* weaponComponentsListCtrl;
 	wxComboBox* weaponComponentsComboBox;
+	wxTextCtrl* componentNameTextCtrl;
+	wxTextCtrl* componentModelNameTextCtrl;
+	wxTextCtrl* componentLODTextCtrl;
+	wxTextCtrl* componentClipSizeTextCtrl;
+	wxComboBox* weaponAmmoInfoComboBox;
 
 	int windowWidth = 800;
 	int windowHeight = 500;
@@ -44,6 +48,7 @@ private:
 	int getAmmoTypesCount();
 	int getDamageTypesCount();
 	int getWeaponComponentCount();
+	int getAmmoInfoCount();
 	void onImportDirectoryChanged(wxCommandEvent& evt);
 	void onWeaponTemplateChanged(wxCommandEvent& evt);
 	void onWeaponNameChanged(wxCommandEvent& evt);
@@ -56,6 +61,11 @@ private:
 	void onAddComponent(wxCommandEvent& evt);
 	void onRemoveComponent(wxCommandEvent& evt);
 	void onSelectComponent(wxCommandEvent& evt);
+	void onComponentTemplateChanged(wxCommandEvent& evt);
+	void onComponentNameChanged(wxCommandEvent& evt);
+	void onComponentModelNameChanged(wxCommandEvent& evt);
+	void onComponentLODChanged(wxCommandEvent& evt);
+	void onComponentClipSizeChanged(wxCommandEvent& evt);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };
