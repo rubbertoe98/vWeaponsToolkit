@@ -2,31 +2,31 @@
 
 cWeapon::cWeapon()
 {
-	weaponTemplate = wxString("WEAPON_ASSAULTRIFLE");
+	weaponTemplate = std::string("WEAPON_ASSAULTRIFLE");
 	weaponName = "";
 	weaponId = "";
 	weaponModel = "";
 	validWeaponModelFound = false;
 }
 
-void cWeapon::setWeaponTemplate(wxString wT)
+void cWeapon::setWeaponTemplate(std::string _weaponTemplate)
 {
-	weaponTemplate = wT;
+	weaponTemplate = _weaponTemplate;
 }
 
-void cWeapon::setWeaponName(wxString wN)
+void cWeapon::setWeaponName(std::string _weaponName)
 {
-	weaponName = wN;
+	weaponName = _weaponName;
 }
 
-void cWeapon::setWeaponId(wxString wI)
+void cWeapon::setWeaponId(std::string _weaponId)
 {
-	weaponId = wI;
+	weaponId = _weaponId;
 }
 
-void cWeapon::setWeaponModel(wxString wM)
+void cWeapon::setWeaponModel(std::string _weaponModel)
 {
-	weaponModel = wM;
+	weaponModel = _weaponModel;
 }
 
 void cWeapon::addWeaponAsset(std::string weaponAsset)
@@ -39,49 +39,49 @@ void cWeapon::setValidWeaponModelFound(bool found)
 	validWeaponModelFound = found;
 }
 
-void cWeapon::setAudioItem(wxString weaponAudio)
+void cWeapon::setAudioItem(std::string _audioItem)
 {
-	audioItem = weaponAudio;
+	audioItem = _audioItem;
 }
 
-void cWeapon::setWeaponDamage(float damage)
+void cWeapon::setWeaponDamage(float _weaponDamage)
 {
-	weaponDamage = damage;
+	weaponDamage = _weaponDamage;
 }
 
-void cWeapon::setWeaponRange(float range)
+void cWeapon::setWeaponRange(float _weaponRange)
 {
-	weaponRange = range;
+	weaponRange = _weaponRange;
 }
 
-void cWeapon::setAmmoType(wxString type)
+void cWeapon::setAmmoType(std::string _ammoType)
 {
-	ammoType = type;
+	ammoType = _ammoType;
 }
 
-void cWeapon::setWeaponLOD(float lod)
+void cWeapon::setWeaponLOD(float _weaponLOD)
 {
-	weaponLOD = lod;
+	weaponLOD = _weaponLOD;
 }
 
-void cWeapon::setWeaponReloadSpeedMultiplier(float multiplier)
+void cWeapon::setWeaponReloadSpeedMultiplier(float _weaponReloadSpeedMultiplier)
 {
-	weaponReloadSpeedMultiplier = multiplier;
+	weaponReloadSpeedMultiplier = _weaponReloadSpeedMultiplier;
 }
 
-void cWeapon::setWeaponFireRateMultiplier(float multiplier)
+void cWeapon::setWeaponFireRateMultiplier(float _weaponFireRateMultiplier)
 {
-	weaponFireRateMultiplier = multiplier;
+	weaponFireRateMultiplier = _weaponFireRateMultiplier;
 }
 
-void cWeapon::setWeaponDamageType(wxString type)
+void cWeapon::setWeaponDamageType(std::string _damageType)
 {
-	damageType = type;
+	damageType = _damageType;
 }
 
-void cWeapon::setWeaponAudioItem(wxString audio)
+void cWeapon::setWeaponAudioItem(std::string _audioItem)
 {
-	audioItem = audio;
+	audioItem = _audioItem;
 }
 
 bool cWeapon::getValidWeaponModelFound()
@@ -89,27 +89,27 @@ bool cWeapon::getValidWeaponModelFound()
 	return validWeaponModelFound;
 }
 
-wxString cWeapon::getWeaponTemplate()
+std::string cWeapon::getWeaponTemplate()
 {
 	return weaponTemplate;
 }
 
-wxString cWeapon::getWeaponName()
+std::string cWeapon::getWeaponName()
 {
 	return weaponName;
 }
 
-wxString cWeapon::getWeaponId()
+std::string cWeapon::getWeaponId()
 {
 	return weaponId;
 }
 
-wxString cWeapon::getWeaponModel()
+std::string cWeapon::getWeaponModel()
 {
 	return weaponModel;
 }
 
-wxString cWeapon::getAudioItem()
+std::string cWeapon::getAudioItem()
 {
 	return audioItem;
 }
@@ -124,7 +124,7 @@ float cWeapon::getWeaponRange()
 	return weaponRange;
 }
 
-wxString cWeapon::getAmmoType()
+std::string cWeapon::getAmmoType()
 {
 	return ammoType;
 }
@@ -144,12 +144,12 @@ float cWeapon::getWeaponFireRateMultiplier()
 	return weaponFireRateMultiplier;
 }
 
-wxString cWeapon::getWeaponDamageType()
+std::string cWeapon::getWeaponDamageType()
 {
 	return damageType;
 }
 
-wxString cWeapon::getWeaponAudioItem()
+std::string cWeapon::getWeaponAudioItem()
 {
 	return audioItem;
 }

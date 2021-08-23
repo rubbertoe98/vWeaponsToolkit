@@ -32,14 +32,18 @@ private:
 	wxTextCtrl* weaponReloadModifierTextCtrl;
 	wxTextCtrl* weaponFireRateModifierTextCtrl;
 	wxComboBox* ammoTypesComboBox;
+	wxListCtrl* weaponComponentsListCtrl;
+	wxComboBox* weaponComponentsComboBox;
 
 	int windowWidth = 800;
 	int windowHeight = 500;
+	int selectedComponent;
 
 	int getWeaponCount();
 	int getAudioItemsCount();
 	int getAmmoTypesCount();
 	int getDamageTypesCount();
+	int getWeaponComponentCount();
 	void onImportDirectoryChanged(wxCommandEvent& evt);
 	void onWeaponTemplateChanged(wxCommandEvent& evt);
 	void onWeaponNameChanged(wxCommandEvent& evt);
@@ -49,6 +53,9 @@ private:
 	void searchForWeaponAssets(const std::wstring& directory);
 	void validateWeaponAssets();
 	wxString removeWeaponFileExtension(wxString s);
+	void onAddComponent(wxCommandEvent& evt);
+	void onRemoveComponent(wxCommandEvent& evt);
+	void onSelectComponent(wxCommandEvent& evt);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };

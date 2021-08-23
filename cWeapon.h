@@ -1,42 +1,44 @@
 #pragma once
 #include <wx/string.h>
 #include <vector>
+#include <string>
+#include "cWeaponComponent.h"
 
 class cWeapon
 {
 public:
 	cWeapon();
 
-	void setWeaponTemplate(wxString weaponTemplate);
-	void setWeaponName(wxString weaponName);
-	void setWeaponId(wxString weaponId);
-	void setWeaponModel(wxString weaponModel);
+	void setWeaponTemplate(std::string weaponTemplate);
+	void setWeaponName(std::string weaponName);
+	void setWeaponId(std::string weaponId);
+	void setWeaponModel(std::string weaponModel);
 	void addWeaponAsset(std::string weaponAsset);
 	void setValidWeaponModelFound(bool found);
-	void setAudioItem(wxString weaponAudio);
+	void setAudioItem(std::string weaponAudio);
 	void setWeaponDamage(float weaponDamage);
 	void setWeaponRange(float weaponRange);
-	void setAmmoType(wxString ammoType);
+	void setAmmoType(std::string ammoType);
 	void setWeaponLOD(float weaponLOD);
 	void setWeaponReloadSpeedMultiplier(float weaponReloadSpeedMultiplier);
 	void setWeaponFireRateMultiplier(float weaponFireRateMultiplier);
-	void setWeaponDamageType(wxString damageType);
-	void setWeaponAudioItem(wxString audioItem);
+	void setWeaponDamageType(std::string damageType);
+	void setWeaponAudioItem(std::string audioItem);
 
 	bool getValidWeaponModelFound();
-	wxString getWeaponTemplate();
-	wxString getWeaponName();
-	wxString getWeaponId();
-	wxString getWeaponModel();
-	wxString getAudioItem();
+	std::string getWeaponTemplate();
+	std::string getWeaponName();
+	std::string getWeaponId();
+	std::string getWeaponModel();
+	std::string getAudioItem();
 	float getWeaponDamage();
 	float getWeaponRange();
-	wxString getAmmoType();
+	std::string getAmmoType();
 	float getWeaponLOD();
 	float getWeaponReloadSpeedMultiplier();
 	float getWeaponFireRateMultiplier();
-	wxString getWeaponDamageType();
-	wxString getWeaponAudioItem();
+	std::string getWeaponDamageType();
+	std::string getWeaponAudioItem();
 
 	void exportWeapon();
 
@@ -67,22 +69,33 @@ public:
 		"WATER_CANNON",
 		"FIRE",
 		"SMOKE",
+	}; 
+
+	const char* nativeComponents[100] = {
+		"COMPONENT_AT_RAILCOVER_01",
+		"COMPONENT_AT_AR_AFGRIP",
+		"COMPONENT_AT_PI_FLSH",
+		"COMPONENT_AT_AR_FLSH",
+		"COMPONENT_AT_PI_SUPP",
+		//TODO finish.
 	};
 
-private:
-	wxString weaponTemplate;
-	wxString weaponName;
-	wxString weaponId;
-	wxString weaponModel;
+	std::vector<cWeaponComponent*> components[100] = {};
 
-	wxString audioItem;
+private:
+	std::string weaponTemplate;
+	std::string weaponName;
+	std::string weaponId;
+	std::string weaponModel;
+
+	std::string audioItem;
 	float weaponDamage;
 	float weaponRange;
-	wxString ammoType;
+	std::string ammoType;
 	float weaponLOD;
 	float weaponReloadSpeedMultiplier;
 	float weaponFireRateMultiplier;
-	wxString damageType;
+	std::string damageType;
 
 	bool validWeaponModelFound;
 

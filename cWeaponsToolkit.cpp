@@ -18,6 +18,16 @@ int cWeaponsToolkit::getWeaponCount() {
 	return count;
 }
 
+int cWeaponsToolkit::getWeaponComponentCount() {
+	int count = 0;
+
+	for (const char* i : generatedWeapon->nativeComponents) {
+		if (i)
+			count += 1;
+	}
+	return count;
+
+}
 int cWeaponsToolkit::getAudioItemsCount()
 {
 	int count = 0;
@@ -63,7 +73,7 @@ void cWeaponsToolkit::onImportDirectoryChanged(wxCommandEvent& evt) {
 
 void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponTemplate(evt.GetString());
+	generatedWeapon->setWeaponTemplate(std::string(evt.GetString()));
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<>* root_node;
 	std::ifstream theFile(std::string( "templates/" + generatedWeapon->getWeaponTemplate() + "/weapons.meta"));
@@ -84,23 +94,23 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 					for (rapidxml::xml_node<>* weapon_node = item_2->first_node("Name"); weapon_node; weapon_node = weapon_node->next_sibling())
 					{
 						if (std::string(weapon_node->name()) == "Model") {
-							generatedWeapon->setWeaponModel(wxString(weapon_node->value()));
-							weaponModelTextCtrl->SetValue(wxString(weapon_node->value()));
+							generatedWeapon->setWeaponModel(weapon_node->value());
+							weaponModelTextCtrl->SetValue(weapon_node->value());
 						}
 						else if (std::string(weapon_node->name()) == "Audio") {
 							//wxString s1;
 							//s1.Printf(wxT("Audio Item: %s"), weapon_node->value());
 							//wxMessageBox(s1, wxT("vWeaponToolkit"), wxICON_INFORMATION);
-							generatedWeapon->setAudioItem(wxString(weapon_node->value()));
+							generatedWeapon->setAudioItem(weapon_node->value());
 							audioItemComboBox->SetValue(wxString(weapon_node->value()));
 						}
 						else if (std::string(weapon_node->name()) == "DamageType") {
-							generatedWeapon->setWeaponDamageType(wxString(weapon_node->value()));
+							generatedWeapon->setWeaponDamageType(weapon_node->value());
 							damageTypesComboxBox->SetValue(wxString(weapon_node->value()));
 						}
 						else if (std::string(weapon_node->name()) == "Damage") {
 							if (std::string(weapon_node->first_attribute()->name()) == "value") {
-								generatedWeapon->setWeaponDamageType(wxString(weapon_node->first_attribute()->value()));
+								generatedWeapon->setWeaponDamageType(weapon_node->first_attribute()->value());
 								weaponDamageTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
 							}
 						}
@@ -112,7 +122,7 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 						}
 						else if (std::string(weapon_node->name()) == "AmmoInfo") {
 							if (std::string(weapon_node->first_attribute()->name()) == "ref") {
-								generatedWeapon->setAmmoType(wxString(weapon_node->first_attribute()->value()));
+								generatedWeapon->setAmmoType(weapon_node->first_attribute()->value());
 								ammoTypesComboBox->SetValue(wxString(weapon_node->first_attribute()->value()));
 							}
 						}
@@ -133,17 +143,17 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 
 void cWeaponsToolkit::onWeaponNameChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponName(evt.GetString());
+	generatedWeapon->setWeaponName(std::string(evt.GetString()));
 }
 
 void cWeaponsToolkit::onWeaponIdChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponId(evt.GetString());
+	generatedWeapon->setWeaponId(std::string(evt.GetString()));
 }
 
 void cWeaponsToolkit::onWeaponModelChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponModel(evt.GetString());
+	generatedWeapon->setWeaponModel(std::string(evt.GetString()));
 	validateWeaponAssets();
 }
 
@@ -234,6 +244,30 @@ wxString cWeaponsToolkit::removeWeaponFileExtension(wxString s)
 		s.erase(pos_ytd, ext_ytd.length());
 	}
 	return s;
+}
+
+void cWeaponsToolkit::onAddComponent(wxCommandEvent& evt)
+{
+	cWeaponComponent* component = new cWeaponComponent;
+	std::string componentName = std::string(weaponComponentsComboBox->GetStringSelection());
+
+	if (componentName == "")
+		componentName = "COMPONENT_AT_RAILCOVER_01";
+
+	component->setComponentName(componentName);
+	generatedWeapon->components->push_back(component);
+	weaponComponentsListCtrl->InsertItem(0, component->getComponentName());
+}
+
+void cWeaponsToolkit::onRemoveComponent(wxCommandEvent& evt)
+{
+	weaponComponentsListCtrl->DeleteItem(selectedComponent);
+	//todo remove from array
+}
+
+void cWeaponsToolkit::onSelectComponent(wxCommandEvent& evt)
+{
+	selectedComponent = weaponComponentsListCtrl->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 }
 
 void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
@@ -385,4 +419,24 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	damageTypesComboxBox->Append(wxArrayString(cWeaponsToolkit::getDamageTypesCount(), generatedWeapon->damageTypes));
 
 	//todo add HeadShotDamageModifierPlayer
+
+	//TAB 3 - Components
+	weaponComponentsListCtrl = new wxListCtrl(componentsTab, wxID_ANY, wxPoint(20, 20), wxSize(260, 340), wxLC_REPORT, wxDefaultValidator);
+	wxListItem colComps;
+	colComps.SetId(0);
+	colComps.SetText(_("Components"));
+	colComps.SetWidth(260);
+	weaponComponentsListCtrl->InsertColumn(0, colComps);
+
+	wxButton* addComponentButton = new wxButton(componentsTab, wxID_ANY, "Add Component", wxPoint(20, 370), wxSize(125,25));
+	wxButton* removeComponentButton = new wxButton(componentsTab, wxID_ANY, "Remove Component", wxPoint(155, 370),wxSize(125, 25));
+
+	wxStaticText* weaponComponentsStaticText = new wxStaticText(componentsTab, wxID_ANY, "Select Weapon Template", wxPoint(300, 20));
+	weaponComponentsComboBox = new wxComboBox(componentsTab, wxID_ANY, "COMPONENT_AT_RAILCOVER_01", wxPoint(300, 40), wxSize(225, 25));
+	weaponComponentsComboBox->Append(wxArrayString(cWeaponsToolkit::getWeaponComponentCount(), generatedWeapon->nativeComponents));
+
+	//Event Handlers
+	addComponentButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onAddComponent, this);
+	removeComponentButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onRemoveComponent, this);
+	weaponComponentsListCtrl->Bind(wxEVT_LIST_ITEM_SELECTED, &cWeaponsToolkit::onSelectComponent, this);
 }
