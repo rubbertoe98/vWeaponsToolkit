@@ -117,6 +117,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;WXUSINGDLL;wxMSVC_VERSION_AUTO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(wxwin)\include\msvc;$(wxwin)\include</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,6 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="cApp.h" />
     <ClInclude Include="cWeapon.h" />
+    <ClInclude Include="cWeaponAsset.h" />
     <ClInclude Include="cWeaponComponent.h" />
     <ClInclude Include="cWeaponsToolkit.h" />
     <ClInclude Include="targetver.h" />
@@ -150,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="cApp.cpp" />
     <ClCompile Include="cWeapon.cpp" />
+    <ClCompile Include="cWeaponAsset.cpp" />
     <ClCompile Include="cWeaponComponent.cpp" />
     <ClCompile Include="cWeaponsToolkit.cpp" />
   </ItemGroup>

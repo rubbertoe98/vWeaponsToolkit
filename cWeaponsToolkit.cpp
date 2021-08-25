@@ -8,6 +8,8 @@
 #include "vendor/rapidxml/rapidxml.hpp"
 #include <fstream>
 #include <wx/checkbox.h>
+#include <direct.h>
+#include "cWeaponAsset.h"
 
 int cWeaponsToolkit::getWeaponCount() {
 	int count = 0;
@@ -110,9 +112,6 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 							weaponModelTextCtrl->SetValue(weapon_node->value());
 						}
 						else if (std::string(weapon_node->name()) == "Audio") {
-							//wxString s1;
-							//s1.Printf(wxT("Audio Item: %s"), weapon_node->value());
-							//wxMessageBox(s1, wxT("vWeaponToolkit"), wxICON_INFORMATION);
 							generatedWeapon->setAudioItem(weapon_node->value());
 							audioItemComboBox->SetValue(wxString(weapon_node->value()));
 						}
@@ -187,45 +186,39 @@ void cWeaponsToolkit::validateWeaponAssets()
 
 	for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
 		wxString s = filesFoundListCtrl->GetItemText(i);
+
 		if (s == generatedWeapon->getWeaponModel() + ".ydr") {
 			//Found ydr model, now look for _hi ydr & textures.
 			filesFoundListCtrl->SetItemTextColour(i, wxColour(70,200,0));
 			generatedWeapon->setValidWeaponModelFound(true);
 
+
 			for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
 				wxString s = filesFoundListCtrl->GetItemText(i);
 				if (s == generatedWeapon->getWeaponModel() + "_hi.ydr") {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(70, 200, 0));
-					generatedWeapon->addWeaponAsset(std::string(generatedWeapon->getWeaponModel() + "_hi.ydr"));
 				}
 				else if (s == generatedWeapon->getWeaponModel() + ".ytd") {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(70, 200, 0));
-					generatedWeapon->addWeaponAsset(std::string(generatedWeapon->getWeaponModel() + ".ytd"));
 				}
 				else if (s == generatedWeapon->getWeaponModel() + "+hi.ytd") {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(70, 200, 0));
-					generatedWeapon->addWeaponAsset(std::string(generatedWeapon->getWeaponModel() + "+hi.ytd"));
 				}
 				//Addon Mods/Components
 				else if (s.find("_mag1") != std::string::npos) {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
-					generatedWeapon->addWeaponAsset(std::string(s));
 				}
 				else if (s.find("_mag2") != std::string::npos) {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
-					generatedWeapon->addWeaponAsset(std::string(s));
 				}
 				else if (s.find("_afgrip") != std::string::npos) {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
-					generatedWeapon->addWeaponAsset(std::string(s));
 				}
 				else if (s.find("_supp") != std::string::npos) {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
-					generatedWeapon->addWeaponAsset(std::string(s));
 				}
 				else if (s.find("_medium") != std::string::npos) {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
-					generatedWeapon->addWeaponAsset(std::string(s));
 				}
 				else if(s != generatedWeapon->getWeaponModel() + ".ydr")
 				{
@@ -520,6 +513,86 @@ void cWeaponsToolkit::onComponentEnabledCheckboxChanged(wxCommandEvent& evt)
 	}
 }
 
+void cWeaponsToolkit::onExportDirectoryChanged(wxCommandEvent& evt)
+{
+	exportDirectory = std::string(exporterDirectoryPicker->GetPath());
+}
+
+void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
+{
+	char c_exportDir[200] = "";
+	char c_exportStreamDir[200] = "";
+	char c_exportMetasDir[200] = "";
+
+	if (exportDirectory == "") {
+		wxMessageBox("Failed to export weapon, no export directory found.", wxT("vWeaponToolkit"), wxICON_ERROR);
+		return;
+	}
+
+	strcat(c_exportDir, exportDirectory.c_str());
+	strcat(c_exportDir, "\\");
+
+	if (generatedWeapon->getWeaponName() == "") {
+		wxMessageBox("Failed to export weapon, no weapon ID found.", wxT("vWeaponToolkit"), wxICON_ERROR);
+		return;
+	}
+	strcat(c_exportDir, generatedWeapon->getWeaponName().c_str());
+	strcat(c_exportStreamDir, c_exportDir);
+	strcat(c_exportMetasDir, c_exportDir);
+	strcat(c_exportStreamDir, "\\stream");
+	strcat(c_exportMetasDir, "\\meta");
+
+	//Create directories.
+	wxMessageBox(c_exportDir, wxT("vWeaponToolkit"), wxICON_INFORMATION);
+	int weapon_result = _mkdir(c_exportDir);
+	int stream_result = _mkdir(c_exportStreamDir);
+	int metas_result = _mkdir(c_exportMetasDir);
+
+	if (weapon_result == 0) {
+		wxMessageBox(std::to_string(weapon_result), wxT("vWeaponToolkit"), wxICON_INFORMATION);
+	}
+	else {
+		wxMessageBox("Failed to export weapon, failed to create folder.", wxT("vWeaponToolkit"), wxICON_ERROR);
+		return;
+	}
+
+	//Create fxmanifest
+	char c_exportManifestDir[200] = "";
+	strcat(c_exportManifestDir, c_exportDir);
+	strcat(c_exportManifestDir, "\\fxmanifest.lua");
+	std::ofstream manifest(c_exportManifestDir);
+	if (manifest.is_open())
+	{
+		manifest << "fx_version 'cerulean'\n";
+		manifest << "games {'gta5'}\n";
+		manifest << "description 'Add-on weapon generated using vWeaponsToolkit'\n\n";
+
+		manifest << "files{\n";
+		manifest << "	'**/weaponcomponents.meta',\n";
+		manifest << "	'**/weaponarchetypes.meta',\n";
+		manifest << "	'**/weaponanimations.meta',\n";
+		manifest << "	'**/pedpersonality.meta',\n";
+		manifest << "	'**/weapons.meta',\n";
+		manifest << "}\n";
+		manifest << "\n";
+		manifest << "data_file 'WEAPONCOMPONENTSINFO_FILE' '**/weaponcomponents.meta'\n";
+		manifest << "data_file 'WEAPON_METADATA_FILE' '**/weaponarchetypes.meta'\n";
+		manifest << "data_file 'WEAPON_ANIMATIONS_FILE' '**/weaponanimations.meta'\n";
+		manifest << "data_file 'PED_PERSONALITY_FILE' '**/pedpersonality.meta'\n";
+		manifest << "data_file 'WEAPONINFO_FILE' '**/weapons.meta'\n";
+		manifest.close();
+	}
+
+	//Copy model assets to stream folder
+	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
+		wxMessageBox(a->assetAbsolutePath, "", wxICON_INFORMATION);
+		std::ifstream  src(a->assetAbsolutePath, std::ios::binary);
+		std::ofstream  dst(exportDirectory + "/" + generatedWeapon->getWeaponName() + "/stream/" + a->assetName, std::ios::binary);
+
+		dst << src.rdbuf();
+	}
+}
+
 void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 {
 	std::wstring fullDir = directory + L"\\*";
@@ -530,6 +603,7 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 		std::vector<std::wstring> directories;
 		int filesFound = 0;
 		filesFoundListCtrl->DeleteAllItems();
+		generatedWeapon->weaponAssets.clear();
 		do
 		{
 			if (file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -542,6 +616,12 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 
 			if (std::wstring(file.cFileName).find(L'.ytd') != std::string::npos || std::wstring(file.cFileName).find(L'.ydr') != std::string::npos) {
 				filesFoundListCtrl->InsertItem(0, file.cFileName);
+
+				cWeaponAsset* weaponAsset = new cWeaponAsset();
+				weaponAsset->assetName = std::string(wxString(file.cFileName));
+				weaponAsset->assetAbsolutePath = std::string(wxString(fullDir));
+				generatedWeapon->addWeaponAsset(weaponAsset);
+
 				filesFound += 1;
 			}
 
@@ -712,5 +792,10 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	checkboxDevMode->Bind(wxEVT_CHECKBOX, &cWeaponsToolkit::onComponentEnabledCheckboxChanged, this);
 
 	//TAB 4 - Export
-	//todo
+	exporterDirectoryPicker = new wxDirPickerCtrl(exportTab, wxID_ANY, "Export Folder", "", wxPoint(20, 370), wxSize(625, 25));
+	wxButton* exportButton = new wxButton(exportTab, wxID_ANY, "Export", wxPoint(675, 370));
+
+	//Event Handlers
+	exporterDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &cWeaponsToolkit::onExportDirectoryChanged, this);
+	exportButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onExportButtonPressed, this);
 }

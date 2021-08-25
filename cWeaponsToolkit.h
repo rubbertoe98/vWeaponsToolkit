@@ -20,6 +20,7 @@ private:
 	wxPanel* exportTab;
 	wxListCtrl* filesFoundListCtrl;
 	wxDirPickerCtrl* importerDirectoryPicker;
+	wxDirPickerCtrl* exporterDirectoryPicker;
 	wxComboBox* audioItemComboBox;
 	wxTextCtrl* weaponNameTextCtrl;
 	wxTextCtrl* weaponIdTextCtrl;
@@ -43,6 +44,7 @@ private:
 	int windowWidth = 800;
 	int windowHeight = 500;
 	int selectedComponent;
+	std::string exportDirectory;
 
 	int getWeaponCount();
 	int getAudioItemsCount();
@@ -68,6 +70,8 @@ private:
 	void onComponentLODChanged(wxCommandEvent& evt);
 	void onComponentClipSizeChanged(wxCommandEvent& evt);
 	void onComponentEnabledCheckboxChanged(wxCommandEvent& evt);
+	void onExportDirectoryChanged(wxCommandEvent& evt);
+	void onExportButtonPressed(wxCommandEvent& evt);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };

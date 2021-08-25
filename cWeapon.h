@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "cWeaponComponent.h"
+#include "cWeaponAsset.h"
 
 class cWeapon
 {
@@ -13,7 +14,7 @@ public:
 	void setWeaponName(std::string weaponName);
 	void setWeaponId(std::string weaponId);
 	void setWeaponModel(std::string weaponModel);
-	void addWeaponAsset(std::string weaponAsset);
+	void addWeaponAsset(cWeaponAsset* weaponAsset);
 	void setValidWeaponModelFound(bool found);
 	void setAudioItem(std::string weaponAudio);
 	void setWeaponDamage(float weaponDamage);
@@ -39,7 +40,7 @@ public:
 	float getWeaponFireRateMultiplier();
 	std::string getWeaponDamageType();
 	std::string getWeaponAudioItem();
-
+	
 	void exportWeapon();
 
 	const char* nativeWeapons[100] = {
@@ -87,6 +88,7 @@ public:
 	};
 
 	std::vector<cWeaponComponent*> components[100] = {};
+	std::vector<cWeaponAsset*> weaponAssets = {};
 
 private:
 	std::string weaponTemplate;
@@ -104,7 +106,5 @@ private:
 	std::string damageType;
 
 	bool validWeaponModelFound;
-
-	std::vector<std::string> weaponAssets[50] = {};
 };
 

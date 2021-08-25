@@ -3,9 +3,9 @@
 cWeapon::cWeapon()
 {
 	weaponTemplate = std::string("WEAPON_ASSAULTRIFLE");
-	weaponName = "";
-	weaponId = "";
-	weaponModel = "";
+	weaponName = "AK-47";
+	weaponId = "WEAPON_AK47";
+	weaponModel = "w_ar_assaultrifle";
 	validWeaponModelFound = false;
 }
 
@@ -29,9 +29,9 @@ void cWeapon::setWeaponModel(std::string _weaponModel)
 	weaponModel = _weaponModel;
 }
 
-void cWeapon::addWeaponAsset(std::string weaponAsset)
+void cWeapon::addWeaponAsset(cWeaponAsset* weaponAsset)
 {
-	weaponAssets->push_back(weaponAsset);
+	weaponAssets.push_back(weaponAsset);
 }
 
 void cWeapon::setValidWeaponModelFound(bool found)
