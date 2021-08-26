@@ -82,5 +82,8 @@ private:
 	void onWeaponReloadModifierChanged(wxCommandEvent& evt);
 	void onWeaponFireRateModifierChanged(wxCommandEvent& evt);
 
+	void exportWeaponsMeta(char* c_exportDir);
+	void exportWeaponsAnimationsMeta(char* c_exportDir);
+
 	cWeapon* generatedWeapon = new cWeapon();
 };

@@ -618,8 +618,23 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 		dst << src.rdbuf();
 	}
 
-	//Generate weapons.meta
+	exportWeaponsMeta(c_exportMetasDir);
+	
+	exportWeaponsAnimationsMeta(c_exportMetasDir);
 
+
+	//Generate pedpersonality.meta
+
+	//Generate weaponarchetypes.meta
+
+	//Generate weaponcomponents.meta
+
+	wxMessageBox(std::string("Successfully exported weapon to: ") + exportDirectory.c_str() + "\\" + generatedWeapon->getWeaponName(), wxT("vWeaponToolkit"), wxICON_INFORMATION);
+}
+
+void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
+{
+	//Generate weapons.meta
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<>* root_node;
 	std::ifstream theFile(std::string("templates/weapons/" + generatedWeapon->getWeaponTemplate() + "/weapons.meta"));
@@ -642,10 +657,10 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	char* weaponRange = doc.allocate_string(std::to_string(generatedWeapon->getWeaponRange()).c_str());
 
 	rapidxml::xml_node<>* slotItem_node = root_node->first_node("SlotNavigateOrder")->first_node("Item")->first_node("WeaponSlots")->first_node("Item");
-	char* slotId = doc.allocate_string(std::to_string(getNextAvailableSlotId()).c_str());	
+	char* slotId = doc.allocate_string(std::to_string(getNextAvailableSlotId()).c_str());
 	slotItem_node->first_node("OrderNumber")->first_attribute()->value(slotId);
 	slotItem_node->first_node("Entry")->first_node()->value(SlotName);
-	
+
 	rapidxml::xml_node<>* weaponItem_node = root_node->first_node("Infos")->first_node("Item")->first_node("Infos")->first_node("Item");
 	weaponItem_node->first_node("Name")->first_node()->value(weaponId);
 	weaponItem_node->first_node("Slot")->first_node()->value(SlotName);
@@ -657,7 +672,7 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	weaponItem_node->first_node("AmmoInfo")->first_attribute()->value(ammoType);
 	weaponItem_node->first_node("AnimReloadRate")->first_attribute()->value(reloadSpeedMulti);
 	weaponItem_node->first_node("WeaponRange")->first_attribute()->value(weaponRange);
-	
+
 	rapidxml::xml_node<>* component_node = weaponItem_node->first_node("AttachPoints");
 
 	for (auto element : generatedWeapon->components) {
@@ -694,16 +709,35 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	fileStored << xml_as_string;
 	fileStored.close();
 	doc.clear();
+}
+void cWeaponsToolkit::exportWeaponsAnimationsMeta(char* c_exportMetasDir)
+{
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root_node;
+	std::ifstream theFile(std::string("templates/weapons/" + generatedWeapon->getWeaponTemplate() + "/weaponanimations.meta"));
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	doc.parse<0>(&buffer[0]);
 
-	//Generate weaponanimations.meta
+	root_node = doc.first_node("CWeaponAnimationsSets");
 
-	//Generate pedpersonality.meta
+	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
 
-	//Generate weaponarchetypes.meta
+	for (rapidxml::xml_node<>* node = root_node->first_node("WeaponAnimationsSets")->first_node("Item")	; node; node = node->next_sibling())
+	{
+		node->first_node("WeaponAnimations")->first_node("Item")->first_attribute()->value(weaponId);
+	}
 
-	//Generate weaponcomponents.meta
+	std::string xml_as_string;
+	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
-	wxMessageBox(std::string("Successfully exported weapon to: ") + exportDirectory.c_str() + "\\" + generatedWeapon->getWeaponName(), wxT("vWeaponToolkit"), wxICON_INFORMATION);
+	char c_weaponsMetaDir[200] = "";
+	strcat(c_weaponsMetaDir, c_exportMetasDir);
+	strcat(c_weaponsMetaDir, "\\weaponanimations.meta");
+	std::ofstream fileStored(c_weaponsMetaDir);
+	fileStored << xml_as_string;
+	fileStored.close();
+	doc.clear();
 }
 
 void cWeaponsToolkit::onAudioItemChanged(wxCommandEvent& evt)
