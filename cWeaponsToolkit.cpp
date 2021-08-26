@@ -619,11 +619,8 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	}
 
 	exportWeaponsMeta(c_exportMetasDir);
-	
 	exportWeaponsAnimationsMeta(c_exportMetasDir);
-
-
-	//Generate pedpersonality.meta
+	exportPedPersonalityMeta(c_exportMetasDir);
 
 	//Generate weaponarchetypes.meta
 
@@ -710,6 +707,7 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 	fileStored.close();
 	doc.clear();
 }
+
 void cWeaponsToolkit::exportWeaponsAnimationsMeta(char* c_exportMetasDir)
 {
 	rapidxml::xml_document<> doc;
@@ -734,6 +732,45 @@ void cWeaponsToolkit::exportWeaponsAnimationsMeta(char* c_exportMetasDir)
 	char c_weaponsMetaDir[200] = "";
 	strcat(c_weaponsMetaDir, c_exportMetasDir);
 	strcat(c_weaponsMetaDir, "\\weaponanimations.meta");
+	std::ofstream fileStored(c_weaponsMetaDir);
+	fileStored << xml_as_string;
+	fileStored.close();
+	doc.clear();
+}
+
+void cWeaponsToolkit::exportPedPersonalityMeta(char* c_exportMetasDir)
+{
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root_node;
+	std::ifstream theFile(std::string("templates/weapons/" + generatedWeapon->getWeaponTemplate() + "/pedpersonality.meta"));
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	doc.parse<0>(&buffer[0]);
+
+	root_node = doc.first_node("CPedModelInfo__PersonalityDataList");
+
+	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
+
+	for (rapidxml::xml_node<>* node = root_node->first_node("MovementModeUnholsterData")->first_node("Item"); node; node = node->next_sibling())
+	{
+		node->first_node("UnholsterClips")->first_node("Item")->first_node("Weapons")->first_node("Item")->first_node()->value(weaponId);
+	}
+
+	rapidxml::xml_node<>* movementmode_node = root_node->first_node("MovementModes")->first_node("Item");
+	for (rapidxml::xml_node<>* node = movementmode_node; node; node = node->next_sibling())
+	{
+		for (rapidxml::xml_node<>* node_2 = node->first_node("MovementModes")->first_node("Item"); node_2; node_2 = node_2->next_sibling())
+		{
+			node_2->first_node("Item")->first_node("Weapons")->first_node("Item")->first_node()->value(weaponId);
+		}
+	}
+
+	std::string xml_as_string;
+	rapidxml::print(std::back_inserter(xml_as_string), doc);
+
+	char c_weaponsMetaDir[200] = "";
+	strcat(c_weaponsMetaDir, c_exportMetasDir);
+	strcat(c_weaponsMetaDir, "\\pedpersonality.meta");
 	std::ofstream fileStored(c_weaponsMetaDir);
 	fileStored << xml_as_string;
 	fileStored.close();

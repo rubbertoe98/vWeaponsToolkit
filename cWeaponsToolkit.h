@@ -84,6 +84,7 @@ private:
 
 	void exportWeaponsMeta(char* c_exportDir);
 	void exportWeaponsAnimationsMeta(char* c_exportDir);
+	void exportPedPersonalityMeta(char* c_exportDir);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };
