@@ -554,9 +554,9 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 		return;
 	}
 
-	char c_exportDir[200] = "";
-	char c_exportStreamDir[200] = "";
-	char c_exportMetasDir[200] = "";
+	char c_exportDir[500] = "";
+	char c_exportStreamDir[500] = "";
+	char c_exportMetasDir[500] = "";
 
 	if (exportDirectory == "") {
 		wxMessageBox("Failed to export weapon, no export directory found.", wxT("vWeaponToolkit"), wxICON_ERROR);
@@ -590,7 +590,7 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	}
 
 	//Create fxmanifest
-	char c_exportManifestDir[200] = "";
+	char c_exportManifestDir[500] = "";
 	strcat(c_exportManifestDir, c_exportDir);
 	strcat(c_exportManifestDir, "\\fxmanifest.lua");
 	std::ofstream manifest(c_exportManifestDir);
@@ -628,8 +628,7 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	exportWeaponsAnimationsMeta(c_exportMetasDir);
 	exportPedPersonalityMeta(c_exportMetasDir);
 	exportWeaponArchetypesMeta(c_exportMetasDir);
-
-	//Generate weaponcomponents.meta
+	exportWeaponComponentsMeta(c_exportMetasDir);
 
 	wxMessageBox(std::string("Successfully exported weapon to: ") + exportDirectory.c_str() + "\\" + generatedWeapon->getWeaponName(), wxT("vWeaponToolkit"), wxICON_INFORMATION);
 }
@@ -704,7 +703,7 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 	std::string xml_as_string;
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
-	char c_weaponsMetaDir[200] = "";
+	char c_weaponsMetaDir[500] = "";
 	strcat(c_weaponsMetaDir, c_exportMetasDir);
 	strcat(c_weaponsMetaDir, "\\weapons.meta");
 	std::ofstream fileStored(c_weaponsMetaDir);
@@ -734,7 +733,7 @@ void cWeaponsToolkit::exportWeaponsAnimationsMeta(char* c_exportMetasDir)
 	std::string xml_as_string;
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
-	char c_weaponsMetaDir[200] = "";
+	char c_weaponsMetaDir[500] = "";
 	strcat(c_weaponsMetaDir, c_exportMetasDir);
 	strcat(c_weaponsMetaDir, "\\weaponanimations.meta");
 	std::ofstream fileStored(c_weaponsMetaDir);
@@ -773,7 +772,7 @@ void cWeaponsToolkit::exportPedPersonalityMeta(char* c_exportMetasDir)
 	std::string xml_as_string;
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
-	char c_weaponsMetaDir[200] = "";
+	char c_weaponsMetaDir[500] = "";
 	strcat(c_weaponsMetaDir, c_exportMetasDir);
 	strcat(c_weaponsMetaDir, "\\pedpersonality.meta");
 	std::ofstream fileStored(c_weaponsMetaDir);
@@ -824,7 +823,7 @@ void cWeaponsToolkit::exportWeaponArchetypesMeta(char* c_exportMetasDir)
 	std::string xml_as_string;
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
-	char c_weaponsMetaDir[200] = "";
+	char c_weaponsMetaDir[500] = "";
 	strcat(c_weaponsMetaDir, c_exportMetasDir);
 	strcat(c_weaponsMetaDir, "\\weaponarchetypes.meta");
 	std::ofstream fileStored(c_weaponsMetaDir);
@@ -833,6 +832,41 @@ void cWeaponsToolkit::exportWeaponArchetypesMeta(char* c_exportMetasDir)
 	doc.clear();
 }
 
+void cWeaponsToolkit::exportWeaponComponentsMeta(char* c_exportMetasDir)
+{
+	int metas_result = _mkdir((std::string(c_exportMetasDir) + "\\components").c_str());	
+	for (cWeaponComponent* c : generatedWeapon->components) {
+		int metas_result = _mkdir((std::string(c_exportMetasDir) + "\\components\\" + c->getComponentName()).c_str());
+
+		rapidxml::xml_document<> doc;
+		rapidxml::xml_node<>* root_node;
+		std::ifstream theFile(std::string("templates/components/" + c->getComponentTemplate() + "/weaponcomponents.meta"));
+		std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+		buffer.push_back('\0');
+		doc.parse<0>(&buffer[0]);
+
+		root_node = doc.first_node("CWeaponComponentInfoBlob");
+
+		char* componentName = doc.allocate_string(c->getComponentName().c_str());
+		char* componentModel = doc.allocate_string(c->getModelName().c_str());
+
+		root_node->first_node("Infos")->first_node("Item")->first_node("Name")->first_node()->value(componentName);
+		root_node->first_node("Infos")->first_node("Item")->first_node("Model")->first_node()->value(componentModel);
+
+		std::string xml_as_string;
+		rapidxml::print(std::back_inserter(xml_as_string), doc);
+
+		char c_weaponsMetaDir[500] = "";
+		strcat(c_weaponsMetaDir, c_exportMetasDir);
+		strcat(c_weaponsMetaDir, "\\components");
+		strcat(c_weaponsMetaDir, ("\\" + c->getComponentName()).c_str());
+		strcat(c_weaponsMetaDir, "\\weaponcomponents.meta");
+		std::ofstream fileStored(c_weaponsMetaDir);
+		fileStored << xml_as_string;
+		fileStored.close();
+		doc.clear();
+	}
+}
 int cWeaponsToolkit::getAssetLODFromName(std::string assetName)
 {
 	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {

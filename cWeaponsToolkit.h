@@ -86,6 +86,7 @@ private:
 	void exportWeaponsAnimationsMeta(char* c_exportDir);
 	void exportPedPersonalityMeta(char* c_exportDir);
 	void exportWeaponArchetypesMeta(char* c_exportDir);
+	void exportWeaponComponentsMeta(char* c_exportDir);
 
 	int getAssetLODFromName(std::string assetName);
 
