@@ -18,6 +18,7 @@
 			<HudAccuracy value="0" />
 			<HudRange value="0" />
 			<ClipSize value="12" />
+			<AmmoInfo></AmmoInfo>
 			<ReloadData ref="RELOAD_DEFAULT_WITH_EMPTIES" />
 		</Item>
 	</Infos>
