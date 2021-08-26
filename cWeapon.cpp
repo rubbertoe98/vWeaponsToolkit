@@ -154,8 +154,3 @@ std::string cWeapon::getWeaponAudioItem()
 {
 	return audioItem;
 }
-
-void cWeapon::exportWeapon()
-{
-	//TODO
-}

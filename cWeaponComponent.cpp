@@ -41,6 +41,11 @@ void cWeaponComponent::setAmmoInfo(std::string _ammoInfo)
 	ammoInfo = _ammoInfo;
 }
 
+void cWeaponComponent::setAttachBone(std::string _attachBone)
+{
+	attachBone = _attachBone;
+}
+
 void cWeaponComponent::setComponentEnabled(bool _enabled)
 {
 	enabled = _enabled;
@@ -74,6 +79,11 @@ int cWeaponComponent::getModelLOD()
 std::string cWeaponComponent::getAmmoInfo()
 {
 	return ammoInfo;
+}
+
+std::string cWeaponComponent::getAttachBone()
+{
+	return attachBone;
 }
 
 bool cWeaponComponent::isComponentEnabled()

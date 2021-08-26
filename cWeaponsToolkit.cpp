@@ -170,7 +170,6 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 								weaponReloadModifierTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
 							}
 						}
-						//todo weaponLOD in weaponarchtypes.meta
 						//todo weapon fire rate in weaponanimations.meta
 					}
 				}
@@ -287,7 +286,7 @@ void cWeaponsToolkit::onAddComponent(wxCommandEvent& evt)
 	if (componentName == "")
 		componentName = "COMPONENT_AT_RAILCOVER_01";
 
-	component->setComponentTemplate(std::string(weaponComponentsComboBox->GetStringSelection()));
+	component->setComponentTemplate(componentName);
 	component->setComponentName(componentName);
 	component->setModelName(std::string(componentModelNameTextCtrl->GetValue()));
 	try {
@@ -430,8 +429,6 @@ void cWeaponsToolkit::onComponentTemplateChanged(wxCommandEvent& evt)
 
 					weaponAmmoInfoComboBox->SetValue(component_node->value());
 				}
-
-				//todo modelLOD
 			}
 		}
 	}
@@ -676,7 +673,7 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 
 	rapidxml::xml_node<>* component_node = weaponItem_node->first_node("AttachPoints");
 
-	for (auto element : generatedWeapon->components) {
+	for (auto c : generatedWeapon->components) {
 		rapidxml::xml_node<>* item_node = doc.allocate_node(rapidxml::node_element, "Item", "");
 		component_node->prepend_node(item_node);
 
@@ -686,18 +683,31 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 		rapidxml::xml_node<>* components_item_node = doc.allocate_node(rapidxml::node_element, "Item", 0);
 		component_node->first_node("Item")->first_node("Components")->prepend_node(components_item_node);
 
-		char* componentName = doc.allocate_string(element->getComponentName().c_str());
+		char* componentName = doc.allocate_string(c->getComponentName().c_str());
 		rapidxml::xml_node<>* components_name_node = doc.allocate_node(rapidxml::node_element, "Name", componentName);
 		component_node->first_node("Item")->first_node("Components")->first_node("Item")->prepend_node(components_name_node);
 
 		rapidxml::xml_node<>* components_enabled_node = doc.allocate_node(rapidxml::node_element, "Default", 0);
 		component_node->first_node("Item")->first_node("Components")->first_node("Item")->prepend_node(components_enabled_node);
 
-		rapidxml::xml_attribute<>* components_enabled_attr = doc.allocate_attribute("value", element->isComponentEnabled() ? "true" : "false");
+		rapidxml::xml_attribute<>* components_enabled_attr = doc.allocate_attribute("value", c->isComponentEnabled() ? "true" : "false");
 		component_node->first_node("Item")->first_node("Components")->first_node("Item")->first_node("Default")->prepend_attribute(components_enabled_attr);
 
-		rapidxml::xml_node<>* attachbone_node = doc.allocate_node(rapidxml::node_element, "AttachBone", "WAPClip"); //TODO save attach bone from component template load.
+
+		rapidxml::xml_document<> comp_doc;
+		rapidxml::xml_node<>* comp_root_node;
+		std::ifstream componentFile(std::string("templates/components/" + c->getComponentTemplate() + "/weaponcomponents.meta"));
+		std::vector<char> comp_buffer((std::istreambuf_iterator<char>(componentFile)), std::istreambuf_iterator<char>());
+		comp_buffer.push_back('\0');
+		comp_doc.parse<0>(&comp_buffer[0]);
+
+		comp_root_node = comp_doc.first_node("CWeaponComponentInfoBlob");
+		char* attachBone = doc.allocate_string(comp_root_node->first_node("Infos")->first_node("Item")->first_node("AttachBone")->value());
+
+		rapidxml::xml_node<>* attachbone_node = doc.allocate_node(rapidxml::node_element, "AttachBone", attachBone);
 		component_node->first_node("Item")->prepend_node(attachbone_node);
+
+		comp_doc.clear();
 	}
 
 	std::string xml_as_string;
@@ -815,7 +825,7 @@ void cWeaponsToolkit::exportWeaponArchetypesMeta(char* c_exportMetasDir)
 			root_node->first_node("Item")->append_node(lod_node);
 
 			char* assetLOD = doc.allocate_string(std::to_string(getAssetLODFromName(a->assetName)).c_str());
-			rapidxml::xml_attribute<>* lod_attr = doc.allocate_attribute("value", assetLOD); //TODO
+			rapidxml::xml_attribute<>* lod_attr = doc.allocate_attribute("value", assetLOD);
 			root_node->first_node("Item")->first_node("lodDist")->append_attribute(lod_attr);
 		}
 	}
