@@ -61,7 +61,7 @@ private:
 	void onCreateWeaponNextButtonChanged(wxCommandEvent& evt);
 	void searchForWeaponAssets(const std::wstring& directory);
 	void validateWeaponAssets();
-	wxString removeWeaponFileExtension(wxString s);
+	std::string removeWeaponFileExtension(std::string s);
 	void onAddComponent(wxCommandEvent& evt);
 	void onRemoveComponent(wxCommandEvent& evt);
 	void onSelectComponent(wxCommandEvent& evt);
@@ -85,6 +85,9 @@ private:
 	void exportWeaponsMeta(char* c_exportDir);
 	void exportWeaponsAnimationsMeta(char* c_exportDir);
 	void exportPedPersonalityMeta(char* c_exportDir);
+	void exportWeaponArchetypesMeta(char* c_exportDir);
+
+	int getAssetLODFromName(std::string assetName);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };

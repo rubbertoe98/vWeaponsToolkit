@@ -20,7 +20,7 @@ public:
 	void setWeaponDamage(float weaponDamage);
 	void setWeaponRange(float weaponRange);
 	void setAmmoType(std::string ammoType);
-	void setWeaponLOD(float weaponLOD);
+	void setWeaponLOD(int weaponLOD);
 	void setWeaponReloadSpeedMultiplier(float weaponReloadSpeedMultiplier);
 	void setWeaponFireRateMultiplier(float weaponFireRateMultiplier);
 	void setWeaponDamageType(std::string damageType);
@@ -35,7 +35,7 @@ public:
 	float getWeaponDamage();
 	float getWeaponRange();
 	std::string getAmmoType();
-	float getWeaponLOD();
+	int getWeaponLOD();
 	float getWeaponReloadSpeedMultiplier();
 	float getWeaponFireRateMultiplier();
 	std::string getWeaponDamageType();
@@ -100,7 +100,7 @@ private:
 	float weaponDamage;
 	float weaponRange;
 	std::string ammoType;
-	float weaponLOD;
+	int weaponLOD;
 	float weaponReloadSpeedMultiplier;
 	float weaponFireRateMultiplier;
 	std::string damageType;

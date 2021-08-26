@@ -7,6 +7,7 @@ cWeapon::cWeapon()
 	weaponId = "WEAPON_AK47";
 	weaponModel = "w_ar_assaultrifle";
 	validWeaponModelFound = false;
+	weaponLOD = 500;
 }
 
 void cWeapon::setWeaponTemplate(std::string _weaponTemplate)
@@ -59,7 +60,7 @@ void cWeapon::setAmmoType(std::string _ammoType)
 	ammoType = _ammoType;
 }
 
-void cWeapon::setWeaponLOD(float _weaponLOD)
+void cWeapon::setWeaponLOD(int _weaponLOD)
 {
 	weaponLOD = _weaponLOD;
 }
@@ -129,7 +130,7 @@ std::string cWeapon::getAmmoType()
 	return ammoType;
 }
 
-float cWeapon::getWeaponLOD()
+int cWeapon::getWeaponLOD()
 {
 	return weaponLOD;
 }

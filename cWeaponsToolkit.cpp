@@ -211,6 +211,7 @@ void cWeaponsToolkit::validateWeaponAssets()
 		filesFoundListCtrl->SetItemTextColour(i, wxColour(*wxBLACK));
 	}
 
+	generatedWeapon->setValidWeaponModelFound(false);
 	for (int i = 0; i < filesFoundListCtrl->GetItemCount(); i++) {
 		wxString s = filesFoundListCtrl->GetItemText(i);
 
@@ -256,7 +257,7 @@ void cWeaponsToolkit::validateWeaponAssets()
 	}
 }
 
-wxString cWeaponsToolkit::removeWeaponFileExtension(wxString s)
+std::string cWeaponsToolkit::removeWeaponFileExtension(std::string s)
 {
 	std::string ext_ydr = ".ydr";
 
@@ -547,6 +548,12 @@ void cWeaponsToolkit::onExportDirectoryChanged(wxCommandEvent& evt)
 
 void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 {
+	if (!generatedWeapon->getValidWeaponModelFound())
+	{
+		wxMessageBox("Failed to export weapon, valid model files were not found.", wxT("vWeaponToolkit"), wxICON_ERROR);
+		return;
+	}
+
 	char c_exportDir[200] = "";
 	char c_exportStreamDir[200] = "";
 	char c_exportMetasDir[200] = "";
@@ -611,7 +618,6 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 
 	//Copy model assets to stream folder
 	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
-		wxMessageBox(a->assetAbsolutePath, "", wxICON_INFORMATION);
 		std::ifstream  src(a->assetAbsolutePath, std::ios::binary);
 		std::ofstream  dst(exportDirectory + "/" + generatedWeapon->getWeaponName() + "/stream/" + a->assetName, std::ios::binary);
 
@@ -621,8 +627,7 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	exportWeaponsMeta(c_exportMetasDir);
 	exportWeaponsAnimationsMeta(c_exportMetasDir);
 	exportPedPersonalityMeta(c_exportMetasDir);
-
-	//Generate weaponarchetypes.meta
+	exportWeaponArchetypesMeta(c_exportMetasDir);
 
 	//Generate weaponcomponents.meta
 
@@ -777,6 +782,77 @@ void cWeaponsToolkit::exportPedPersonalityMeta(char* c_exportMetasDir)
 	doc.clear();
 }
 
+void cWeaponsToolkit::exportWeaponArchetypesMeta(char* c_exportMetasDir)
+{
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root_node;
+	std::ifstream theFile(std::string("templates/weapons/" + generatedWeapon->getWeaponTemplate() + "/weaponarchetypes.meta"));
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	doc.parse<0>(&buffer[0]);
+
+	root_node = doc.first_node("CWeaponModelInfo__InitDataList");
+	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
+
+	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
+		size_t pos_ydr = a->assetName.find(".ydr");
+		if (pos_ydr != std::string::npos)
+		{
+			//Weapon Models
+			rapidxml::xml_node<>* item_node = doc.allocate_node(rapidxml::node_element, "Item", "");
+			root_node->prepend_node(item_node);
+
+			char* assetName = doc.allocate_string(removeWeaponFileExtension(a->assetName).c_str());
+			rapidxml::xml_node<>* modelname_node = doc.allocate_node(rapidxml::node_element, "modelName", assetName);
+			root_node->first_node("Item")->append_node(modelname_node);
+
+			rapidxml::xml_node<>* texture_node = doc.allocate_node(rapidxml::node_element, "txdName", assetName);
+			root_node->first_node("Item")->append_node(texture_node);
+
+			rapidxml::xml_node<>* pfxasset_node = doc.allocate_node(rapidxml::node_element, "ptfxAssetName", "NULL");
+			root_node->first_node("Item")->append_node(pfxasset_node);
+
+			rapidxml::xml_node<>* lod_node = doc.allocate_node(rapidxml::node_element, "lodDist", 0);
+			root_node->first_node("Item")->append_node(lod_node);
+
+			char* assetLOD = doc.allocate_string(std::to_string(getAssetLODFromName(a->assetName)).c_str());
+			rapidxml::xml_attribute<>* lod_attr = doc.allocate_attribute("value", assetLOD); //TODO
+			root_node->first_node("Item")->first_node("lodDist")->append_attribute(lod_attr);
+		}
+	}
+
+	std::string xml_as_string;
+	rapidxml::print(std::back_inserter(xml_as_string), doc);
+
+	char c_weaponsMetaDir[200] = "";
+	strcat(c_weaponsMetaDir, c_exportMetasDir);
+	strcat(c_weaponsMetaDir, "\\weaponarchetypes.meta");
+	std::ofstream fileStored(c_weaponsMetaDir);
+	fileStored << xml_as_string;
+	fileStored.close();
+	doc.clear();
+}
+
+int cWeaponsToolkit::getAssetLODFromName(std::string assetName)
+{
+	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
+		size_t pos_ydr = a->assetName.find(".ydr");
+		if (pos_ydr != std::string::npos)
+		{
+			if (generatedWeapon->getWeaponModel() == removeWeaponFileExtension(assetName)) {
+				return generatedWeapon->getWeaponLOD();
+			}
+
+			for (cWeaponComponent* c : generatedWeapon->components) {
+				if (c->getModelName() == removeWeaponFileExtension(assetName)) {
+					return c->getModelLOD();
+				}
+			}
+		}
+	}
+	return 500;
+}
+
 void cWeaponsToolkit::onAudioItemChanged(wxCommandEvent& evt)
 {
 	generatedWeapon->setAudioItem(std::string(audioItemComboBox->GetStringSelection()));
@@ -805,7 +881,7 @@ void cWeaponsToolkit::onWeaponRangeChanged(wxCommandEvent& evt)
 
 void cWeaponsToolkit::onWeaponLODChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponLOD(std::stof(std::string(evt.GetString())));
+	generatedWeapon->setWeaponLOD(std::stoi(std::string(evt.GetString())));
 }
 
 void cWeaponsToolkit::onWeaponReloadModifierChanged(wxCommandEvent& evt)
@@ -956,7 +1032,7 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	ammoTypesComboBox->Append(wxArrayString(cWeaponsToolkit::getAmmoTypesCount(), generatedWeapon->ammoTypes));
 
 	wxStaticText* weaponLODStaticText = new wxStaticText(configTab, wxID_ANY, "LOD:", wxPoint(20, 270));
-	weaponLODTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "400.0", wxPoint(20, 290), wxSize(175, 25));
+	weaponLODTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "500.0", wxPoint(20, 290), wxSize(175, 25));
 
 	wxStaticText* weaponReloadModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Reload Speed Modifier:", wxPoint(20, 330));
 	weaponReloadModifierTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(20, 350), wxSize(175, 25));
@@ -1002,7 +1078,7 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	componentModelNameTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "w_at_railcover_01", wxPoint(300, 160), wxSize(225, 25));
 
 	wxStaticText* componentLODStaticText = new wxStaticText(componentsTab, wxID_ANY, "Model LOD:", wxPoint(300, 200));
-	componentLODTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "300.0", wxPoint(300, 220), wxSize(225, 25));
+	componentLODTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "500.0", wxPoint(300, 220), wxSize(225, 25));
 
 	wxStaticText* componentClipSizeStaticText = new wxStaticText(componentsTab, wxID_ANY, "Clip Size:", wxPoint(300, 260));
 	componentClipSizeTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "", wxPoint(300, 280), wxSize(225, 25));
