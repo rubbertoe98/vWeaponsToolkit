@@ -52,6 +52,7 @@ private:
 	int getDamageTypesCount();
 	int getWeaponComponentCount();
 	int getAmmoInfoCount();
+	int getNextAvailableSlotId();
 	void onImportDirectoryChanged(wxCommandEvent& evt);
 	void onWeaponTemplateChanged(wxCommandEvent& evt);
 	void onWeaponNameChanged(wxCommandEvent& evt);
@@ -72,7 +73,14 @@ private:
 	void onComponentEnabledCheckboxChanged(wxCommandEvent& evt);
 	void onExportDirectoryChanged(wxCommandEvent& evt);
 	void onExportButtonPressed(wxCommandEvent& evt);
+	void onAudioItemChanged(wxCommandEvent& evt);
+	void onAmmoTypeChanged(wxCommandEvent& evt);
+	void onDamageTypeChanged(wxCommandEvent& evt);
+	void onWeaponDamageChanged(wxCommandEvent& evt);
+	void onWeaponRangeChanged(wxCommandEvent& evt);
+	void onWeaponLODChanged(wxCommandEvent& evt);
+	void onWeaponReloadModifierChanged(wxCommandEvent& evt);
+	void onWeaponFireRateModifierChanged(wxCommandEvent& evt);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };
-

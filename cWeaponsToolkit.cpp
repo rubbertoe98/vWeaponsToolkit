@@ -5,7 +5,7 @@
 #include <locale>
 #include <codecvt>
 #include <wx/msgdlg.h>
-#include "vendor/rapidxml/rapidxml.hpp"
+#include "vendor/rapidxml/rapidxml_ext.h"
 #include <fstream>
 #include <wx/checkbox.h>
 #include <direct.h>
@@ -29,7 +29,6 @@ int cWeaponsToolkit::getWeaponComponentCount() {
 			count += 1;
 	}
 	return count;
-
 }
 
 int cWeaponsToolkit::getAmmoInfoCount() {
@@ -40,6 +39,34 @@ int cWeaponsToolkit::getAmmoInfoCount() {
 			count += 1;
 	}
 	return count;
+}
+
+int cWeaponsToolkit::getNextAvailableSlotId()
+{
+	std::ifstream slotFILE;
+	slotFILE.open("SLOT", std::ios::in);
+
+	if (slotFILE.fail())
+	{
+		//wxMessageBox("Failed to find SLOT file, re-creating.", "vWeaponsToolkit", wxICON_ERROR);
+		std::ofstream outfile;
+		outfile.open("SLOT", std::ios::out);
+		outfile << 400;
+		return 400;
+	}
+	else {
+		char charSlotId[10];
+		slotFILE.getline(charSlotId, 10);
+		int slotId = std::stoi(std::string(charSlotId));
+
+		std::ofstream outfile;
+		outfile.open("SLOT", std::ios::out | std::ios::trunc);
+		outfile << (slotId + 1);
+
+		return slotId;
+	}
+
+	return 400;
 }
 
 int cWeaponsToolkit::getAudioItemsCount()
@@ -121,7 +148,7 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 						}
 						else if (std::string(weapon_node->name()) == "Damage") {
 							if (std::string(weapon_node->first_attribute()->name()) == "value") {
-								generatedWeapon->setWeaponDamageType(weapon_node->first_attribute()->value());
+								generatedWeapon->setWeaponDamage(std::stof(weapon_node->first_attribute()->value()));
 								weaponDamageTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
 							}
 						}
@@ -273,7 +300,7 @@ void cWeaponsToolkit::onAddComponent(wxCommandEvent& evt)
 	}	
 	component->setAmmoInfo(std::string(weaponAmmoInfoComboBox->GetStringSelection()));
 
-	generatedWeapon->components->push_back(component);
+	generatedWeapon->components.push_back(component);
 	weaponComponentsListCtrl->InsertItem(0, component->getComponentName());
 }
 	
@@ -284,10 +311,10 @@ void cWeaponsToolkit::onRemoveComponent(wxCommandEvent& evt)
 	cWeaponComponent* component = nullptr;
 
 	try {
-		component = generatedWeapon->components->at(selectedComponent);
+		component = generatedWeapon->components.at(selectedComponent);
 
 		if (component)
-			generatedWeapon->components->erase(generatedWeapon->components->begin() + selectedComponent);
+			generatedWeapon->components.erase(generatedWeapon->components.begin() + selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 		wxMessageBox("No weapon component to remove.", wxT("vWeaponToolkit"), wxICON_EXCLAMATION);
@@ -301,7 +328,7 @@ void cWeaponsToolkit::onSelectComponent(wxCommandEvent& evt)
 	cWeaponComponent* currentComponent = nullptr;
 
 	try {
-		currentComponent = generatedWeapon->components->at(selectedComponent);
+		currentComponent = generatedWeapon->components.at(selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 
@@ -339,7 +366,7 @@ void cWeaponsToolkit::onComponentTemplateChanged(wxCommandEvent& evt)
 	cWeaponComponent* currentComponent = nullptr;
 
 	try {
-		currentComponent = generatedWeapon->components->at(selectedComponent);
+		currentComponent = generatedWeapon->components.at(selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 
@@ -414,7 +441,7 @@ void cWeaponsToolkit::onComponentNameChanged(wxCommandEvent& evt)
 	cWeaponComponent* currentComponent = nullptr;
 
 	try {
-		currentComponent = generatedWeapon->components->at(selectedComponent);
+		currentComponent = generatedWeapon->components.at(selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 
@@ -432,7 +459,7 @@ void cWeaponsToolkit::onComponentModelNameChanged(wxCommandEvent& evt)
 	cWeaponComponent* currentComponent = nullptr;
 
 	try {
-		currentComponent = generatedWeapon->components->at(selectedComponent);
+		currentComponent = generatedWeapon->components.at(selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 
@@ -448,7 +475,7 @@ void cWeaponsToolkit::onComponentLODChanged(wxCommandEvent& evt)
 	cWeaponComponent* currentComponent = nullptr;
 
 	try {
-		currentComponent = generatedWeapon->components->at(selectedComponent);
+		currentComponent = generatedWeapon->components.at(selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 
@@ -473,7 +500,7 @@ void cWeaponsToolkit::onComponentClipSizeChanged(wxCommandEvent& evt)
 	cWeaponComponent* currentComponent = nullptr;
 
 	try {
-		currentComponent = generatedWeapon->components->at(selectedComponent);
+		currentComponent = generatedWeapon->components.at(selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 
@@ -497,7 +524,7 @@ void cWeaponsToolkit::onComponentEnabledCheckboxChanged(wxCommandEvent& evt)
 	cWeaponComponent* currentComponent = nullptr;
 
 	try {
-		currentComponent = generatedWeapon->components->at(selectedComponent);
+		currentComponent = generatedWeapon->components.at(selectedComponent);
 	}
 	catch (const std::out_of_range& e) {
 
@@ -543,13 +570,12 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 	strcat(c_exportMetasDir, "\\meta");
 
 	//Create directories.
-	wxMessageBox(c_exportDir, wxT("vWeaponToolkit"), wxICON_INFORMATION);
 	int weapon_result = _mkdir(c_exportDir);
 	int stream_result = _mkdir(c_exportStreamDir);
 	int metas_result = _mkdir(c_exportMetasDir);
 
 	if (weapon_result == 0) {
-		wxMessageBox(std::to_string(weapon_result), wxT("vWeaponToolkit"), wxICON_INFORMATION);
+		
 	}
 	else {
 		wxMessageBox("Failed to export weapon, failed to create folder.", wxT("vWeaponToolkit"), wxICON_ERROR);
@@ -591,6 +617,134 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 
 		dst << src.rdbuf();
 	}
+
+	//Generate weapons.meta
+
+	rapidxml::xml_document<> doc;
+	rapidxml::xml_node<>* root_node;
+	std::ifstream theFile(std::string("templates/weapons/" + generatedWeapon->getWeaponTemplate() + "/weapons.meta"));
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	doc.parse<0>(&buffer[0]);
+
+	root_node = doc.first_node("CWeaponInfoBlob");
+
+	std::string slotName = std::string("SLOT_") + generatedWeapon->getWeaponId();
+	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
+	char* weaponModel = doc.allocate_string(generatedWeapon->getWeaponModel().c_str());
+	char* weaponAudioItem = doc.allocate_string(generatedWeapon->getWeaponAudioItem().c_str());
+	char* damageType = doc.allocate_string(generatedWeapon->getWeaponDamageType().c_str());
+	char* damage = doc.allocate_string(std::to_string(generatedWeapon->getWeaponDamage()).c_str());
+	char* ammoType = doc.allocate_string(generatedWeapon->getAmmoType().c_str());
+	char* HumanNameHash = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
+	char* SlotName = doc.allocate_string(slotName.c_str());
+	char* reloadSpeedMulti = doc.allocate_string(std::to_string(generatedWeapon->getWeaponReloadSpeedMultiplier()).c_str());
+	char* weaponRange = doc.allocate_string(std::to_string(generatedWeapon->getWeaponRange()).c_str());
+
+	rapidxml::xml_node<>* slotItem_node = root_node->first_node("SlotNavigateOrder")->first_node("Item")->first_node("WeaponSlots")->first_node("Item");
+	char* slotId = doc.allocate_string(std::to_string(getNextAvailableSlotId()).c_str());	
+	slotItem_node->first_node("OrderNumber")->first_attribute()->value(slotId);
+	slotItem_node->first_node("Entry")->first_node()->value(SlotName);
+	
+	rapidxml::xml_node<>* weaponItem_node = root_node->first_node("Infos")->first_node("Item")->first_node("Infos")->first_node("Item");
+	weaponItem_node->first_node("Name")->first_node()->value(weaponId);
+	weaponItem_node->first_node("Slot")->first_node()->value(SlotName);
+	weaponItem_node->first_node("Model")->first_node()->value(weaponModel);
+	weaponItem_node->first_node("Audio")->first_node()->value(weaponAudioItem);
+	weaponItem_node->first_node("DamageType")->first_node()->value(damageType);
+	weaponItem_node->first_node("HumanNameHash")->first_node()->value(HumanNameHash);
+	weaponItem_node->first_node("Damage")->first_attribute()->value(damage);
+	weaponItem_node->first_node("AmmoInfo")->first_attribute()->value(ammoType);
+	weaponItem_node->first_node("AnimReloadRate")->first_attribute()->value(reloadSpeedMulti);
+	weaponItem_node->first_node("WeaponRange")->first_attribute()->value(weaponRange);
+	
+	rapidxml::xml_node<>* component_node = weaponItem_node->first_node("AttachPoints");
+
+	for (auto element : generatedWeapon->components) {
+		rapidxml::xml_node<>* item_node = doc.allocate_node(rapidxml::node_element, "Item", "");
+		component_node->prepend_node(item_node);
+
+		rapidxml::xml_node<>* components_node = doc.allocate_node(rapidxml::node_element, "Components", 0);
+		component_node->first_node("Item")->prepend_node(components_node);
+
+		rapidxml::xml_node<>* components_item_node = doc.allocate_node(rapidxml::node_element, "Item", 0);
+		component_node->first_node("Item")->first_node("Components")->prepend_node(components_item_node);
+
+		char* componentName = doc.allocate_string(element->getComponentName().c_str());
+		rapidxml::xml_node<>* components_name_node = doc.allocate_node(rapidxml::node_element, "Name", componentName);
+		component_node->first_node("Item")->first_node("Components")->first_node("Item")->prepend_node(components_name_node);
+
+		rapidxml::xml_node<>* components_enabled_node = doc.allocate_node(rapidxml::node_element, "Default", 0);
+		component_node->first_node("Item")->first_node("Components")->first_node("Item")->prepend_node(components_enabled_node);
+
+		rapidxml::xml_attribute<>* components_enabled_attr = doc.allocate_attribute("value", element->isComponentEnabled() ? "true" : "false");
+		component_node->first_node("Item")->first_node("Components")->first_node("Item")->first_node("Default")->prepend_attribute(components_enabled_attr);
+
+		rapidxml::xml_node<>* attachbone_node = doc.allocate_node(rapidxml::node_element, "AttachBone", "WAPClip"); //TODO save attach bone from component template load.
+		component_node->first_node("Item")->prepend_node(attachbone_node);
+	}
+
+	std::string xml_as_string;
+	rapidxml::print(std::back_inserter(xml_as_string), doc);
+
+	char c_weaponsMetaDir[200] = "";
+	strcat(c_weaponsMetaDir, c_exportMetasDir);
+	strcat(c_weaponsMetaDir, "\\weapons.meta");
+	std::ofstream fileStored(c_weaponsMetaDir);
+	fileStored << xml_as_string;
+	fileStored.close();
+	doc.clear();
+
+	//Generate weaponanimations.meta
+
+	//Generate pedpersonality.meta
+
+	//Generate weaponarchetypes.meta
+
+	//Generate weaponcomponents.meta
+
+	wxMessageBox(std::string("Successfully exported weapon to: ") + exportDirectory.c_str() + "\\" + generatedWeapon->getWeaponName(), wxT("vWeaponToolkit"), wxICON_INFORMATION);
+}
+
+void cWeaponsToolkit::onAudioItemChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setAudioItem(std::string(audioItemComboBox->GetStringSelection()));
+}
+
+void cWeaponsToolkit::onAmmoTypeChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setAmmoType(std::string(ammoTypesComboBox->GetStringSelection()));
+}
+
+void cWeaponsToolkit::onDamageTypeChanged(wxCommandEvent& evt)
+{
+	
+	generatedWeapon->setWeaponDamageType(std::string(damageTypesComboxBox->GetStringSelection()));
+}
+
+void cWeaponsToolkit::onWeaponDamageChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponDamage(std::stof(std::string(evt.GetString())));
+}
+
+void cWeaponsToolkit::onWeaponRangeChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponRange(std::stof(std::string(evt.GetString())));
+}
+
+void cWeaponsToolkit::onWeaponLODChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponLOD(std::stof(std::string(evt.GetString())));
+}
+
+void cWeaponsToolkit::onWeaponReloadModifierChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponReloadSpeedMultiplier(std::stof(std::string(evt.GetString())));
+}
+
+void cWeaponsToolkit::onWeaponFireRateModifierChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponFireRateMultiplier(std::stof(std::string(evt.GetString())));
 }
 
 void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
@@ -640,7 +794,6 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint((wxSystemSettings::GetMetric(wxSYS_SCREEN_X) / 2) - (800/2), (wxSystemSettings::GetMetric(wxSYS_SCREEN_Y) / 2) - (500 /2)), wxSize(windowWidth, windowHeight))
 {
 	// Initialize wxWidgets Menu.
-
 	// MenuBar
 	wxMenuBar* menuBar = new wxMenuBar;
 	
@@ -716,7 +869,6 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	weaponIdTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponIdChanged, this);
 	weaponModelTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponModelChanged, this);
 
-
 	//TAB 2 - Configuration
 	wxStaticText* audioItemStaticText = new wxStaticText(configTab, wxID_ANY, "Select Audio Item", wxPoint(20, 30));
 	audioItemComboBox = new wxComboBox(configTab, wxID_ANY, "AUDIO_ITEM_PISTOL", wxPoint(20, 50), wxSize(175, 25));
@@ -746,6 +898,16 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	damageTypesComboxBox->Append(wxArrayString(cWeaponsToolkit::getDamageTypesCount(), generatedWeapon->damageTypes));
 
 	//todo add HeadShotDamageModifierPlayer
+
+	//Event Handlers
+	audioItemComboBox->Bind(wxEVT_COMBOBOX, &cWeaponsToolkit::onAudioItemChanged, this);
+	ammoTypesComboBox->Bind(wxEVT_COMBOBOX, &cWeaponsToolkit::onAmmoTypeChanged, this);
+	damageTypesComboxBox->Bind(wxEVT_COMBOBOX, &cWeaponsToolkit::onDamageTypeChanged, this);
+	weaponDamageTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponDamageChanged, this);
+	weaponRangeTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponRangeChanged, this);
+	weaponLODTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponLODChanged, this);
+	weaponReloadModifierTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponReloadModifierChanged, this);
+	weaponFireRateModifierTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponFireRateModifierChanged, this);
 
 	//TAB 3 - Components
 	weaponComponentsListCtrl = new wxListCtrl(componentsTab, wxID_ANY, wxPoint(20, 20), wxSize(260, 340), wxLC_REPORT, wxDefaultValidator);
@@ -798,4 +960,8 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	//Event Handlers
 	exporterDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &cWeaponsToolkit::onExportDirectoryChanged, this);
 	exportButton->Bind(wxEVT_BUTTON, &cWeaponsToolkit::onExportButtonPressed, this);
+
+	wxCommandEvent* defaultTemplate = new wxCommandEvent();
+	defaultTemplate->SetString("WEAPON_ASSAULTRIFLE");
+	cWeaponsToolkit::onWeaponTemplateChanged(*defaultTemplate);
 }

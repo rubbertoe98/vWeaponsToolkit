@@ -87,7 +87,7 @@ public:
 		//TODO finish.
 	};
 
-	std::vector<cWeaponComponent*> components[100] = {};
+	std::vector<cWeaponComponent*> components = {};
 	std::vector<cWeaponAsset*> weaponAssets = {};
 
 private:
@@ -107,4 +107,3 @@ private:
 
 	bool validWeaponModelFound;
 };
-
