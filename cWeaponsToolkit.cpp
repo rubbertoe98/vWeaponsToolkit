@@ -758,10 +758,12 @@ void cWeaponsToolkit::exportWeaponsAnimationsMeta(char* c_exportMetasDir)
 	root_node = doc.first_node("CWeaponAnimationsSets");
 
 	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
+	char* weaponFireRateModifier = doc.allocate_string(std::to_string(generatedWeapon->getWeaponFireRateMultiplier()).c_str());
 
 	for (rapidxml::xml_node<>* node = root_node->first_node("WeaponAnimationsSets")->first_node("Item")	; node; node = node->next_sibling())
 	{
 		node->first_node("WeaponAnimations")->first_node("Item")->first_attribute()->value(weaponId);
+		node->first_node("WeaponAnimations")->first_node("Item")->first_node("AnimFireRateModifier")->first_attribute()->value(weaponFireRateModifier);
 	}
 
 	std::string xml_as_string;
@@ -787,7 +789,7 @@ void cWeaponsToolkit::exportPedPersonalityMeta(char* c_exportMetasDir)
 
 	root_node = doc.first_node("CPedModelInfo__PersonalityDataList");
 
-	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
+	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());	
 
 	for (rapidxml::xml_node<>* node = root_node->first_node("MovementModeUnholsterData")->first_node("Item"); node; node = node->next_sibling())
 	{
