@@ -552,6 +552,26 @@ void cWeaponsToolkit::onWeaponHeadshotDamageModifierChanged(wxCommandEvent& evt)
 	generatedWeapon->setWeaponHeadShotDamageModifierPlayer(std::stof(std::string(evt.GetString())));
 }
 
+void cWeaponsToolkit::onExportTabPressed(wxCommandEvent& evt)
+{
+	exportListCtrl->DeleteAllItems();
+	for (auto c : generatedWeapon->weaponAssets)
+	{
+		std::string weapon = getAssetIdFromAsset(c->assetName);
+		long itemIndex = exportListCtrl->InsertItem(0, c->assetName); 
+		exportListCtrl->SetItem(itemIndex, 1, weapon);
+
+		if (weapon == "N/A")
+		{
+			exportListCtrl->SetItemTextColour(itemIndex, wxColour(200, 40, 0));
+		}
+		else
+		{
+			exportListCtrl->SetItemTextColour(itemIndex, wxColour(70, 200, 0));
+		}
+	}
+}
+
 void cWeaponsToolkit::onComponentEnabledCheckboxChanged(wxCommandEvent& evt)
 {
 	cWeaponComponent* currentComponent = nullptr;
@@ -925,6 +945,7 @@ void cWeaponsToolkit::exportWeaponComponentsMeta(char* c_exportMetasDir)
 		doc.clear();
 	}
 }
+
 int cWeaponsToolkit::getAssetLODFromName(std::string assetName)
 {
 	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
@@ -943,6 +964,22 @@ int cWeaponsToolkit::getAssetLODFromName(std::string assetName)
 		}
 	}
 	return 500;
+}
+
+std::string cWeaponsToolkit::getAssetIdFromAsset(std::string assetName)
+{
+	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
+		if (generatedWeapon->getWeaponModel() == removeWeaponFileExtension(assetName)) {
+			return generatedWeapon->getWeaponId();
+		}
+
+		for (cWeaponComponent* c : generatedWeapon->components) {
+			if (c->getModelName() == removeWeaponFileExtension(assetName)) {
+				return c->getComponentName();
+			}
+		}
+	}
+	return "N/A";
 }
 
 void cWeaponsToolkit::onAudioItemChanged(wxCommandEvent& evt)
@@ -997,7 +1034,7 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 		std::vector<std::wstring> directories;
 		int filesFound = 0;
 		filesFoundListCtrl->DeleteAllItems();
-		generatedWeapon->weaponAssets.clear();
+		generatedWeapon->weaponAssets.clear();		
 		do
 		{
 			if (file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -1015,7 +1052,6 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 				weaponAsset->assetName = std::string(wxString(file.cFileName));
 				weaponAsset->assetAbsolutePath = std::string(wxString(fullDir));
 				generatedWeapon->addWeaponAsset(weaponAsset);
-
 				filesFound += 1;
 			}
 
@@ -1064,6 +1100,9 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 
 	exportTab = new wxPanel(menuTabs, wxID_ANY);
 	menuTabs->AddPage(exportTab, L"Export");
+
+	menuTabs->Bind(wxEVT_AUINOTEBOOK_PAGE_CHANGED, &cWeaponsToolkit::onExportTabPressed, this);
+
 
 	// Menu Sizers
 	wxBoxSizer* panelSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -1199,6 +1238,20 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	//TAB 4 - Export
 	exporterDirectoryPicker = new wxDirPickerCtrl(exportTab, wxID_ANY, "Export Folder", "", wxPoint(20, 370), wxSize(625, 25));
 	wxButton* exportButton = new wxButton(exportTab, wxID_ANY, "Export", wxPoint(675, 370));
+
+	exportListCtrl = new wxListCtrl(exportTab, wxID_ANY, wxPoint(20, 20), wxSize(730, 320), wxLC_REPORT, wxDefaultValidator);
+	wxListItem assetColumn;
+	assetColumn.SetId(0);
+	assetColumn.SetText(_("Asset"));
+	assetColumn.SetWidth(365);
+	exportListCtrl->InsertColumn(0, assetColumn);
+
+	wxListItem usedForColumn;
+	usedForColumn.SetId(1);
+	usedForColumn.SetText(_("Used for"));
+	usedForColumn.SetWidth(365);
+	exportListCtrl->InsertColumn(1, usedForColumn);
+
 
 	//Event Handlers
 	exporterDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &cWeaponsToolkit::onExportDirectoryChanged, this);

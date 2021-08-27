@@ -41,6 +41,7 @@ private:
 	wxComboBox* weaponAmmoInfoComboBox;
 	wxCheckBox* checkboxDevMode;
 	wxTextCtrl* weaponHeadshotDamageModifierTextCtrl;
+	wxListCtrl* exportListCtrl;
 
 	int windowWidth = 800;
 	int windowHeight = 500;
@@ -84,6 +85,7 @@ private:
 	void onWeaponFireRateModifierChanged(wxCommandEvent& evt);
 	void onComponentAmmoInfoChanged(wxCommandEvent& evt);
 	void onWeaponHeadshotDamageModifierChanged(wxCommandEvent& evt);
+	void onExportTabPressed(wxCommandEvent& evt);
 
 	void exportWeaponsMeta(char* c_exportDir);
 	void exportWeaponsAnimationsMeta(char* c_exportDir);
@@ -92,6 +94,7 @@ private:
 	void exportWeaponComponentsMeta(char* c_exportDir);
 
 	int getAssetLODFromName(std::string assetName);
+	std::string getAssetIdFromAsset(std::string assetName);
 
 	cWeapon* generatedWeapon = new cWeapon();
 };
