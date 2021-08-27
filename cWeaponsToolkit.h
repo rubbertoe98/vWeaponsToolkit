@@ -37,9 +37,10 @@ private:
 	wxTextCtrl* componentNameTextCtrl;
 	wxTextCtrl* componentModelNameTextCtrl;
 	wxTextCtrl* componentLODTextCtrl;
-	wxTextCtrl* componentClipSizeTextCtrl;
+	wxTextCtrl* componentClipSizeTextCtrl;;
 	wxComboBox* weaponAmmoInfoComboBox;
 	wxCheckBox* checkboxDevMode;
+	wxTextCtrl* weaponHeadshotDamageModifierTextCtrl;
 
 	int windowWidth = 800;
 	int windowHeight = 500;
@@ -82,6 +83,7 @@ private:
 	void onWeaponReloadModifierChanged(wxCommandEvent& evt);
 	void onWeaponFireRateModifierChanged(wxCommandEvent& evt);
 	void onComponentAmmoInfoChanged(wxCommandEvent& evt);
+	void onWeaponHeadshotDamageModifierChanged(wxCommandEvent& evt);
 
 	void exportWeaponsMeta(char* c_exportDir);
 	void exportWeaponsAnimationsMeta(char* c_exportDir);

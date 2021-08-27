@@ -25,6 +25,7 @@ public:
 	void setWeaponFireRateMultiplier(float weaponFireRateMultiplier);
 	void setWeaponDamageType(std::string damageType);
 	void setWeaponAudioItem(std::string audioItem);
+	void setWeaponHeadShotDamageModifierPlayer(float headShotDamageModifierPlayer);
 
 	bool getValidWeaponModelFound();
 	std::string getWeaponTemplate();
@@ -38,10 +39,9 @@ public:
 	int getWeaponLOD();
 	float getWeaponReloadSpeedMultiplier();
 	float getWeaponFireRateMultiplier();
+	float getWeaponHeadShotDamageModifierPlayer();
 	std::string getWeaponDamageType();
 	std::string getWeaponAudioItem();
-	
-	void exportWeapon();
 
 	const char* nativeWeapons[100] = {
 		"WEAPON_ASSAULTRIFLE",
@@ -103,6 +103,7 @@ private:
 	int weaponLOD;
 	float weaponReloadSpeedMultiplier;
 	float weaponFireRateMultiplier;
+	float headShotDamageModifierPlayer;
 	std::string damageType;
 
 	bool validWeaponModelFound;

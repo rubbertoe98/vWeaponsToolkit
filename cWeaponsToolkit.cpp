@@ -170,6 +170,12 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 								weaponReloadModifierTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
 							}
 						}
+						else if (std::string(weapon_node->name()) == "HeadShotDamageModifierPlayer") {
+							if (std::string(weapon_node->first_attribute()->name()) == "value") {
+								generatedWeapon->setWeaponHeadShotDamageModifierPlayer(std::stof(weapon_node->first_attribute()->value()));
+								weaponHeadshotDamageModifierTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
+							}
+						}
 						//todo weapon fire rate in weaponanimations.meta
 					}
 				}
@@ -541,6 +547,11 @@ void cWeaponsToolkit::onComponentAmmoInfoChanged(wxCommandEvent& evt)
 	}
 }
 
+void cWeaponsToolkit::onWeaponHeadshotDamageModifierChanged(wxCommandEvent& evt)
+{
+	generatedWeapon->setWeaponHeadShotDamageModifierPlayer(std::stof(std::string(evt.GetString())));
+}
+
 void cWeaponsToolkit::onComponentEnabledCheckboxChanged(wxCommandEvent& evt)
 {
 	cWeaponComponent* currentComponent = nullptr;
@@ -672,6 +683,7 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 	char* weaponAudioItem = doc.allocate_string(generatedWeapon->getWeaponAudioItem().c_str());
 	char* damageType = doc.allocate_string(generatedWeapon->getWeaponDamageType().c_str());
 	char* damage = doc.allocate_string(std::to_string(generatedWeapon->getWeaponDamage()).c_str());
+	char* headshotDamageModifier = doc.allocate_string(std::to_string(generatedWeapon->getWeaponHeadShotDamageModifierPlayer()).c_str());
 	char* ammoType = doc.allocate_string(generatedWeapon->getAmmoType().c_str());
 	char* HumanNameHash = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
 	char* SlotName = doc.allocate_string(slotName.c_str());
@@ -691,6 +703,7 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 	weaponItem_node->first_node("DamageType")->first_node()->value(damageType);
 	weaponItem_node->first_node("HumanNameHash")->first_node()->value(HumanNameHash);
 	weaponItem_node->first_node("Damage")->first_attribute()->value(damage);
+	weaponItem_node->first_node("HeadShotDamageModifierPlayer")->first_attribute()->value(headshotDamageModifier);
 	weaponItem_node->first_node("AmmoInfo")->first_attribute()->value(ammoType);
 	weaponItem_node->first_node("AnimReloadRate")->first_attribute()->value(reloadSpeedMulti);
 	weaponItem_node->first_node("WeaponRange")->first_attribute()->value(weaponRange);
@@ -1124,7 +1137,8 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	damageTypesComboxBox = new wxComboBox(configTab, wxID_ANY, "BULLET", wxPoint(220, 110), wxSize(175, 25));
 	damageTypesComboxBox->Append(wxArrayString(cWeaponsToolkit::getDamageTypesCount(), generatedWeapon->damageTypes));
 
-	//todo add HeadShotDamageModifierPlayer
+	wxStaticText* weaponHeadshotDamageModifierStaticText = new wxStaticText(configTab, wxID_ANY, "Headshot Damage Modifier:", wxPoint(220, 150));
+	weaponHeadshotDamageModifierTextCtrl = new wxTextCtrl(configTab, wxID_ANY, "1.0", wxPoint(220, 170), wxSize(175, 25));
 
 	//Event Handlers
 	audioItemComboBox->Bind(wxEVT_COMBOBOX, &cWeaponsToolkit::onAudioItemChanged, this);
@@ -1135,6 +1149,7 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	weaponLODTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponLODChanged, this);
 	weaponReloadModifierTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponReloadModifierChanged, this);
 	weaponFireRateModifierTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponFireRateModifierChanged, this);
+	weaponHeadshotDamageModifierTextCtrl->Bind(wxEVT_TEXT, &cWeaponsToolkit::onWeaponHeadshotDamageModifierChanged, this);
 
 	//TAB 3 - Components
 	weaponComponentsListCtrl = new wxListCtrl(componentsTab, wxID_ANY, wxPoint(20, 20), wxSize(260, 340), wxLC_REPORT, wxDefaultValidator);

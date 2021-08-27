@@ -85,6 +85,11 @@ void cWeapon::setWeaponAudioItem(std::string _audioItem)
 	audioItem = _audioItem;
 }
 
+void cWeapon::setWeaponHeadShotDamageModifierPlayer(float _headShotDamageModifierPlayer)
+{
+	headShotDamageModifierPlayer = _headShotDamageModifierPlayer;
+}
+
 bool cWeapon::getValidWeaponModelFound()
 {
 	return validWeaponModelFound;
@@ -143,6 +148,11 @@ float cWeapon::getWeaponReloadSpeedMultiplier()
 float cWeapon::getWeaponFireRateMultiplier()
 {
 	return weaponFireRateMultiplier;
+}
+
+float cWeapon::getWeaponHeadShotDamageModifierPlayer()
+{
+	return headShotDamageModifierPlayer;
 }
 
 std::string cWeapon::getWeaponDamageType()
