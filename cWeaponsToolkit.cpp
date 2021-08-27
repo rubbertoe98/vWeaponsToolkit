@@ -394,7 +394,7 @@ void cWeaponsToolkit::onComponentTemplateChanged(wxCommandEvent& evt)
 	componentClipSizeTextCtrl->Enable(false);
 	componentClipSizeTextCtrl->SetEditable(false);
 
-	weaponAmmoInfoComboBox->SetValue("");
+	weaponAmmoInfoComboBox->SetValue("Default Ammo");
 	weaponAmmoInfoComboBox->Enable(false);
 	weaponAmmoInfoComboBox->SetEditable(false);
 
@@ -1218,7 +1218,7 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	componentClipSizeTextCtrl = new wxTextCtrl(componentsTab, wxID_ANY, "", wxPoint(300, 280), wxSize(225, 25));
 
 	wxStaticText* weaponAmmoInfoStaticText = new wxStaticText(componentsTab, wxID_ANY, "Ammo Info", wxPoint(300, 320));
-	weaponAmmoInfoComboBox = new wxComboBox(componentsTab, wxID_ANY, "", wxPoint(300, 340), wxSize(225, 25));
+	weaponAmmoInfoComboBox = new wxComboBox(componentsTab, wxID_ANY, "Default Ammo", wxPoint(300, 340), wxSize(225, 25));
 	weaponAmmoInfoComboBox->Append(wxArrayString(cWeaponsToolkit::getAmmoInfoCount(), generatedWeapon->nativeAmmoInfos));
 
 	checkboxDevMode = new wxCheckBox(componentsTab, wxID_ANY, "Component Enabled", wxPoint(575, 103));
@@ -1251,7 +1251,6 @@ cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit
 	usedForColumn.SetText(_("Used for"));
 	usedForColumn.SetWidth(365);
 	exportListCtrl->InsertColumn(1, usedForColumn);
-
 
 	//Event Handlers
 	exporterDirectoryPicker->Bind(wxEVT_COMMAND_DIRPICKER_CHANGED, &cWeaponsToolkit::onExportDirectoryChanged, this);

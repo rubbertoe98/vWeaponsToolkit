@@ -38,7 +38,15 @@ void cWeaponComponent::setModelLOD(int _modelLOD)
 
 void cWeaponComponent::setAmmoInfo(std::string _ammoInfo)
 {
-	ammoInfo = _ammoInfo;
+	if (_ammoInfo == "Default Ammo")
+	{
+		ammoInfo = "";
+	}
+	else
+	{
+		ammoInfo = _ammoInfo;
+	}
+	
 }
 
 void cWeaponComponent::setAttachBone(std::string _attachBone)
