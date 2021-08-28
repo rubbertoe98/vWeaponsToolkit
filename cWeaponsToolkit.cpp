@@ -1085,6 +1085,8 @@ void cWeaponsToolkit::searchForWeaponAssets(const std::wstring& directory)
 cWeaponsToolkit::cWeaponsToolkit() : wxFrame(nullptr, wxID_ANY, "vWeaponsToolkit", wxPoint((wxSystemSettings::GetMetric(wxSYS_SCREEN_X) / 2) - (800/2), (wxSystemSettings::GetMetric(wxSYS_SCREEN_Y) / 2) - (500 /2)), wxSize(windowWidth, windowHeight))
 {
 	// Initialize wxWidgets Menu.
+	SetIcon(wxIcon(wxT("icon.ico"), wxBITMAP_TYPE_ICO, 32, 32));
+
 	// MenuBar
 	wxMenuBar* menuBar = new wxMenuBar;
 	
