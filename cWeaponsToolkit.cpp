@@ -176,7 +176,6 @@ void cWeaponsToolkit::onWeaponTemplateChanged(wxCommandEvent& evt)
 								weaponHeadshotDamageModifierTextCtrl->SetValue(wxString(weapon_node->first_attribute()->value()));
 							}
 						}
-						//todo weapon fire rate in weaponanimations.meta
 					}
 				}
 			}
@@ -719,7 +718,8 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 	weaponItem_node->first_node("Name")->first_node()->value(weaponId);
 	weaponItem_node->first_node("Slot")->first_node()->value(SlotName);
 	weaponItem_node->first_node("Model")->first_node()->value(weaponModel);
-	weaponItem_node->first_node("Audio")->first_node()->value(weaponAudioItem);
+	if (weaponItem_node->first_node("Audio")->first_node())
+		weaponItem_node->first_node("Audio")->first_node()->value(weaponAudioItem);
 	weaponItem_node->first_node("DamageType")->first_node()->value(damageType);
 	weaponItem_node->first_node("HumanNameHash")->first_node()->value(HumanNameHash);
 	weaponItem_node->first_node("Damage")->first_attribute()->value(damage);
@@ -767,7 +767,7 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 		comp_doc.clear();
 	}
 
-	std::string xml_as_string;
+	std::string xml_as_string = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n\n";
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
 	char c_weaponsMetaDir[500] = "";
@@ -799,7 +799,7 @@ void cWeaponsToolkit::exportWeaponsAnimationsMeta(char* c_exportMetasDir)
 		node->first_node("WeaponAnimations")->first_node("Item")->first_node("AnimFireRateModifier")->first_attribute()->value(weaponFireRateModifier);
 	}
 
-	std::string xml_as_string;
+	std::string xml_as_string = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n\n";
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
 	char c_weaponsMetaDir[500] = "";
@@ -838,7 +838,7 @@ void cWeaponsToolkit::exportPedPersonalityMeta(char* c_exportMetasDir)
 		}
 	}
 
-	std::string xml_as_string;
+	std::string xml_as_string = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n\n";
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
 	char c_weaponsMetaDir[500] = "";
@@ -859,7 +859,7 @@ void cWeaponsToolkit::exportWeaponArchetypesMeta(char* c_exportMetasDir)
 	buffer.push_back('\0');
 	doc.parse<0>(&buffer[0]);
 
-	root_node = doc.first_node("CWeaponModelInfo__InitDataList");
+	root_node = doc.first_node("CWeaponModelInfo__InitDataList")->first_node("InitDatas");
 	char* weaponId = doc.allocate_string(generatedWeapon->getWeaponId().c_str());
 
 	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
@@ -889,7 +889,7 @@ void cWeaponsToolkit::exportWeaponArchetypesMeta(char* c_exportMetasDir)
 		}
 	}
 
-	std::string xml_as_string;
+	std::string xml_as_string = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n\n";
 	rapidxml::print(std::back_inserter(xml_as_string), doc);
 
 	char c_weaponsMetaDir[500] = "";
@@ -931,7 +931,7 @@ void cWeaponsToolkit::exportWeaponComponentsMeta(char* c_exportMetasDir)
 			root_node->first_node("Infos")->first_node("Item")->first_node("ClipSize")->first_attribute()->value(clipSize);
 		}
 
-		std::string xml_as_string;
+		std::string xml_as_string = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n\n";
 		rapidxml::print(std::back_inserter(xml_as_string), doc);
 
 		char c_weaponsMetaDir[500] = "";
