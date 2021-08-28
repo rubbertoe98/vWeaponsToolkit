@@ -3,23 +3,24 @@
 <CWeaponComponentInfoBlob>
     <Infos>
 		<Item type="CWeaponComponentClipInfo">
-		  <Name>COMPONENT_COMBATPISTOL_CLIP_01</Name>
-		  <Model>w_pi_combatpistol_mag1</Model>
-		  <LocName>WCT_CLIP1</LocName>
-		  <LocDesc>WCD_CP_CLIP1</LocDesc>
+		  <Name>COMPONENT_APPISTOL_CLIP_02</Name>
+		  <Model>w_pi_appistol_mag2</Model>
+		  <LocName>WCT_CLIP2</LocName>
+		  <LocDesc>WCD_AP_CLIP2</LocDesc>
 		  <AttachBone>AAPClip</AttachBone>
 		  <WeaponAttachBone>WAPClip</WeaponAttachBone>
 		  <AccuracyModifier type="NULL" />
 		  <DamageModifier type="NULL" />
-		  <bShownOnWheel value="false" />
+		  <bShownOnWheel value="true" />
 		  <CreateObject value="true" />
 		  <HudDamage value="0" />
 		  <HudSpeed value="0" />
-		  <HudCapacity value="0" />
+		  <HudCapacity value="100" />
 		  <HudAccuracy value="0" />
 		  <HudRange value="0" />
-		  <ClipSize value="12" />
-		  <ReloadData ref="RELOAD_DEFAULT_WITH_EMPTIES" />
+		  <AmmoInfo></AmmoInfo>
+		  <ClipSize value="36" />
+		  <ReloadData ref="RELOAD_LARGE_WITH_EMPTIES" />
 		</Item>
 	</Infos>
 	<InfoBlobName></InfoBlobName>

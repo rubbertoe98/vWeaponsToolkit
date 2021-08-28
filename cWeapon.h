@@ -44,9 +44,16 @@ public:
 	std::string getWeaponAudioItem();
 
 	const char* nativeWeapons[100] = {
-		"WEAPON_ASSAULTRIFLE",
-		"WEAPON_CARBINE"
-		//TODO finish.
+		"WEAPON_KNIFE",
+		"WEAPON_NIGHTSTICK",
+		"WEAPON_HAMMER",
+		"WEAPON_BAT",
+		"WEAPON_GOLFCLUB",
+		"WEAPON_CROWBAR",
+		"WEAPON_PISTOL",
+		"WEAPON_COMBATPISTOL",
+		"WEAPON_APPISTOL",
+		"WEAPON_PISTOL50",
 	};
 
 	const char* audioItems[100] = {
@@ -169,9 +176,16 @@ public:
 	}; 
 
 	const char* nativeComponents[100] = {
-		"COMPONENT_AT_RAILCOVER_01",
+		"COMPONENT_PISTOL_CLIP_01",
+		"COMPONENT_PISTOL_CLIP_02",
+		"COMPONENT_AT_PI_FLSH",
+		"COMPONENT_AT_PI_SUPP",
 		"COMPONENT_COMBATPISTOL_CLIP_01",
-		//TODO finish.
+		"COMPONENT_COMBATPISTOL_CLIP_02",
+		"COMPONENT_APPISTOL_CLIP_01",
+		"COMPONENT_APPISTOL_CLIP_02",
+		"COMPONENT_PISTOL50_CLIP_01",
+		"COMPONENT_PISTOL50_CLIP_02",
 	};
 
 	const char* nativeAmmoInfos[100] = {

@@ -361,7 +361,14 @@ void cWeaponsToolkit::onSelectComponent(wxCommandEvent& evt)
 			weaponAmmoInfoComboBox->SetEditable(false);
 		}
 
-		weaponAmmoInfoComboBox->SetValue(currentComponent->getAmmoInfo());
+		if (currentComponent->getAmmoInfo() == "")
+		{
+			weaponAmmoInfoComboBox->SetValue("Default Ammo");
+		}
+		else
+		{
+			weaponAmmoInfoComboBox->SetValue(currentComponent->getAmmoInfo());
+		}		
 		checkboxDevMode->SetValue(currentComponent->isComponentEnabled());
 	}
 }
