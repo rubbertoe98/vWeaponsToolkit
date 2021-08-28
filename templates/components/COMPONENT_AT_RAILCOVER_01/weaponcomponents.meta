@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponComponentInfoBlob>
+    <Infos>
+		<Item type="CWeaponComponentInfo">
+		  <Name>COMPONENT_AT_RAILCOVER_01</Name>
+		  <Model>w_at_railcover_01</Model>
+		  <LocName>WCT_RAIL</LocName>
+		  <LocDesc>WCD_AT_RAIL</LocDesc>
+		  <AttachBone>AAPCover</AttachBone>
+		  <WeaponAttachBone>WAPFlshLasr</WeaponAttachBone>
+		  <AccuracyModifier type="NULL" />
+		  <DamageModifier type="NULL" />
+		  <bShownOnWheel value="false" />
+		  <CreateObject value="true" />
+		  <HudDamage value="0" />
+		  <HudSpeed value="0" />
+		  <HudCapacity value="0" />
+		  <HudAccuracy value="0" />
+		  <HudRange value="1" />
+		</Item>
+	</Infos>
+	<InfoBlobName></InfoBlobName>
+</CWeaponComponentInfoBlob>
