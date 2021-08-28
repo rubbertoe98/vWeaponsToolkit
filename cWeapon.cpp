@@ -8,6 +8,7 @@ cWeapon::cWeapon()
 	weaponModel = "w_ar_assaultrifle";
 	validWeaponModelFound = false;
 	weaponLOD = 500;
+	weaponFireRateMultiplier = 1.0;
 }
 
 void cWeapon::setWeaponTemplate(std::string _weaponTemplate)

@@ -432,7 +432,15 @@ void cWeaponsToolkit::onComponentTemplateChanged(wxCommandEvent& evt)
 					if (currentComponent)
 						currentComponent->setAmmoInfo(component_node->value());
 
-					weaponAmmoInfoComboBox->SetValue(component_node->value());
+					std::string node_value = component_node->value();
+					if (node_value == "")
+					{
+						weaponAmmoInfoComboBox->SetValue("Default Ammo");
+					}
+					else
+					{
+						weaponAmmoInfoComboBox->SetValue(node_value);
+					}					
 				}
 			}
 		}
@@ -922,7 +930,7 @@ void cWeaponsToolkit::exportWeaponComponentsMeta(char* c_exportMetasDir)
 		root_node->first_node("Infos")->first_node("Item")->first_node("Name")->first_node()->value(componentName);
 		root_node->first_node("Infos")->first_node("Item")->first_node("Model")->first_node()->value(componentModel);
 
-		if (c->getAmmoInfo() != "")
+		if (c->getClipSize() > 0)
 		{
 			char* ammoInfo = doc.allocate_string(c->getAmmoInfo().c_str());
 			char* clipSize = doc.allocate_string(std::to_string(c->getClipSize()).c_str());
