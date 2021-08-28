@@ -759,7 +759,7 @@ void cWeaponsToolkit::exportWeaponsMeta(char* c_exportMetasDir)
 		comp_doc.parse<0>(&comp_buffer[0]);
 
 		comp_root_node = comp_doc.first_node("CWeaponComponentInfoBlob");
-		char* attachBone = doc.allocate_string(comp_root_node->first_node("Infos")->first_node("Item")->first_node("AttachBone")->value());
+		char* attachBone = doc.allocate_string(comp_root_node->first_node("Infos")->first_node("Item")->first_node("WeaponAttachBone")->value());
 
 		rapidxml::xml_node<>* attachbone_node = doc.allocate_node(rapidxml::node_element, "AttachBone", attachBone);
 		component_node->first_node("Item")->prepend_node(attachbone_node);

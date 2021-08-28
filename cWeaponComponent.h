@@ -11,7 +11,6 @@ public:
 	void setClipSize(int clipSize);
 	void setModelLOD(int modelLOD);
 	void setAmmoInfo(std::string ammoInfo);
-	void setAttachBone(std::string attachBone);
 	void setComponentEnabled(bool enabled);
 
 	std::string getComponentTemplate();
@@ -20,14 +19,12 @@ public:
 	int getClipSize();
 	int getModelLOD();
 	std::string getAmmoInfo();
-	std::string getAttachBone();
 	bool isComponentEnabled();
 
 private:
 	std::string componentTemplate;
 	std::string componentName;
 	std::string modelName;
-	std::string attachBone;
 
 	int clipSize;
 	int modelLOD;
