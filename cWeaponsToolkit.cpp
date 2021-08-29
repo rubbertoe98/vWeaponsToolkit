@@ -574,7 +574,15 @@ void cWeaponsToolkit::onComponentAmmoInfoChanged(wxCommandEvent& evt)
 
 void cWeaponsToolkit::onWeaponHeadshotDamageModifierChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponHeadShotDamageModifierPlayer(std::stof(std::string(evt.GetString())));
+	try {
+		generatedWeapon->setWeaponHeadShotDamageModifierPlayer(std::stof(std::string(evt.GetString())));
+	}
+	catch (const std::invalid_argument& e) {
+
+	}
+	catch (const std::out_of_range& e) {
+
+	}	
 }
 
 void cWeaponsToolkit::onExportTabPressed(wxCommandEvent& evt)
@@ -1042,27 +1050,67 @@ void cWeaponsToolkit::onDamageTypeChanged(wxCommandEvent& evt)
 
 void cWeaponsToolkit::onWeaponDamageChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponDamage(std::stof(std::string(evt.GetString())));
+	try {
+		generatedWeapon->setWeaponDamage(std::stof(std::string(evt.GetString())));
+	}
+	catch (const std::invalid_argument& e) {
+		
+	}
+	catch (const std::out_of_range& e) {
+		
+	}	
 }
 
 void cWeaponsToolkit::onWeaponRangeChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponRange(std::stof(std::string(evt.GetString())));
+	try {
+		generatedWeapon->setWeaponRange(std::stof(std::string(evt.GetString())));
+	}
+	catch (const std::invalid_argument& e) {
+
+	}
+	catch (const std::out_of_range& e) {
+
+	}	
 }
 
 void cWeaponsToolkit::onWeaponLODChanged(wxCommandEvent& evt)
-{
-	generatedWeapon->setWeaponLOD(std::stoi(std::string(evt.GetString())));
+{	
+	try {
+		generatedWeapon->setWeaponLOD(std::stoi(std::string(evt.GetString())));
+	}
+	catch (const std::invalid_argument& e) {
+
+	}
+	catch (const std::out_of_range& e) {
+
+	}
 }
 
 void cWeaponsToolkit::onWeaponReloadModifierChanged(wxCommandEvent& evt)
-{
-	generatedWeapon->setWeaponReloadSpeedMultiplier(std::stof(std::string(evt.GetString())));
+{	
+	try {
+		generatedWeapon->setWeaponReloadSpeedMultiplier(std::stof(std::string(evt.GetString())));
+	}
+	catch (const std::invalid_argument& e) {
+
+	}
+	catch (const std::out_of_range& e) {
+
+	}
 }
 
 void cWeaponsToolkit::onWeaponFireRateModifierChanged(wxCommandEvent& evt)
-{
-	generatedWeapon->setWeaponFireRateMultiplier(std::stof(std::string(evt.GetString())));
+{	
+	try {
+		generatedWeapon->setWeaponFireRateMultiplier(std::stof(std::string(evt.GetString())));
+	}
+	catch (const std::invalid_argument& e) {
+
+	}
+	catch (const std::out_of_range& e) {
+
+	}
 }
 
 
