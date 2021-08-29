@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponComponentInfoBlob>
+    <Infos>
+		<Item type="CWeaponComponentClipInfo">
+		  <Name>COMPONENT_PUMPSHOTGUN_CLIP_01</Name>
+		  <Model />
+		  <LocName>WCT_INVALID</LocName>
+		  <LocDesc>WCD_INVALID</LocDesc>
+		  <AttachBone />
+		  <WeaponAttachBone>WAPClip</WeaponAttachBone>
+		  <AccuracyModifier type="NULL" />
+		  <DamageModifier type="NULL" />
+		  <bShownOnWheel value="false" />
+		  <CreateObject value="true" />
+		  <HudDamage value="0" />
+		  <HudSpeed value="0" />
+		  <HudCapacity value="0" />
+		  <HudAccuracy value="0" />
+		  <HudRange value="0" />
+		  <ClipSize value="8" />
+		  <AmmoInfo></AmmoInfo>
+		  <ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+	</Infos>
+	<InfoBlobName></InfoBlobName>
+</CWeaponComponentInfoBlob>

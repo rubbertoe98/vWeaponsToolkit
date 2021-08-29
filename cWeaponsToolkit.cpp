@@ -935,7 +935,8 @@ void cWeaponsToolkit::exportWeaponComponentsMeta(char* c_exportMetasDir)
 		char* componentModel = doc.allocate_string(c->getModelName().c_str());
 
 		root_node->first_node("Infos")->first_node("Item")->first_node("Name")->first_node()->value(componentName);
-		root_node->first_node("Infos")->first_node("Item")->first_node("Model")->first_node()->value(componentModel);
+		if (root_node->first_node("Infos")->first_node("Item")->first_node("Model")->first_node())
+			root_node->first_node("Infos")->first_node("Item")->first_node("Model")->first_node()->value(componentModel);
 
 		if (c->getClipSize() > 0)
 		{
