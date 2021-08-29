@@ -263,21 +263,32 @@ void cWeaponsToolkit::validateWeaponAssets()
 
 std::string cWeaponsToolkit::removeWeaponFileExtension(std::string s)
 {
-	std::string ext_ydr = ".ydr";
+	std::string ext_hiydr = "_hi.ydr";
 
+	size_t pos_hiydr = s.find(ext_hiydr);
+	if (pos_hiydr != std::string::npos)
+	{
+		s.erase(pos_hiydr, ext_hiydr.length());
+	}
+
+	std::string ext_ydr = ".ydr";
 	size_t pos_ydr = s.find(ext_ydr);
 	if (pos_ydr != std::string::npos)
 	{
-		// If found then erase it from string
 		s.erase(pos_ydr, ext_ydr.length());
 	}
 
-	std::string ext_ytd = ".ytd";
+	std::string ext_hiytd = "+hi.ytd";
+	size_t pos_hiytd = s.find(ext_hiytd);
+	if (pos_hiytd != std::string::npos)
+	{
+		s.erase(pos_hiytd, ext_hiytd.length());
+	}
 
+	std::string ext_ytd = ".ytd";
 	size_t pos_ytd = s.find(ext_ytd);
 	if (pos_ytd != std::string::npos)
 	{
-		// If found then erase it from string
 		s.erase(pos_ytd, ext_ytd.length());
 	}
 	return s;
