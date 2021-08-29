@@ -679,7 +679,22 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 		manifest << "data_file 'WEAPON_ANIMATIONS_FILE' '**/weaponanimations.meta'\n";
 		manifest << "data_file 'PED_PERSONALITY_FILE' '**/pedpersonality.meta'\n";
 		manifest << "data_file 'WEAPONINFO_FILE' '**/weapons.meta'\n";
+		manifest << "\nclient_script 'cl_weaponNames.lua'\n";
 		manifest.close();
+	}
+	
+	//Create cl_weaponNames.lua
+	char c_exportWeaponNamesDir[500] = "";
+	strcat(c_exportWeaponNamesDir, c_exportDir);
+	strcat(c_exportWeaponNamesDir, "\\cl_weaponNames.lua");
+	std::ofstream weaponNames(c_exportWeaponNamesDir);
+
+	std::string textEntry = "AddTextEntry(\"" + generatedWeapon->getWeaponId() + "\", \"" + generatedWeapon->getWeaponName() + "\")\n";
+	if (weaponNames.is_open())
+	{
+		weaponNames << textEntry;
+
+		weaponNames.close();
 	}
 
 	//Copy model assets to stream folder
