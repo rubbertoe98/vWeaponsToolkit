@@ -249,7 +249,10 @@ void cWeaponsToolkit::validateWeaponAssets()
 				else if (s.find("_supp") != std::string::npos) {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
 				}
-				else if (s.find("_medium") != std::string::npos) {
+				else if (s.find("_scope") != std::string::npos) {
+					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
+				}
+				else if (s.find("_flsh") != std::string::npos) {
 					filesFoundListCtrl->SetItemTextColour(i, wxColour(0, 70, 200));
 				}
 				else if(s != generatedWeapon->getWeaponModel() + ".ydr")
@@ -977,7 +980,8 @@ void cWeaponsToolkit::exportWeaponComponentsMeta(char* c_exportMetasDir)
 			char* ammoInfo = doc.allocate_string(c->getAmmoInfo().c_str());
 			char* clipSize = doc.allocate_string(std::to_string(c->getClipSize()).c_str());
 
-			root_node->first_node("Infos")->first_node("Item")->first_node("AmmoInfo")->value(ammoInfo);
+			if (root_node->first_node("Infos")->first_node("Item")->first_node("AmmoInfo"))
+				root_node->first_node("Infos")->first_node("Item")->first_node("AmmoInfo")->value(ammoInfo);
 			root_node->first_node("Infos")->first_node("Item")->first_node("ClipSize")->first_attribute()->value(clipSize);
 		}
 
