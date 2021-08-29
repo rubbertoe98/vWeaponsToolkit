@@ -916,7 +916,8 @@ void cWeaponsToolkit::exportWeaponArchetypesMeta(char* c_exportMetasDir)
 
 	for (cWeaponAsset* a : generatedWeapon->weaponAssets) {
 		size_t pos_ydr = a->assetName.find(".ydr");
-		if (pos_ydr != std::string::npos)
+		size_t pos_hiydr = a->assetName.find("_hi.ydr");
+		if (pos_ydr != std::string::npos && pos_hiydr != std::string::npos)
 		{
 			//Weapon Models
 			rapidxml::xml_node<>* item_node = doc.allocate_node(rapidxml::node_element, "Item", "");
