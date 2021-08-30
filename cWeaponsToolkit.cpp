@@ -690,6 +690,8 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 
 		manifest << "files{\n";
 		manifest << "	'**/weaponcomponents.meta',\n";
+		manifest << "	'**/**/weaponcomponents.meta',\n";
+		manifest << "	'**/**/**/weaponcomponents.meta',\n";
 		manifest << "	'**/weaponarchetypes.meta',\n";
 		manifest << "	'**/weaponanimations.meta',\n";
 		manifest << "	'**/pedpersonality.meta',\n";
@@ -697,6 +699,8 @@ void cWeaponsToolkit::onExportButtonPressed(wxCommandEvent& evt)
 		manifest << "}\n";
 		manifest << "\n";
 		manifest << "data_file 'WEAPONCOMPONENTSINFO_FILE' '**/weaponcomponents.meta'\n";
+		manifest << "data_file 'WEAPONCOMPONENTSINFO_FILE' '**/**/weaponcomponents.meta'\n";
+		manifest << "data_file 'WEAPONCOMPONENTSINFO_FILE' '**/**/**/weaponcomponents.meta'\n";
 		manifest << "data_file 'WEAPON_METADATA_FILE' '**/weaponarchetypes.meta'\n";
 		manifest << "data_file 'WEAPON_ANIMATIONS_FILE' '**/weaponanimations.meta'\n";
 		manifest << "data_file 'PED_PERSONALITY_FILE' '**/pedpersonality.meta'\n";
