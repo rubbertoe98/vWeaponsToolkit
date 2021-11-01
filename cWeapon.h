@@ -68,6 +68,7 @@ public:
 		"WEAPON_SNIPERRIFLE",
 		"WEAPON_HEAVYSNIPER",
 		"WEAPON_STUNGUN",
+		"WEAPON_BALL",
 	};
 
 	const char* audioItems[100] = {
