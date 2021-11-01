@@ -195,7 +195,10 @@ void cWeaponsToolkit::onWeaponIdChanged(wxCommandEvent& evt)
 
 void cWeaponsToolkit::onWeaponModelChanged(wxCommandEvent& evt)
 {
-	generatedWeapon->setWeaponModel(std::string(evt.GetString()));
+	std::string model = std::string(evt.GetString());
+	std::transform(model.begin(), model.end(), model.begin(), ::tolower);
+
+	generatedWeapon->setWeaponModel(model);
 	validateWeaponAssets();
 }
 
