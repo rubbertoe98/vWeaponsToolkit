@@ -69,6 +69,7 @@ public:
 		"WEAPON_HEAVYSNIPER",
 		"WEAPON_STUNGUN",
 		"WEAPON_BALL",
+		"WEAPON_GRENADELAUNCHER",
 	};
 
 	const char* audioItems[100] = {
@@ -234,6 +235,7 @@ public:
 		"COMPONENT_AT_SCOPE_LARGE",
 		"COMPONENT_AT_SCOPE_MAX",
 		"COMPONENT_HEAVYSNIPER_CLIP_01",
+		"COMPONENT_GRENADELAUNCHER_CLIP_01",
 	};
 
 	const char* nativeAmmoInfos[100] = {
