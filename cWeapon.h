@@ -71,6 +71,7 @@ public:
 		"WEAPON_BALL",
 		"WEAPON_GRENADELAUNCHER",
 		"WEAPON_MARKSMANRIFLE",
+		"WEAPON_HATCHET",
 	};
 
 	const char* audioItems[100] = {
