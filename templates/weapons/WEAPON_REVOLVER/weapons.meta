@@ -291,29 +291,8 @@
           <KillshotImpulseScale value="1.000000" />
           <NmShotTuningSet>normal</NmShotTuningSet>
           <AttachPoints>
-            <Item>
-              <AttachBone>WAPClip</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_REVOLVER_CLIP_01</Name>
-                  <Default value="true" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>gun_root</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_REVOLVER_VARMOD_BOSS</Name>
-                  <Default value="false" />
-                </Item>
-                <Item>
-                  <Name>COMPONENT_REVOLVER_VARMOD_GOON</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-          </AttachPoints>
+
+				  </AttachPoints>
           <GunFeedBone />
           <TargetSequenceGroup />
           <WeaponFlags>CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover OnlyFireOneShotPerTriggerPress AllowCloseQuarterKills NeedsGunCockingInCover HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock DisableIdleAnimationFilter UseFPSAimIK UseFPSSecondaryMotion DisableIdleAnimationFilterWhenReloading BlockFirstPersonStateTransitionWhileFiring</WeaponFlags>

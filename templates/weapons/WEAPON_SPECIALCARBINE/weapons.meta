@@ -278,56 +278,8 @@
           <KillshotImpulseScale value="1.000000" />
           <NmShotTuningSet>Automatic</NmShotTuningSet>
           <AttachPoints>
-            <Item>
-              <AttachBone>WAPClip</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_SPECIALCARBINE_CLIP_01</Name>
-                  <Default value="true" />
-                </Item>
-                <Item>
-                  <Name>COMPONENT_SPECIALCARBINE_CLIP_02</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>WAPFlshLasr</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_AT_AR_FLSH</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>WAPScop</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_AT_SCOPE_MEDIUM</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>WAPSupp</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_AT_AR_SUPP_02</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>WAPGrip</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_AT_AR_AFGRIP</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-          </AttachPoints>
+
+				  </AttachPoints>
           <GunFeedBone />
           <TargetSequenceGroup />
           <WeaponFlags>CarriedInHand Automatic Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim TwoHanded AnimReload AnimCrouchFire UsableOnFoot UsableInCover AllowEarlyExitFromFireAnimAfterBulletFired NoLeftHandIKWhenBlocked AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps LongWeapon UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>

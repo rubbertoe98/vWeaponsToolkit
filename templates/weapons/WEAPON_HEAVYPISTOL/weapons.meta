@@ -286,47 +286,8 @@
           <KillshotImpulseScale value="1.000000" />
           <NmShotTuningSet>normal</NmShotTuningSet>
           <AttachPoints>
-            <Item>
-              <AttachBone>WAPClip</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_HEAVYPISTOL_CLIP_01</Name>
-                  <Default value="true" />
-                </Item>
-                <Item>
-                  <Name>COMPONENT_HEAVYPISTOL_CLIP_02</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>WAPFlshLasr</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_AT_PI_FLSH</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>WAPSupp_2</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_AT_PI_SUPP</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-			<Item>
-              <AttachBone>gun_root</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_HEAVYPISTOL_VARMOD_LUXE</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-          </AttachPoints>
+
+				  </AttachPoints>
           <GunFeedBone />
           <TargetSequenceGroup>Pistol</TargetSequenceGroup>
           <WeaponFlags>CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>

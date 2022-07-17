@@ -8,6 +8,7 @@
       <LocName>WCT_CLIP1</LocName>
       <LocDesc>WCD_REV_CLIP1</LocDesc>
       <AttachBone>AAPClip</AttachBone>
+      <WeaponAttachBone>WAPClip</WeaponAttachBone>
       <AccuracyModifier type="NULL" />
       <DamageModifier type="NULL" />
       <bShownOnWheel value="false" />
@@ -19,42 +20,6 @@
       <HudRange value="0" />
       <ClipSize value="6" />
       <ReloadData ref="RELOAD_DEFAULT" />
-    </Item>
-	<Item type="CWeaponComponentVariantModelInfo">
-      <Name>COMPONENT_REVOLVER_VARMOD_BOSS</Name>
-      <Model>w_pi_revolver_b</Model>
-      <LocName>WCT_INVALID</LocName>
-      <LocDesc>WCD_INVALID</LocDesc>
-      <AttachBone />
-      <AccuracyModifier type="NULL" />
-      <DamageModifier type="NULL" />
-      <bShownOnWheel value="false" />
-      <CreateObject value="false" />
-      <HudDamage value="0" />
-      <HudSpeed value="0" />
-      <HudCapacity value="0" />
-      <HudAccuracy value="0" />
-      <HudRange value="0" />
-	  <TintIndexOverride value="2"/>
-	  <ExtraComponents />
-    </Item>
-	<Item type="CWeaponComponentVariantModelInfo">
-      <Name>COMPONENT_REVOLVER_VARMOD_GOON</Name>
-      <Model>w_pi_revolver_g</Model>
-      <LocName>WCT_INVALID</LocName>
-      <LocDesc>WCD_INVALID</LocDesc>
-      <AttachBone />
-      <AccuracyModifier type="NULL" />
-      <DamageModifier type="NULL" />
-      <bShownOnWheel value="false" />
-      <CreateObject value="false" />
-      <HudDamage value="0" />
-      <HudSpeed value="0" />
-      <HudCapacity value="0" />
-      <HudAccuracy value="0" />
-      <HudRange value="0" />
-	  <TintIndexOverride value="0"/>
-	  <ExtraComponents />
     </Item>
   </Infos>
   <InfoBlobName>DLC - Apartments</InfoBlobName>

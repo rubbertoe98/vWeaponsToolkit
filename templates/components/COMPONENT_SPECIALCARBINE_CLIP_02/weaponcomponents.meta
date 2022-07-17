@@ -10,6 +10,7 @@
       <LocName>WCT_CLIP2</LocName>
       <LocDesc>WCD_SCRB_CLIP2</LocDesc>
       <AttachBone>AAPClip</AttachBone>
+      <WeaponAttachBone>WAPClip</WeaponAttachBone>
       <AccuracyModifier type="NULL" />
       <DamageModifier type="NULL" />
       <bShownOnWheel value="true" />
