@@ -75,6 +75,7 @@ public:
 		"WEAPON_REVOLVER",
 		"WEAPON_HEAVYPISTOL",
 		"WEAPON_SPECIALCARBINE",
+
 	};
 
 	const char* audioItems[100] = {
