@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		
+		<!-- ### heavy pistol ### -->
+		<Item>
+		  <modelName>w_pi_heavypistol</modelName>
+		  <txdName>w_pi_heavypistol</txdName>
+		  <ptfxAssetName>null</ptfxAssetName>
+		  <lodDist value="50"/>
+		</Item>
+		<Item>
+		  <modelName>w_pi_heavypistol_Mag1</modelName>
+		  <txdName>w_pi_heavypistol_Mag1</txdName>
+		  <ptfxAssetName>null</ptfxAssetName>
+		  <lodDist value="50"/>
+		</Item>
+		<Item>
+		  <modelName>w_pi_heavypistol_Mag2</modelName>
+		  <txdName>w_pi_heavypistol_Mag2</txdName>
+		  <ptfxAssetName>null</ptfxAssetName>
+		  <lodDist value="50"/>
+		</Item>
+		
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>

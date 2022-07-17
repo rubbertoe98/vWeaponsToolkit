@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		
+	<!-- ### REVOLVER ### -->
+	
+	<Item>
+      <modelName>w_pi_revolver</modelName>
+      <txdName>w_pi_revolver</txdName>
+      <ptfxAssetName>weap_revolver</ptfxAssetName>
+      <lodDist value="50"/>
+    </Item>
+    <Item>
+      <modelName>w_pi_revolver_mag1</modelName>
+      <txdName>w_pi_revolver_mag1</txdName>
+      <ptfxAssetName>weap_revolver</ptfxAssetName>
+      <lodDist value="50"/>
+    </Item>
+	<Item>
+      <modelName>w_pi_revolver_g</modelName>
+      <txdName>w_pi_revolver_g</txdName>
+      <ptfxAssetName>weap_revolver</ptfxAssetName>
+      <lodDist value="50"/>
+    </Item>
+	<Item>
+      <modelName>w_pi_revolver_b</modelName>
+      <txdName>w_pi_revolver_b</txdName>
+      <ptfxAssetName>weap_revolver</ptfxAssetName>
+      <lodDist value="50"/>
+    </Item>
+	
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>
