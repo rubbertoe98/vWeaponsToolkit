@@ -212,12 +212,12 @@ public:
 	};
 
 	const char* damageTypes[100] = {
-		"NONE",
 		"BULLET",
 		"ELECTRIC",
 		"EXPLOSIVE",
 		"FIRE",
 		"MELEE",
+		"NONE",
 		"SMOKE",
 		"WATER_CANNON",
 	}; 
