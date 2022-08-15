@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponComponentInfoBlob>
+    <Infos>
+		<Item type="CWeaponComponentClipInfo">
+		  <Name>COMPONENT_CARBINERIFLE_BOXMAG</Name>
+		  <Model>w_ar_carbinerifle_boxmag</Model>
+		  <LocName>WCT_BOXMAG</LocName>
+		  <LocDesc>WCD_CR_BOXMAG</LocDesc>
+		  <AttachBone>AAPClip</AttachBone>
+		  <WeaponAttachBone>WAPClip</WeaponAttachBone>
+		  <AccuracyModifier type="NULL" />
+		  <DamageModifier type="NULL" />
+		  <bShownOnWheel value="true" />
+		  <CreateObject value="true" />
+		  <HudDamage value="0" />
+		  <HudSpeed value="0" />
+		  <HudCapacity value="100" />
+		  <HudAccuracy value="0" />
+		  <HudRange value="0" />
+		  <ClipSize value="100" />
+		  <AmmoInfo></AmmoInfo>
+		  <ReloadData ref="RELOAD_DEFAULT" />
+		</Item>
+	</Infos>
+	<InfoBlobName></InfoBlobName>
+</CWeaponComponentInfoBlob>
