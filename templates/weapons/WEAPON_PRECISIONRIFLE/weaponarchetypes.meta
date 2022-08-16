@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+  <InitDatas>
+		<!-- Rifles -->
+	
+	<Item>
+		<modelName>W_SR_PrecisionRifle_REH</modelName>
+		<txdName>W_SR_PrecisionRifle_REH</txdName>
+		<ptfxAssetName>null</ptfxAssetName>
+		<lodDist value="50"/>
+	</Item>
+	
+	<Item>
+		<modelName>W_SR_W_SR_PrecisionRifle_REH_Mag1</modelName>
+		<txdName>W_SR_W_SR_PrecisionRifle_REH_Mag1</txdName>
+		<ptfxAssetName>null</ptfxAssetName>
+		<lodDist value="50"/>
+	</Item>
+	
+  </InitDatas>
+</CWeaponModelInfo__InitDataList>
