@@ -6,7 +6,7 @@
 			<WeaponSlots>
 				<Item>
 					<OrderNumber value="467"/>
-					<Entry>SLOT_cz61</Entry>
+					<Entry>SLOT_MINISMG</Entry>
 				</Item>
 			</WeaponSlots>
 		</Item>
@@ -18,7 +18,7 @@
 					<Name>WEAPON_MINISMG</Name>
 					<Model>w_sb_minismg</Model>
 					<Audio>AUDIO_ITEM_MINISMG</Audio>
-					<Slot>SLOT_cz61</Slot>
+					<Slot>SLOT_MINISMG</Slot>
 					<DamageType>BULLET</DamageType>
 					<Explosion>
 						<Default>DONTCARE</Default>
