@@ -77,7 +77,8 @@ public:
 		"WEAPON_SPECIALCARBINE",
 		"WEAPON_MACHETE",
 		"WEAPON_STUNGUN",
-    "WEAPON_SNSPISTOL",
+    	"WEAPON_SNSPISTOL",
+		"WEAPON_POOLCUE"
 	};
 
 	const char* audioItems[100] = {
