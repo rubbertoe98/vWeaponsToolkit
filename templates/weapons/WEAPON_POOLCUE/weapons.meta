@@ -10,31 +10,8 @@
         </Item>
       </WeaponSlots>
     </Item>
-    <Item>
-      <WeaponSlots>
-        <Item>
-          <OrderNumber value="89" />
-          <Entry>SLOT_POOLCUE</Entry>
-        </Item>
-      </WeaponSlots>
-    </Item>
   </SlotNavigateOrder>
-  <SlotBestOrder>
-    <WeaponSlots>
-      <Item>
-        <OrderNumber value="371" />
-        <Entry>SLOT_POOLCUE</Entry>
-      </Item>
-    </WeaponSlots>
-  </SlotBestOrder>
-  <TintSpecValues />
-  <FiringPatternAliases />
-  <UpperBodyFixupExpressionData />
-  <AimingInfos />
   <Infos>
-    <Item>
-      <Infos />
-    </Item>
     <Item>
       <Infos>
         <Item type="CWeaponInfo">
