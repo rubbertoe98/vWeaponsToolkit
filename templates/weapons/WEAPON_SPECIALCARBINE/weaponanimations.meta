@@ -50,6 +50,9 @@
         </Item>
       </WeaponAnimations>
     </Item>
+	<Item key="Default">
+	  <Fallback>Default</Fallback>
+	  <WeaponAnimations>
         <Item key="WEAPON_SPECIALCARBINE">
           <CoverMovementClipSetHash>cover@move@base@2h</CoverMovementClipSetHash>
           <CoverMovementExtraClipSetHash>cover@move@extra@2h</CoverMovementExtraClipSetHash>

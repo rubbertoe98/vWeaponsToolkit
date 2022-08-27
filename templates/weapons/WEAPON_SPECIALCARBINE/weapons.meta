@@ -10,31 +10,9 @@
         </Item>
       </WeaponSlots>
     </Item>
-    <Item>
-      <WeaponSlots>
-        <Item>
-          <OrderNumber value="211" />
-          <Entry>SLOT_SPECIALCARBINE</Entry>
-        </Item>
-      </WeaponSlots>
-    </Item>
   </SlotNavigateOrder>
-  <SlotBestOrder>
-    <WeaponSlots>
-      <Item>
-        <OrderNumber value="50" />
-        <Entry>SLOT_SPECIALCARBINE</Entry>
-      </Item>
-    </WeaponSlots>
-  </SlotBestOrder>
-  <TintSpecValues />
-  <FiringPatternAliases />
-  <UpperBodyFixupExpressionData />
-  <AimingInfos />
+ 
   <Infos>
-    <Item>
-      <Infos />
-    </Item>
     <Item>
       <Infos>
         <Item type="CWeaponInfo">
