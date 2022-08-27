@@ -10,31 +10,9 @@
         </Item>
       </WeaponSlots>
     </Item>
-    <Item>
-      <WeaponSlots>
-        <Item>
-          <OrderNumber value="135" />
-          <Entry>SLOT_REVOLVER</Entry>
-        </Item>
-      </WeaponSlots>
-    </Item>
   </SlotNavigateOrder>
-  <SlotBestOrder>
-    <WeaponSlots>
-      <Item>
-        <OrderNumber value="171" />
-        <Entry>SLOT_REVOLVER</Entry>
-      </Item>
-    </WeaponSlots>
-  </SlotBestOrder>
-  <TintSpecValues />
-  <FiringPatternAliases />
-  <UpperBodyFixupExpressionData />
-  <AimingInfos />
+
   <Infos>
-    <Item>
-      <Infos />
-    </Item>
     <Item>
       <Infos>
         <Item type="CWeaponInfo">
