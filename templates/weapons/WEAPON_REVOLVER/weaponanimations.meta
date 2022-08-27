@@ -47,6 +47,8 @@
 		  <AimGrenadeThrowNormalClipsetHash>Wpn_Thrown_Grenade_Aiming_Rifle</AimGrenadeThrowNormalClipsetHash>
 		  <AimGrenadeThrowAlternateClipsetHash />
         </Item>
+	  </WeaponAnimations>
+	 </Item>
     <Item key="Gang">
       <Fallback>Default</Fallback>
       <WeaponAnimations>

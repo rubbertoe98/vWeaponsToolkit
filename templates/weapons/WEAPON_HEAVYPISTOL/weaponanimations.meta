@@ -46,6 +46,7 @@
           <WeaponSwapData ref="SWAP_DEFAULT" />
 		  <AimGrenadeThrowNormalClipsetHash>Wpn_Thrown_Grenade_Aiming_Rifle</AimGrenadeThrowNormalClipsetHash>
 		  <AimGrenadeThrowAlternateClipsetHash />
+		 </Item>
       </WeaponAnimations>
     </Item>
     <Item key="FirstPerson">

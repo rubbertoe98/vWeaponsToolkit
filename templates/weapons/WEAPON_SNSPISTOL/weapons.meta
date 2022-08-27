@@ -10,31 +10,9 @@
         </Item>
       </WeaponSlots>
     </Item>
-    <Item>
-      <WeaponSlots>
-        <Item>
-          <OrderNumber value="131" />
-          <Entry>SLOT_SNSPISTOL</Entry>
-        </Item>
-      </WeaponSlots>
-    </Item>
   </SlotNavigateOrder>
-  <SlotBestOrder>
-    <WeaponSlots>
-      <Item>
-        <OrderNumber value="185" />
-        <Entry>SLOT_SNSPISTOL</Entry>
-      </Item>
-    </WeaponSlots>
-  </SlotBestOrder>
-  <TintSpecValues />
-  <FiringPatternAliases />
-  <UpperBodyFixupExpressionData />
-  <AimingInfos />
+ 
   <Infos>
-    <Item>
-      <Infos />
-    </Item>
     <Item>
       <Infos>
         <Item type="CWeaponInfo">
