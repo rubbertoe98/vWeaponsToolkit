@@ -78,6 +78,7 @@ public:
 		"WEAPON_SPECIALCARBINE",
 		"WEAPON_STUNGUN",
 		"WEAPON_SNSPISTOL",
+		"WEAPON_SWITCHBLADE"
 	};
 
 	const char* audioItems[100] = {
