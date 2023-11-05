@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CWeaponAnimationsSets>
+	<WeaponAnimationsSets>
+		<Item key="Default">
+			<WeaponAnimations>
+				<Item key="WEAPON_BRIEFCASE">
+					<CoverMovementClipSetHash />
+					<CoverMovementExtraClipSetHash />
+					<CoverAlternateMovementClipSetHash>cover@move@ai@base@1h</CoverAlternateMovementClipSetHash>
+					<CoverWeaponClipSetHash>Cover_Wpn_Pistol</CoverWeaponClipSetHash>
+					<MotionClipSetHash>move_ped_wpn_jerrycan_generic</MotionClipSetHash>
+					<MotionFilterHash>BothArms_filter</MotionFilterHash>
+					<MotionCrouchClipSetHash />
+					<MotionStrafingClipSetHash />
+					<MotionStrafingStealthClipSetHash />
+					<MotionStrafingUpperBodyClipSetHash />
+					<WeaponClipSetHash>Wpn_PetrolCan</WeaponClipSetHash>
+					<WeaponClipSetStreamedHash />
+					<WeaponClipSetHashInjured />
+					<WeaponClipSetHashStealth />
+					<WeaponClipSetHashHiCover />
+					<AlternativeClipSetWhenBlocked />
+					<ScopeWeaponClipSet />
+					<AlternateAimingStandingClipSetHash />
+					<AlternateAimingCrouchingClipSetHash />
+					<FiringVariationsStandingClipSetHash />
+					<FiringVariationsCrouchingClipSetHash />
+					<AimTurnStandingClipSetHash />
+					<AimTurnCrouchingClipSetHash />
+					<MeleeClipSetHash />
+					<MeleeVariationClipSetHash />
+					<MeleeTauntClipSetHash />
+					<MeleeSupportTauntClipSetHash />
+					<MeleeStealthClipSetHash />
+					<ShellShockedClipSetHash />
+					<JumpUpperbodyClipSetHash>MOVE_JUMP@WEAPONS@JERRYCAN</JumpUpperbodyClipSetHash>
+					<FallUpperbodyClipSetHash>MOVE_FALL@WEAPONS@JERRYCAN</FallUpperbodyClipSetHash>
+					<FromStrafeTransitionUpperBodyClipSetHash />
+					<SwapWeaponFilterHash>RightArm_NoSpine_filter</SwapWeaponFilterHash>
+					<SwapWeaponInLowCoverFilterHash />
+					<AnimFireRateModifier value="1.000000" />
+					<AnimBlindFireRateModifier value="1.000000" />
+					<AnimWantingToShootFireRateModifier value="-1.000000" />
+					<UseFromStrafeUpperBodyAimNetwork value="false" />
+					<AimingDownTheBarrel value="true" />
+					<WeaponSwapData ref="SWAP_DEFAULT" />
+					<AimGrenadeThrowNormalClipsetHash />
+					<AimGrenadeThrowAlternateClipsetHash />
+				</Item>
+			</WeaponAnimations>
+		</Item>
+		<Item key="FirstPerson">
+			<Fallback>Default</Fallback>
+			<WeaponAnimations>
+				<Item key="WEAPON_BRIEFCASE">
+					<CoverMovementClipSetHash />
+					<CoverMovementExtraClipSetHash />
+					<CoverAlternateMovementClipSetHash />
+					<CoverWeaponClipSetHash />
+					<MotionClipSetHash>move_ped_wpn_jerrycan_franklin</MotionClipSetHash>
+					<MotionFilterHash />
+					<MotionCrouchClipSetHash />
+					<MotionStrafingClipSetHash />
+					<MotionStrafingStealthClipSetHash />
+					<MotionStrafingUpperBodyClipSetHash />
+					<WeaponClipSetHash />
+					<WeaponClipSetStreamedHash />
+					<WeaponClipSetHashInjured />
+					<WeaponClipSetHashStealth />
+					<WeaponClipSetHashHiCover />
+					<AlternativeClipSetWhenBlocked />
+					<ScopeWeaponClipSet />
+					<AlternateAimingStandingClipSetHash />
+					<AlternateAimingCrouchingClipSetHash />
+					<FiringVariationsStandingClipSetHash />
+					<FiringVariationsCrouchingClipSetHash />
+					<AimTurnStandingClipSetHash />
+					<AimTurnCrouchingClipSetHash />
+					<MeleeClipSetHash />
+					<MeleeVariationClipSetHash />
+					<MeleeTauntClipSetHash />
+					<MeleeSupportTauntClipSetHash />
+					<MeleeStealthClipSetHash />
+					<ShellShockedClipSetHash />
+					<JumpUpperbodyClipSetHash />
+					<FallUpperbodyClipSetHash />
+					<FromStrafeTransitionUpperBodyClipSetHash />
+					<SwapWeaponFilterHash />
+					<SwapWeaponInLowCoverFilterHash />
+					<AnimFireRateModifier value="1.000000" />
+					<AnimBlindFireRateModifier value="1.000000" />
+					<AnimWantingToShootFireRateModifier value="-1.000000" />
+					<UseFromStrafeUpperBodyAimNetwork value="false" />
+					<AimingDownTheBarrel value="true" />
+					<WeaponSwapData ref="NULL" />
+					<AimGrenadeThrowNormalClipsetHash />
+					<AimGrenadeThrowAlternateClipsetHash />
+				</Item>
+			</WeaponAnimations>
+		</Item>
+	</WeaponAnimationsSets>
+</CWeaponAnimationsSets>
