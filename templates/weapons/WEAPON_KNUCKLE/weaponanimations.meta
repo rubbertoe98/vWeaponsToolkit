@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CWeaponAnimationsSets>
+  <WeaponAnimationsSets>
+    <Item key="Default">
+      <WeaponAnimations>
+        <Item key="WEAPON_KNUCKLE">
+          <CoverMovementClipSetHash />
+          <CoverMovementExtraClipSetHash />
+          <CoverAlternateMovementClipSetHash />
+          <CoverWeaponClipSetHash>Cover_Wpn_Melee1h</CoverWeaponClipSetHash>
+          <MotionClipSetHash>Wpn_KnuckleDuster_WeaponHolding</MotionClipSetHash>
+          <MotionFilterHash>Grip_R_Only_filter</MotionFilterHash>
+          <MotionCrouchClipSetHash />
+          <MotionStrafingClipSetHash>Wpn_KnuckleDuster_Strafe</MotionStrafingClipSetHash>
+          <MotionStrafingStealthClipSetHash>Wpn_KnuckleDuster_StrafeStealth</MotionStrafingStealthClipSetHash>
+          <MotionStrafingUpperBodyClipSetHash />
+          <WeaponClipSetHash>Wpn_KnuckleDuster</WeaponClipSetHash>
+          <WeaponClipSetStreamedHash />
+          <WeaponClipSetHashInjured />
+          <WeaponClipSetHashStealth />
+          <WeaponClipSetHashHiCover />
+          <AlternativeClipSetWhenBlocked />
+          <ScopeWeaponClipSet />
+          <AlternateAimingStandingClipSetHash />
+          <AlternateAimingCrouchingClipSetHash />
+          <FiringVariationsStandingClipSetHash />
+          <FiringVariationsCrouchingClipSetHash />
+          <AimTurnStandingClipSetHash />
+          <AimTurnCrouchingClipSetHash />
+		      <MeleeBaseClipSetHash>Wpn_KnuckleDuster_MeleeBase</MeleeBaseClipSetHash>
+          <MeleeClipSetHash>Wpn_KnuckleDuster_Melee</MeleeClipSetHash>
+          <MeleeVariationClipSetHash>melee@unarmed@streamed_variations</MeleeVariationClipSetHash>
+          <MeleeTauntClipSetHash>melee@unarmed@streamed_taunts</MeleeTauntClipSetHash>
+          <MeleeSupportTauntClipSetHash>melee@unarmed@streamed_background</MeleeSupportTauntClipSetHash>
+          <MeleeStealthClipSetHash>melee@unarmed@streamed_stealth</MeleeStealthClipSetHash>
+          <ShellShockedClipSetHash>reaction@shellshock@unarmed</ShellShockedClipSetHash>
+          <JumpUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall</JumpUpperbodyClipSetHash>
+          <FallUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall</FallUpperbodyClipSetHash>
+          <FromStrafeTransitionUpperBodyClipSetHash />
+          <SwapWeaponFilterHash>RightArm_NoSpine_filter</SwapWeaponFilterHash>
+          <SwapWeaponInLowCoverFilterHash>LegsOnly_filter</SwapWeaponInLowCoverFilterHash>
+          <AnimFireRateModifier value="0.000000" />
+          <AnimBlindFireRateModifier value="0.000000" />
+          <AnimWantingToShootFireRateModifier value="-1.000000" />
+          <UseFromStrafeUpperBodyAimNetwork value="false" />
+          <AimingDownTheBarrel value="true" />
+          <WeaponSwapData ref="SWAP_DEFAULT" />
+		      <AimGrenadeThrowNormalClipsetHash />
+		      <AimGrenadeThrowAlternateClipsetHash />
+        </Item>
+      </WeaponAnimations>
+    </Item>
+    <Item key="FirstPerson">
+      <Fallback>Default</Fallback>
+      <WeaponAnimations>
+        <Item key="WEAPON_KNUCKLE">
+          <CoverMovementClipSetHash />
+          <CoverMovementExtraClipSetHash />
+          <CoverAlternateMovementClipSetHash />
+          <CoverWeaponClipSetHash>Cover_Wpn_Melee1h</CoverWeaponClipSetHash>
+          <MotionClipSetHash />
+          <MotionFilterHash />
+          <MotionCrouchClipSetHash />
+          <MotionStrafingClipSetHash>Wpn_KnuckleDuster_StrafeFPS</MotionStrafingClipSetHash>
+          <MotionStrafingStealthClipSetHash>Wpn_KnuckleDuster_StrafeStealth</MotionStrafingStealthClipSetHash>
+          <MotionStrafingUpperBodyClipSetHash />
+          <WeaponClipSetHash>Wpn_KnuckleDuster</WeaponClipSetHash>
+          <WeaponClipSetStreamedHash />
+          <WeaponClipSetHashInjured />
+          <WeaponClipSetHashStealth>Wpn_KnuckleDuster_StealthFPS</WeaponClipSetHashStealth>
+          <WeaponClipSetHashHiCover />
+          <AlternativeClipSetWhenBlocked />
+          <ScopeWeaponClipSet />
+          <AlternateAimingStandingClipSetHash />
+          <AlternateAimingCrouchingClipSetHash />
+          <FiringVariationsStandingClipSetHash />
+          <FiringVariationsCrouchingClipSetHash />
+          <AimTurnStandingClipSetHash />
+          <AimTurnCrouchingClipSetHash />
+		      <MeleeBaseClipSetHash>Wpn_KnuckleDuster_MeleeBase</MeleeBaseClipSetHash>
+          <MeleeClipSetHash>Wpn_KnuckleDuster_MeleeFPS</MeleeClipSetHash>
+          <MeleeVariationClipSetHash>melee@unarmed@streamed_variations</MeleeVariationClipSetHash>
+          <MeleeTauntClipSetHash>melee@unarmed@streamed_taunts</MeleeTauntClipSetHash>
+          <MeleeSupportTauntClipSetHash>melee@unarmed@streamed_background</MeleeSupportTauntClipSetHash>
+          <MeleeStealthClipSetHash>melee@unarmed@streamed_stealth</MeleeStealthClipSetHash>
+          <ShellShockedClipSetHash>reaction@shellshock@unarmed</ShellShockedClipSetHash>
+          <JumpUpperbodyClipSetHash />
+          <FallUpperbodyClipSetHash />
+		      <MovementOverrideClipSetHash>move_m@generic</MovementOverrideClipSetHash>
+          <FromStrafeTransitionUpperBodyClipSetHash />
+          <SwapWeaponFilterHash>RightArm_NoSpine_filter</SwapWeaponFilterHash>
+          <SwapWeaponInLowCoverFilterHash>LegsOnly_filter</SwapWeaponInLowCoverFilterHash>
+          <AnimFireRateModifier value="0.000000" />
+          <AnimBlindFireRateModifier value="0.000000" />
+          <AnimWantingToShootFireRateModifier value="-1.000000" />
+          <UseFromStrafeUpperBodyAimNetwork value="false" />
+          <AimingDownTheBarrel value="true" />
+          <WeaponSwapData ref="SWAP_DEFAULT" />
+		      <AimGrenadeThrowNormalClipsetHash />
+		      <AimGrenadeThrowAlternateClipsetHash />
+          <FPSTransitionFromLTHash>weapons@first_person@aim_idle@p_m_zero@melee@unarmed@aimtrans@idle_to_relaxed</FPSTransitionFromLTHash>
+          <FPSTransitionFromStealthHash>weapons@first_person@aim_stealth@p_m_zero@unarmed@shared@aim_trans@stealth_to_unarmed</FPSTransitionFromStealthHash>
+          <FPSTransitionToStealthHash>weapons@first_person@aim_stealth@p_m_zero@unarmed@shared@aim_trans@unarmed_to_stealth</FPSTransitionToStealthHash>
+          <FPSTransitionToStealthFromUnholsterHash>weapons@first_person@aim_stealth@p_m_zero@unarmed@shared@aim_trans@unholster_to_stealth</FPSTransitionToStealthFromUnholsterHash>
+        </Item>
+      </WeaponAnimations>
+    </Item>
+    <Item key="FirstPersonAiming">
+      <Fallback>Default</Fallback>
+      <WeaponAnimations>
+        <Item key="WEAPON_KNUCKLE">
+          <CoverMovementClipSetHash />
+          <CoverMovementExtraClipSetHash />
+          <CoverAlternateMovementClipSetHash />
+          <CoverWeaponClipSetHash>Cover_Wpn_Melee1h</CoverWeaponClipSetHash>
+          <MotionClipSetHash>weapons@first_person@aim_idle@generic@melee@knife@shared@core</MotionClipSetHash>
+          <MotionFilterHash />
+          <MotionCrouchClipSetHash />
+          <MotionStrafingClipSetHash>Wpn_KnuckleDuster_StrafeFPS</MotionStrafingClipSetHash>
+          <MotionStrafingStealthClipSetHash>Wpn_KnuckleDuster_StrafeStealth</MotionStrafingStealthClipSetHash>
+          <MotionStrafingUpperBodyClipSetHash />
+          <WeaponClipSetHash>Wpn_KnuckleDuster_FirstPersonAiming</WeaponClipSetHash>
+          <WeaponClipSetStreamedHash />
+          <WeaponClipSetHashInjured />
+          <WeaponClipSetHashStealth />
+          <WeaponClipSetHashHiCover />
+          <AlternativeClipSetWhenBlocked />
+          <ScopeWeaponClipSet />
+          <AlternateAimingStandingClipSetHash />
+          <AlternateAimingCrouchingClipSetHash />
+          <FiringVariationsStandingClipSetHash />
+          <FiringVariationsCrouchingClipSetHash />
+          <AimTurnStandingClipSetHash />
+          <AimTurnCrouchingClipSetHash />
+          <MeleeBaseClipSetHash>Wpn_KnuckleDuster_MeleeBase</MeleeBaseClipSetHash>
+          <MeleeClipSetHash>Wpn_KnuckleDuster_MeleeFPS</MeleeClipSetHash>
+          <MeleeVariationClipSetHash>melee@unarmed@streamed_variations</MeleeVariationClipSetHash>
+          <MeleeTauntClipSetHash>melee@unarmed@streamed_taunts</MeleeTauntClipSetHash>
+          <MeleeSupportTauntClipSetHash>melee@unarmed@streamed_background</MeleeSupportTauntClipSetHash>
+          <MeleeStealthClipSetHash>melee@unarmed@streamed_stealth</MeleeStealthClipSetHash>
+          <ShellShockedClipSetHash>reaction@shellshock@unarmed</ShellShockedClipSetHash>
+          <JumpUpperbodyClipSetHash />
+          <FallUpperbodyClipSetHash />
+          <FromStrafeTransitionUpperBodyClipSetHash />
+          <SwapWeaponFilterHash>RightArm_NoSpine_filter</SwapWeaponFilterHash>
+          <SwapWeaponInLowCoverFilterHash>LegsOnly_filter</SwapWeaponInLowCoverFilterHash>
+          <AnimFireRateModifier value="0.000000" />
+          <AnimBlindFireRateModifier value="0.000000" />
+          <AnimWantingToShootFireRateModifier value="-1.000000" />
+          <UseFromStrafeUpperBodyAimNetwork value="false" />
+          <AimingDownTheBarrel value="true" />
+          <WeaponSwapData ref="SWAP_DEFAULT" />
+          <AimGrenadeThrowNormalClipsetHash />
+          <AimGrenadeThrowAlternateClipsetHash />
+          <FPSTransitionFromIdleHash>weapons@first_person@aim_idle@p_m_zero@melee@unarmed@aimtrans@unholster_to_idle</FPSTransitionFromIdleHash>
+          <FPSTransitionFromUnholsterHash>weapons@first_person@aim_idle@p_m_zero@melee@unarmed@aimtrans@unholster_to_idle</FPSTransitionFromUnholsterHash>
+          <FPSTransitionFromStealthHash>weapons@first_person@aim_stealth@p_m_zero@unarmed@shared@aim_trans@stealth_to_idle</FPSTransitionFromStealthHash>
+          <FPSTransitionToStealthHash>weapons@first_person@aim_idle@p_m_zero@unarmed@aim_trans@idle_to_stealth</FPSTransitionToStealthHash>
+        </Item>
+      </WeaponAnimations>
+    </Item>
+	  <Item key="Female">
+      <Fallback>Default</Fallback>
+      <WeaponAnimations>
+		    <Item key="WEAPON_KNUCKLE">
+          <CoverMovementClipSetHash />
+          <CoverMovementExtraClipSetHash />
+          <CoverAlternateMovementClipSetHash />
+          <CoverWeaponClipSetHash />
+          <MotionClipSetHash>move_female_knuckle</MotionClipSetHash>
+          <MotionFilterHash />
+          <MotionCrouchClipSetHash />
+          <MotionStrafingClipSetHash>Wpn_KnuckleDuster_Strafe_Female</MotionStrafingClipSetHash>
+          <MotionStrafingStealthClipSetHash>Wpn_KnuckleDuster_StrafeStealth_Female</MotionStrafingStealthClipSetHash>
+          <MotionStrafingUpperBodyClipSetHash />
+          <WeaponClipSetHash>Wpn_KnuckleDuster_Female</WeaponClipSetHash>
+          <WeaponClipSetStreamedHash />
+          <WeaponClipSetHashInjured />
+          <WeaponClipSetHashStealth />
+          <WeaponClipSetHashHiCover />
+          <AlternativeClipSetWhenBlocked />
+          <ScopeWeaponClipSet />
+          <AlternateAimingStandingClipSetHash />
+          <AlternateAimingCrouchingClipSetHash />
+          <FiringVariationsStandingClipSetHash />
+          <FiringVariationsCrouchingClipSetHash />
+          <AimTurnStandingClipSetHash />
+          <AimTurnCrouchingClipSetHash />
+		      <MeleeBaseClipSetHash>Wpn_KnuckleDuster_MeleeBase_Female</MeleeBaseClipSetHash>
+          <MeleeClipSetHash>Wpn_KnuckleDuster_Melee_Female</MeleeClipSetHash>
+          <MeleeTauntClipSetHash />
+          <MeleeSupportTauntClipSetHash />
+          <MeleeStealthClipSetHash />
+          <ShellShockedClipSetHash />
+          <JumpUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</JumpUpperbodyClipSetHash>
+          <FallUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</FallUpperbodyClipSetHash>
+          <FromStrafeTransitionUpperBodyClipSetHash />
+          <SwapWeaponFilterHash />
+          <SwapWeaponInLowCoverFilterHash />
+          <AnimFireRateModifier value="1.000000" />
+          <AnimBlindFireRateModifier value="1.000000" />
+          <AnimWantingToShootFireRateModifier value="-1.000000" />
+          <UseFromStrafeUpperBodyAimNetwork value="false" />
+          <AimingDownTheBarrel value="true" />
+          <WeaponSwapData ref="SWAP_DEFAULT" />
+		      <AimGrenadeThrowNormalClipsetHash />
+		      <AimGrenadeThrowAlternateClipsetHash />
+		    </Item>
+	    </WeaponAnimations>
+	  </Item>
+	  <Item key="GangFemale">
+      <Fallback>Gang</Fallback>
+      <WeaponAnimations>
+		    <Item key="WEAPON_KNUCKLE">
+          <CoverMovementClipSetHash />
+          <CoverMovementExtraClipSetHash />
+          <CoverAlternateMovementClipSetHash />
+          <CoverWeaponClipSetHash />
+          <MotionClipSetHash>move_female_knuckle</MotionClipSetHash>
+          <MotionFilterHash />
+          <MotionCrouchClipSetHash />
+          <MotionStrafingClipSetHash>Wpn_KnuckleDuster_Strafe_Female</MotionStrafingClipSetHash>
+          <MotionStrafingStealthClipSetHash>Wpn_KnuckleDuster_StrafeStealth_Female</MotionStrafingStealthClipSetHash>
+          <MotionStrafingUpperBodyClipSetHash />
+          <WeaponClipSetHash>Wpn_KnuckleDuster_Female</WeaponClipSetHash>
+          <WeaponClipSetStreamedHash />
+          <WeaponClipSetHashInjured />
+          <WeaponClipSetHashStealth />
+          <WeaponClipSetHashHiCover />
+          <AlternativeClipSetWhenBlocked />
+          <ScopeWeaponClipSet />
+          <AlternateAimingStandingClipSetHash />
+          <AlternateAimingCrouchingClipSetHash />
+          <FiringVariationsStandingClipSetHash />
+          <FiringVariationsCrouchingClipSetHash />
+          <AimTurnStandingClipSetHash />
+          <AimTurnCrouchingClipSetHash />
+		      <MeleeBaseClipSetHash>Wpn_KnuckleDuster_MeleeBase_Female</MeleeBaseClipSetHash>
+          <MeleeClipSetHash>Wpn_KnuckleDuster_Melee_Female</MeleeClipSetHash>
+          <MeleeTauntClipSetHash />
+          <MeleeSupportTauntClipSetHash />
+          <MeleeStealthClipSetHash />
+          <ShellShockedClipSetHash />
+          <JumpUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</JumpUpperbodyClipSetHash>
+          <FallUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</FallUpperbodyClipSetHash>
+          <FromStrafeTransitionUpperBodyClipSetHash />
+          <SwapWeaponFilterHash />
+          <SwapWeaponInLowCoverFilterHash />
+          <AnimFireRateModifier value="1.000000" />
+          <AnimBlindFireRateModifier value="1.000000" />
+          <AnimWantingToShootFireRateModifier value="-1.000000" />
+          <UseFromStrafeUpperBodyAimNetwork value="false" />
+          <AimingDownTheBarrel value="true" />
+          <WeaponSwapData ref="SWAP_DEFAULT" />
+		      <AimGrenadeThrowNormalClipsetHash />
+		      <AimGrenadeThrowAlternateClipsetHash />
+		    </Item>
+	    </WeaponAnimations>
+	  </Item>
+	  <Item key="Fat">
+      <Fallback>Default</Fallback>
+      <WeaponAnimations>
+		    <Item key="WEAPON_KNUCKLE">
+          <CoverMovementClipSetHash />
+          <CoverMovementExtraClipSetHash />
+          <CoverAlternateMovementClipSetHash />
+          <CoverWeaponClipSetHash />
+          <MotionClipSetHash>move_female_knuckle</MotionClipSetHash>
+          <MotionFilterHash />
+          <MotionCrouchClipSetHash />
+          <MotionStrafingClipSetHash>Wpn_KnuckleDuster_Strafe_Female</MotionStrafingClipSetHash>
+          <MotionStrafingStealthClipSetHash>Wpn_KnuckleDuster_StrafeStealth_Female</MotionStrafingStealthClipSetHash>
+          <MotionStrafingUpperBodyClipSetHash />
+          <WeaponClipSetHash>Wpn_KnuckleDuster_Female</WeaponClipSetHash>
+          <WeaponClipSetStreamedHash />
+          <WeaponClipSetHashInjured />
+          <WeaponClipSetHashStealth />
+          <WeaponClipSetHashHiCover />
+          <AlternativeClipSetWhenBlocked />
+          <ScopeWeaponClipSet />
+          <AlternateAimingStandingClipSetHash />
+          <AlternateAimingCrouchingClipSetHash />
+          <FiringVariationsStandingClipSetHash />
+          <FiringVariationsCrouchingClipSetHash />
+          <AimTurnStandingClipSetHash />
+          <AimTurnCrouchingClipSetHash />
+		      <MeleeBaseClipSetHash>Wpn_KnuckleDuster_MeleeBase_Female</MeleeBaseClipSetHash>
+          <MeleeClipSetHash>Wpn_KnuckleDuster_Melee_Female</MeleeClipSetHash>
+          <MeleeTauntClipSetHash />
+          <MeleeSupportTauntClipSetHash />
+          <MeleeStealthClipSetHash />
+          <ShellShockedClipSetHash />
+          <JumpUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</JumpUpperbodyClipSetHash>
+          <FallUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</FallUpperbodyClipSetHash>
+          <FromStrafeTransitionUpperBodyClipSetHash />
+          <SwapWeaponFilterHash />
+          <SwapWeaponInLowCoverFilterHash />
+          <AnimFireRateModifier value="1.000000" />
+          <AnimBlindFireRateModifier value="1.000000" />
+          <AnimWantingToShootFireRateModifier value="-1.000000" />
+          <UseFromStrafeUpperBodyAimNetwork value="false" />
+          <AimingDownTheBarrel value="true" />
+          <WeaponSwapData ref="SWAP_DEFAULT" />
+		      <AimGrenadeThrowNormalClipsetHash />
+		      <AimGrenadeThrowAlternateClipsetHash />
+		    </Item>	
+	  </WeaponAnimations>
+	</Item>	  
+	<Item key="SuperFat">
+      <Fallback>Default</Fallback>
+      <WeaponAnimations>
+		    <Item key="WEAPON_KNUCKLE">
+          <CoverMovementClipSetHash />
+          <CoverMovementExtraClipSetHash />
+          <CoverAlternateMovementClipSetHash />
+          <CoverWeaponClipSetHash />
+          <MotionClipSetHash>move_female_knuckle</MotionClipSetHash>
+          <MotionFilterHash />
+          <MotionCrouchClipSetHash />
+          <MotionStrafingClipSetHash>Wpn_KnuckleDuster_Strafe_Female</MotionStrafingClipSetHash>
+          <MotionStrafingStealthClipSetHash>Wpn_KnuckleDuster_StrafeStealth_Female</MotionStrafingStealthClipSetHash>
+          <MotionStrafingUpperBodyClipSetHash />
+          <WeaponClipSetHash>Wpn_KnuckleDuster_Female</WeaponClipSetHash>
+          <WeaponClipSetStreamedHash />
+          <WeaponClipSetHashInjured />
+          <WeaponClipSetHashStealth />
+          <WeaponClipSetHashHiCover />
+          <AlternativeClipSetWhenBlocked />
+          <ScopeWeaponClipSet />
+          <AlternateAimingStandingClipSetHash />
+          <AlternateAimingCrouchingClipSetHash />
+          <FiringVariationsStandingClipSetHash />
+          <FiringVariationsCrouchingClipSetHash />
+          <AimTurnStandingClipSetHash />
+          <AimTurnCrouchingClipSetHash />
+		      <MeleeBaseClipSetHash>Wpn_KnuckleDuster_MeleeBase_Female</MeleeBaseClipSetHash>
+          <MeleeClipSetHash>Wpn_KnuckleDuster_Melee_Female</MeleeClipSetHash>
+          <MeleeTauntClipSetHash />
+          <MeleeSupportTauntClipSetHash />
+          <MeleeStealthClipSetHash />
+          <ShellShockedClipSetHash />
+          <JumpUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</JumpUpperbodyClipSetHash>
+          <FallUpperbodyClipSetHash>Wpn_KnuckleDuster_JumpFall_Female</FallUpperbodyClipSetHash>
+          <FromStrafeTransitionUpperBodyClipSetHash />
+          <SwapWeaponFilterHash />
+          <SwapWeaponInLowCoverFilterHash />
+          <AnimFireRateModifier value="1.000000" />
+          <AnimBlindFireRateModifier value="1.000000" />
+          <AnimWantingToShootFireRateModifier value="-1.000000" />
+          <UseFromStrafeUpperBodyAimNetwork value="false" />
+          <AimingDownTheBarrel value="true" />
+          <WeaponSwapData ref="SWAP_DEFAULT" />
+		      <AimGrenadeThrowNormalClipsetHash />
+		      <AimGrenadeThrowAlternateClipsetHash />
+		    </Item>
+	    </WeaponAnimations>
+	  </Item>
+  </WeaponAnimationsSets>
+</CWeaponAnimationsSets>
